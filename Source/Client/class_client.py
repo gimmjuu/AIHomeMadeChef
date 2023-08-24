@@ -2,6 +2,7 @@ import socket
 from threading import *
 
 from Source.Common.class_json import *
+from Source.Common.user_info import User
 
 
 class ClientApp:
@@ -11,6 +12,9 @@ class ClientApp:
     BUFFER = 100000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
+
+    login_check = "login_check"
+    member_join = "member_join"
 
     def __init__(self):
         self.user_id = None
@@ -28,35 +32,18 @@ class ClientApp:
     def set_widget(self, widget_):
         self.client_widget = widget_
 
-    def send_tourist_name_access(self, tourist_name):
-        """관광지 명 서버로 전송"""
-        data_msg = tourist_name
-        header_data = self.tourist_name
-        self.fixed_volume(header_data, data_msg)
-
-    def send_realty_info_access(self, realty_data):
-        """관광지 데이터 서버로 전송"""
-        data_msg = realty_data
+    def send_login_check_access(self, user_id, user_pw):
+        """로그인 데이터 서버로 전송"""
+        data_msg = User(user_id, user_pw, None)
         data_msg_str = self.encoder.toJSON_as_binary(data_msg)
-        header_data = self.realty_data
+        header_data = self.login_check
         self.fixed_volume(header_data, data_msg_str)
 
-    def send_infra_data_access(self, realty_data):
-        data_msg = realty_data
+    def send_member_join_access(self, user_id, user_pw, user_name):
+        """회원가입 데이터 서버로 전송"""
+        data_msg = User(user_id, user_pw, user_name)
         data_msg_str = self.encoder.toJSON_as_binary(data_msg)
-        header_data = self.infra_data
-        self.fixed_volume(header_data, data_msg_str)
-
-    def send_store_data_access(self, realty_data):
-        data_msg = realty_data
-        data_msg_str = self.encoder.toJSON_as_binary(data_msg)
-        header_data = self.store_data
-        self.fixed_volume(header_data, data_msg_str)
-
-    def send_result_data_access(self, realty_data):
-        data_msg = realty_data
-        data_msg_str = self.encoder.toJSON_as_binary(data_msg)
-        header_data = self.result_data
+        header_data = self.member_join
         self.fixed_volume(header_data, data_msg_str)
 
     def fixed_volume(self, header, data):
@@ -66,11 +53,15 @@ class ClientApp:
         self.client_socket.send(header_msg + data_msg)
 
     def receive_message(self):
-        """서버에서 정보 받아옴"""
+        """서버에서 데이터 받아옴"""
         while True:
             return_result_ = self.client_socket.recv(self.BUFFER).decode(self.FORMAT)
             response_header = return_result_[:self.HEADER_LENGTH].strip()
             response_data = return_result_[self.HEADER_LENGTH:].strip()
-            # 관광지 명
-            if response_header == self.tourist_name: # 정해진 헤더명 입력
-                self.client_widget.tourist_name_signal.emit(response_data)
+            # 로그인
+            if response_header == self.login_check:
+                self.client_widget.abcdef.emit(response_data)
+            # 회원가입
+            if response_header == self.member_join:
+                self.client_widget.abcdef.emit(response_data)
+

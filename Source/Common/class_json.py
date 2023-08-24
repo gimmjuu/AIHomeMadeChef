@@ -1,11 +1,4 @@
 import json
-from db.class_BusinessAverage import BusinessAverage
-from db.class_Infrastructure import Infrastructure
-from db.class_Realty import Realty
-from db.class_RegionTourist import RegionTourist
-from db.class_TouristInfo import TouristInfo
-from db.class_YearTourist import YearTourist
-from db.class_Infra_scaler import InfraScaler
 
 
 class ObjEncoder(json.JSONEncoder):

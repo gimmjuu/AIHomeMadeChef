@@ -16,6 +16,8 @@ class Server:
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
 
+    login_check = "login_ckeck"
+    member_join = "member_join"
     pass_encoded = "pass"
     dot_encoded = "."
 
@@ -73,17 +75,18 @@ class Server:
                 self.sockets_list.remove(notified_socket)
                 del self.clients[notified_socket]
 
-    # 클라이언트로 정보 전달
     def send_message(self, client_socket: socket, result_):
+        """클라이언트로 데이터 전달"""
         client_socket.send(result_)
 
-    # 규격 맞춰주기
     def fixed_volume(self, header, data):
+        """데이터 규격 맞추기"""
         header_msg = f"{header:<{self.HEADER_LENGTH}}".encode(self.FORMAT)
         data_msg = f"{data:<{self.BUFFER - self.HEADER_LENGTH}}".encode(self.FORMAT)
         return header_msg + data_msg
 
     def receive_message(self, client_socket: socket):
+        """클라이언트로부터 받은 데이터"""
         try:
             recv_message = client_socket.recv(self.BUFFER)
             request_header = recv_message[:self.HEADER_LENGTH].strip().decode(self.FORMAT)
@@ -91,7 +94,6 @@ class Server:
             print(f"Server RECEIVED: ({request_header},{request_data})")
             print(request_header)
             print(type(request_header))
-
         except:
             return False
 
