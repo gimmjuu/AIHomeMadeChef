@@ -1,4 +1,5 @@
 import json
+from Source.Common.user_info import User
 
 
 class ObjEncoder(json.JSONEncoder):
@@ -66,20 +67,9 @@ class ObjDecoder(json.JSONDecoder):
         if isinstance(dict_obj, str):
             dict_obj = json.loads(dict_obj)
         assert isinstance(dict_obj, dict)
-        if "bus_id" in dict_obj.keys():
-            return BusinessAverage(**dict_obj)
-        elif "inf_tourist" in dict_obj.keys():
-            return Infrastructure(**dict_obj)
-        elif "inf_id" in dict_obj.keys():
-            return InfraScaler(**dict_obj)
-        elif "rea_id" in dict_obj.keys():
-            return Realty(**dict_obj)
-        elif "reg_id" in dict_obj.keys():
-            return RegionTourist(**dict_obj)
-        elif "tou_id" in dict_obj.keys():
-            return TouristInfo(**dict_obj)
-        elif "yea_id" in dict_obj.keys():
-            return YearTourist(**dict_obj)
+        if "user_id" in dict_obj.keys():
+            return User(**dict_obj)
+
 
     def list_mapper(self, list_obj):
         assert isinstance(list_obj, list)
