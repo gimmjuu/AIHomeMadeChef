@@ -2,10 +2,10 @@ import os
 import threading
 from socket import *
 from threading import Thread, Event, Timer
-from Source.Common.class_json import *
+from Source.Common.JsonEncoder import *
 import select
 
-from db.class_dbconnect import DBConnector
+# from db.class_dbconnect import DBConnector
 
 
 class Server:
@@ -21,9 +21,10 @@ class Server:
     pass_encoded = "pass"
     dot_encoded = "."
 
-    def __init__(self, db_conn: DBConnector):
+    # def __init__(self, db_conn: DBConnector):
+    def __init__(self):
         # 서버 소켓 설정
-        self.db_conn = db_conn
+        # self.db_conn = db_conn
         self.server_socket = None
         self.config = None
         self.sockets_list = list()
@@ -98,33 +99,35 @@ class Server:
             return False
 
         if request_header == self.login_check:
-            result_ = self.db_conn.find_tourist_info(request_data)
-            if result_ is False:
-                response_header = self.tourist_name
-                response_data = self.dot_encoded
-                return_result = self.fixed_volume(response_header, response_data)
-                self.send_message(client_socket, return_result)
-            else:
-                response_header = self.tourist_name
-                response_data = self.encoder.toJSON_as_binary(result_)
-                return_result = self.fixed_volume(response_header, response_data)
-                self.send_message(client_socket, return_result)
-
-            result_2 = self.db_conn.find_realty_info(request_data)
-            if result_2 is False:
-                response_header = self.realty_info
-                response_data = self.dot_encoded
-                return_result = self.fixed_volume(response_header, response_data)
-                self.send_message(client_socket, return_result)
-            else:
-                response_header = self.realty_info
-                response_data = self.encoder.toJSON_as_binary(result_2)
-                return_result = self.fixed_volume(response_header, response_data)
-                self.send_message(client_socket, return_result)
-        elif request_header == self.realty_data:
-            obj_ = self.decoder.binary_to_obj(request_data)
-            result_ = self.db_conn.search_addr(obj_, "year")
-            response_header = self.year_data
-            response_data = self.encoder.toJSON_as_binary(result_)
-            return_result = self.fixed_volume(response_header, response_data)
-            self.send_message(client_socket, return_result)
+            pass
+        # --- 참고 자료
+        #     result_ = self.db_conn.find_tourist_info(request_data)
+        #     if result_ is False:
+        #         response_header = self.tourist_name
+        #         response_data = self.dot_encoded
+        #         return_result = self.fixed_volume(response_header, response_data)
+        #         self.send_message(client_socket, return_result)
+        #     else:
+        #         response_header = self.tourist_name
+        #         response_data = self.encoder.toJSON_as_binary(result_)
+        #         return_result = self.fixed_volume(response_header, response_data)
+        #         self.send_message(client_socket, return_result)
+        #
+        #     result_2 = self.db_conn.find_realty_info(request_data)
+        #     if result_2 is False:
+        #         response_header = self.realty_info
+        #         response_data = self.dot_encoded
+        #         return_result = self.fixed_volume(response_header, response_data)
+        #         self.send_message(client_socket, return_result)
+        #     else:
+        #         response_header = self.realty_info
+        #         response_data = self.encoder.toJSON_as_binary(result_2)
+        #         return_result = self.fixed_volume(response_header, response_data)
+        #         self.send_message(client_socket, return_result)
+        # elif request_header == self.realty_data:
+        #     obj_ = self.decoder.binary_to_obj(request_data)
+        #     result_ = self.db_conn.search_addr(obj_, "year")
+        #     response_header = self.year_data
+        #     response_data = self.encoder.toJSON_as_binary(result_)
+        #     return_result = self.fixed_volume(response_header, response_data)
+        #     self.send_message(client_socket, return_result)

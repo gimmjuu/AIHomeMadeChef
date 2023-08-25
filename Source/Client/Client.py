@@ -1,8 +1,8 @@
 import socket
 from threading import *
 
-from Source.Common.class_json import *
-from Source.Common.user_info import User
+from Source.Common.JsonEncoder import *
+from Source.DAO.UserInfo import User
 
 
 class ClientApp:

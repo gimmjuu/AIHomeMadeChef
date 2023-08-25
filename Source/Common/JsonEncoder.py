@@ -1,5 +1,5 @@
 import json
-from Source.Common.user_info import User
+from Source.DAO.UserInfo import User
 
 
 class ObjEncoder(json.JSONEncoder):
