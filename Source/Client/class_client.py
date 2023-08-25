@@ -32,16 +32,16 @@ class ClientApp:
     def set_widget(self, widget_):
         self.client_widget = widget_
 
-    def send_login_check_access(self, user_id, user_pw):
+    def send_login_check_access(self, user_id, user_pwd):
         """로그인 데이터 서버로 전송"""
-        data_msg = User(user_id, user_pw, None)
+        data_msg = User(user_id, user_pwd, None)
         data_msg_str = self.encoder.toJSON_as_binary(data_msg)
         header_data = self.login_check
         self.fixed_volume(header_data, data_msg_str)
 
-    def send_member_join_access(self, user_id, user_pw, user_name):
+    def send_member_join_access(self, user_id, user_pwd, user_name):
         """회원가입 데이터 서버로 전송"""
-        data_msg = User(user_id, user_pw, user_name)
+        data_msg = User(user_id, user_pwd, user_name)
         data_msg_str = self.encoder.toJSON_as_binary(data_msg)
         header_data = self.member_join
         self.fixed_volume(header_data, data_msg_str)

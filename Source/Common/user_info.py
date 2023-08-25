@@ -1,7 +1,7 @@
 class User:
-    def __init__(self, user_id, user_pw, user_name):
+    def __init__(self, user_id, user_pwd, user_name):
         self.user_id = user_id
-        self.user_pw = user_pw
+        self.user_pwd = user_pwd
         self.user_name = user_name
 
     def __str__(self):
@@ -13,8 +13,8 @@ class User:
     def __eq__(self, other):
         if isinstance(other, User) and \
                 self.user_id == other.user_id and \
-                self.user_pw == other.user_pw and \
-                self.user_name == other.user_nickname:
+                self.user_pwd == other.user_pwd and \
+                self.user_name == other.user_name:
             return True
         return False
 

@@ -97,7 +97,7 @@ class Server:
         except:
             return False
 
-        if request_header == self.tourist_name:
+        if request_header == self.login_check:
             result_ = self.db_conn.find_tourist_info(request_data)
             if result_ is False:
                 response_header = self.tourist_name
