@@ -696,7 +696,7 @@ border-width:0px;
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="mypage_btn">
       <property name="geometry">
        <rect>
         <x>481</x>
@@ -746,7 +746,7 @@ border-width:0px;
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="choice_btn">
       <property name="geometry">
        <rect>
         <x>382</x>
@@ -803,7 +803,7 @@ border-width:0px;
        <x>0</x>
        <y>0</y>
        <width>595</width>
-       <height>70</height>
+       <height>81</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -812,8 +812,8 @@ border-width:0px;
      <widget class="QLabel" name="label_10">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>0</y>
+        <x>188</x>
+        <y>20</y>
         <width>51</width>
         <height>41</height>
        </rect>
@@ -832,7 +832,7 @@ border-width:0px;
       <property name="geometry">
        <rect>
         <x>199</x>
-        <y>23</y>
+        <y>41</y>
         <width>71</width>
         <height>51</height>
        </rect>
@@ -860,7 +860,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <property name="geometry">
        <rect>
         <x>255</x>
-        <y>0</y>
+        <y>19</y>
         <width>141</width>
         <height>71</height>
        </rect>
@@ -889,9 +889,9 @@ background-color: rgba(255, 255, 255, 0);</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>69</y>
+       <y>79</y>
        <width>595</width>
-       <height>691</height>
+       <height>681</height>
       </rect>
      </property>
      <property name="currentIndex">
@@ -904,7 +904,7 @@ background-color: rgba(255, 255, 255, 0);</string>
          <x>0</x>
          <y>0</y>
          <width>595</width>
-         <height>691</height>
+         <height>681</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -914,7 +914,7 @@ background-color: rgba(255, 255, 255, 0);</string>
         <property name="geometry">
          <rect>
           <x>27</x>
-          <y>180</y>
+          <y>170</y>
           <width>545</width>
           <height>421</height>
          </rect>
@@ -942,11 +942,11 @@ border-radius: 10px;</string>
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="search_btn">
         <property name="geometry">
          <rect>
           <x>212</x>
-          <y>625</y>
+          <y>615</y>
           <width>170</width>
           <height>42</height>
          </rect>
@@ -972,7 +972,7 @@ border-radius:20px;
        <widget class="QLabel" name="label_14">
         <property name="geometry">
          <rect>
-          <x>203</x>
+          <x>205</x>
           <y>50</y>
           <width>200</width>
           <height>31</height>
@@ -988,7 +988,7 @@ border-radius:20px;
          <string notr="true">color: rgb(90, 90, 90);</string>
         </property>
         <property name="text">
-         <string>맛있는 반찬 레시피 찾기</string>
+         <string>맛있는 음식 레시피 찾기</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -1013,7 +1013,7 @@ border-radius:20px;
          <string notr="true">color: rgb(90, 90, 90);</string>
         </property>
         <property name="text">
-         <string>레시피가 궁금한 반찬 사진을 업로드 해주세요!</string>
+         <string>레시피가 궁금한 음식 사진을 업로드 해주세요!</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -1028,7 +1028,7 @@ border-radius:20px;
          <x>0</x>
          <y>0</y>
          <width>595</width>
-         <height>691</height>
+         <height>681</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -1038,7 +1038,7 @@ border-radius:20px;
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>120</y>
+          <y>100</y>
           <width>541</width>
           <height>501</height>
          </rect>
@@ -1072,7 +1072,7 @@ border-style:solid;
         <property name="geometry">
          <rect>
           <x>29</x>
-          <y>80</y>
+          <y>60</y>
           <width>401</width>
           <height>31</height>
          </rect>
@@ -1087,14 +1087,14 @@ border-style:solid;
          <string notr="true">color: rgb(90, 90, 90);</string>
         </property>
         <property name="text">
-         <string>반찬 이름 : 레시피 명</string>
+         <string>음식 이름 : 레시피 명</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pushButton_2">
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>630</y>
+          <y>615</y>
           <width>230</width>
           <height>42</height>
          </rect>
@@ -1126,7 +1126,7 @@ border-radius:20px;
          <x>0</x>
          <y>0</y>
          <width>595</width>
-         <height>691</height>
+         <height>681</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -1230,7 +1230,7 @@ border-width:0px;</string>
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>210</y>
+          <y>200</y>
           <width>551</width>
           <height>141</height>
          </rect>
@@ -1286,7 +1286,7 @@ border-style:solid;
         <property name="geometry">
          <rect>
           <x>19</x>
-          <y>180</y>
+          <y>175</y>
           <width>121</width>
           <height>21</height>
          </rect>
@@ -1308,7 +1308,7 @@ border-style:solid;
         <property name="geometry">
          <rect>
           <x>19</x>
-          <y>360</y>
+          <y>345</y>
           <width>121</width>
           <height>21</height>
          </rect>
@@ -1330,9 +1330,9 @@ border-style:solid;
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>390</y>
+          <y>375</y>
           <width>551</width>
-          <height>281</height>
+          <height>285</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -1349,7 +1349,7 @@ border-width:3px;</string>
            <x>0</x>
            <y>0</y>
            <width>545</width>
-           <height>275</height>
+           <height>279</height>
           </rect>
          </property>
          <property name="styleSheet">
