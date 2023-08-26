@@ -29,7 +29,6 @@ class DBConnector:
                              password=self.__PWD__,
                              port=self.__PORT__)
 
-
     def end_conn(self):
         if self.DB is not None:
             self.DB.close()
