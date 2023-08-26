@@ -1,8 +1,8 @@
 import socket
 from threading import *
 
-from Source.Common.JsonEncoder import *
-from Source.DAO.UserInfo import User
+from Source.Common.JSONConverter import ObjEncoder, ObjDecoder
+from Source.Data.Data import *
 
 
 class ClientApp:
@@ -35,14 +35,14 @@ class ClientApp:
     def send_login_check_access(self, user_id, user_pwd):
         """로그인 데이터 서버로 전송"""
         data_msg = User(user_id, user_pwd, None)
-        data_msg_str = self.encoder.toJSON_as_binary(data_msg)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.login_check
         self.fixed_volume(header_data, data_msg_str)
 
     def send_member_join_access(self, user_id, user_pwd, user_name):
         """회원가입 데이터 서버로 전송"""
         data_msg = User(user_id, user_pwd, user_name)
-        data_msg_str = self.encoder.toJSON_as_binary(data_msg)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.member_join
         self.fixed_volume(header_data, data_msg_str)
 
