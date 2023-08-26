@@ -34,7 +34,8 @@ class ClientApp:
 
     def send_login_check_access(self, user_id, user_pwd):
         """로그인 데이터 서버로 전송"""
-        data_msg = User(user_id, user_pwd, None)
+        print("send")
+        data_msg = User(user_id, user_pwd)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.login_check
         self.fixed_volume(header_data, data_msg_str)
@@ -60,7 +61,13 @@ class ClientApp:
             response_data = return_result_[self.HEADER_LENGTH:].strip()
             # 로그인
             if response_header == self.login_check:
-                self.client_widget.abcdef.emit(response_data)
+                if response_data == '.':
+                    self.client_widget.login_check_signal.emit(False)
+                else:
+                    object_data = self.decoder.binary_to_obj(response_data)
+                    self.user_id = object_data.user_id
+                    self.user_name = object_data.user_name
+                    self.client_widget.login_check_signal.emit(True)
             # 회원가입
             if response_header == self.member_join:
                 self.client_widget.abcdef.emit(response_data)

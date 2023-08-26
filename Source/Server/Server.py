@@ -3,6 +3,7 @@ import threading
 from socket import *
 from threading import Thread, Event, Timer
 from Source.Common.JSONConverter import ObjEncoder, ObjDecoder
+from Source.Data.Data import *
 import select
 
 # from db.class_dbconnect import DBConnector
@@ -16,7 +17,8 @@ class Server:
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
 
-    login_check = "login_ckeck"
+    login_check = "login_check"
+    member_id_check = "member_id_check"
     member_join = "member_join"
     pass_encoded = "pass"
     dot_encoded = "."
@@ -93,41 +95,58 @@ class Server:
             request_header = recv_message[:self.HEADER_LENGTH].strip().decode(self.FORMAT)
             request_data = recv_message[self.HEADER_LENGTH:].strip().decode(self.FORMAT)
             print(f"Server RECEIVED: ({request_header},{request_data})")
-            print(request_header)
-            print(type(request_header))
+            # print(request_header)
+            # print(type(request_header))
         except:
             return False
 
+        # 로그인
         if request_header == self.login_check:
-            pass
-        # --- 참고 자료
-        #     result_ = self.db_conn.find_tourist_info(request_data)
-        #     if result_ is False:
-        #         response_header = self.tourist_name
-        #         response_data = self.dot_encoded
-        #         return_result = self.fixed_volume(response_header, response_data)
-        #         self.send_message(client_socket, return_result)
-        #     else:
-        #         response_header = self.tourist_name
-        #         response_data = self.encoder.toJSON_as_binary(result_)
-        #         return_result = self.fixed_volume(response_header, response_data)
-        #         self.send_message(client_socket, return_result)
-        #
-        #     result_2 = self.db_conn.find_realty_info(request_data)
-        #     if result_2 is False:
-        #         response_header = self.realty_info
-        #         response_data = self.dot_encoded
-        #         return_result = self.fixed_volume(response_header, response_data)
-        #         self.send_message(client_socket, return_result)
-        #     else:
-        #         response_header = self.realty_info
-        #         response_data = self.encoder.toJSON_as_binary(result_2)
-        #         return_result = self.fixed_volume(response_header, response_data)
-        #         self.send_message(client_socket, return_result)
-        # elif request_header == self.realty_data:
-        #     obj_ = self.decoder.binary_to_obj(request_data)
-        #     result_ = self.db_conn.search_addr(obj_, "year")
-        #     response_header = self.year_data
-        #     response_data = self.encoder.toJSON_as_binary(result_)
-        #     return_result = self.fixed_volume(response_header, response_data)
-        #     self.send_message(client_socket, return_result)
+            print(request_data)
+            object_ = self.decoder.binary_to_obj(request_data)
+            print(type(object_))
+            if object_.user_id == "admin" and object_.user_pwd == "1234":
+                result_ = User("admin", "1234", "관리자")
+            else:
+                result_ = Result(False)
+
+            if result_ == Result(False):
+                response_header = self.login_check
+                response_data = self.dot_encoded
+                return_result = self.fixed_volume(response_header, response_data)
+                self.send_message(client_socket, return_result)
+            else:
+                response_header = self.login_check
+                response_data = self.encoder.to_JSON_as_binary(result_)
+                return_result = self.fixed_volume(response_header, response_data)
+                self.send_message(client_socket, return_result)
+
+        # 회원가입 아이디 중복 체크
+        if request_header == self.member_id_check:
+            object_ = self.decoder.binary_to_obj(request_data)
+
+            if object_.user_id == "admin":
+                result_ = Result(False)
+            else:
+                result_ = User(object_.user_id)
+
+            if result_ is False:
+                response_header = self.member_id_check
+                response_data = self.dot_encoded
+                return_result = self.fixed_volume(response_header, response_data)
+                self.send_message(client_socket, return_result)
+            else:
+                response_header = self.member_id_check
+                response_data = self.encoder.to_JSON_as_binary(result_)
+                return_result = self.fixed_volume(response_header, response_data)
+                self.send_message(client_socket, return_result)
+
+        # 회원가입
+        if request_header == self.member_join:
+            object_ = self.decoder.binary_to_obj(request_data)
+            result_ = User(object_.user_id, object_.user_pwd, object_.user_name)
+            response_header = self.member_join
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+

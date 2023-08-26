@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt, QTimer
 
+from Source.Client.Client import ClientApp
 from Source.View.Main import Main
 
 
@@ -27,13 +28,14 @@ class Start(QWidget):
     def go_to_main(self):
         """메인 페이지 이동 함수"""
         self.timer.stop()
-        main_ = Main()
+        main_ = Main(client)
         self.close()
         main_.show()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    client = ClientApp()
     myWindow = Start()
     myWindow.show()
     app.exec_()
