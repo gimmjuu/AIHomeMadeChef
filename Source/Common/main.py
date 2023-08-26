@@ -8,8 +8,6 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QFontDatabase
 
-from Source.View.MainFrame import MainFrame
-
 
 def main():
     app = QApplication(sys.argv)
@@ -21,8 +19,9 @@ def main():
     fontDB.addApplicationFont("../../Font/NanumSquareRoundL.ttf")
     fontDB.addApplicationFont("../../Font/NanumSquareRoundR.ttf")
 
-    window = MainFrame()
-    window.show()
+    # === 여기서 UI 연결?
+    # === ===
+
     app.exec()
 
 
