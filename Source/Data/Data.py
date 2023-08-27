@@ -16,10 +16,11 @@ class Food:
 
 @dataclass
 class Recipe:
-    recipe_id: str
+    recipe_id: int
     recipe_name: str
-    recipe_stuff: str
-    recipe_step: str
+    recipe_type: str = None
+    recipe_stuff: str = None
+    recipe_step: str = None
 
 
 @dataclass
