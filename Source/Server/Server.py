@@ -2,11 +2,11 @@ import os
 import threading
 from socket import *
 from threading import Thread, Event, Timer
+
+from Source.Common.DBConnector import DBConnector
 from Source.Common.JSONConverter import ObjEncoder, ObjDecoder
 from Source.Data.Data import *
 import select
-
-# from db.class_dbconnect import DBConnector
 
 
 class Server:
@@ -20,13 +20,13 @@ class Server:
     login_check = "login_check"
     member_id_check = "member_id_check"
     member_join = "member_join"
+    my_page_data = "my_page_data"
     pass_encoded = "pass"
     dot_encoded = "."
 
-    # def __init__(self, db_conn: DBConnector):
-    def __init__(self):
+    def __init__(self, db_conn: DBConnector):
         # 서버 소켓 설정
-        # self.db_conn = db_conn
+        self.db_conn = db_conn
         self.server_socket = None
         self.config = None
         self.sockets_list = list()
@@ -102,14 +102,8 @@ class Server:
 
         # 로그인
         if request_header == self.login_check:
-            print(request_data)
             object_ = self.decoder.binary_to_obj(request_data)
-            print(type(object_))
-            if object_.user_id == "admin" and object_.user_pwd == "1234":
-                result_ = User("admin", "1234", "관리자")
-            else:
-                result_ = Result(False)
-
+            result_ = self.db_conn.login_by_id_pwd(object_.user_id, object_.user_pwd)
             if result_ == Result(False):
                 response_header = self.login_check
                 response_data = self.dot_encoded
@@ -124,13 +118,8 @@ class Server:
         # 회원가입 아이디 중복 체크
         if request_header == self.member_id_check:
             object_ = self.decoder.binary_to_obj(request_data)
-
-            if object_.user_id == "admin":
-                result_ = Result(False)
-            else:
-                result_ = User(object_.user_id)
-
-            if result_ is False:
+            result_ = self.db_conn.check_id_duplication(object_.user_id)
+            if result_ == Result(False):
                 response_header = self.member_id_check
                 response_data = self.dot_encoded
                 return_result = self.fixed_volume(response_header, response_data)
@@ -144,8 +133,18 @@ class Server:
         # 회원가입
         if request_header == self.member_join:
             object_ = self.decoder.binary_to_obj(request_data)
-            result_ = User(object_.user_id, object_.user_pwd, object_.user_name)
+            self.db_conn.insert_userinfo_to_table(object_.user_id, object_.user_pwd, object_.user_name)
             response_header = self.member_join
+            response_data = self.encoder.to_JSON_as_binary(Result(True))
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+
+        # 마이페이지
+        if request_header == self.my_page_data:
+            object_ = self.decoder.binary_to_obj(request_data)
+            result_ = self.db_conn.get_userinfo_by_id(object_.user_id)
+            print(result_, '서버 result 값 프린트')
+            response_header = self.my_page_data
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)

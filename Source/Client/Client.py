@@ -14,7 +14,9 @@ class ClientApp:
     HEADER_LENGTH = 30
 
     login_check = "login_check"
+    member_id_check = "member_id_check"
     member_join = "member_join"
+    my_page_data = "my_page_data"
 
     def __init__(self):
         self.user_id = None
@@ -34,10 +36,16 @@ class ClientApp:
 
     def send_login_check_access(self, user_id, user_pwd):
         """로그인 데이터 서버로 전송"""
-        print("send")
         data_msg = User(user_id, user_pwd)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.login_check
+        self.fixed_volume(header_data, data_msg_str)
+
+    def send_member_id_check_access(self, user_id):
+        """회원가입 아이디 중복 여부 데이터 서버로 전송"""
+        data_msg = User(user_id)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.member_id_check
         self.fixed_volume(header_data, data_msg_str)
 
     def send_member_join_access(self, user_id, user_pwd, user_name):
@@ -45,6 +53,14 @@ class ClientApp:
         data_msg = User(user_id, user_pwd, user_name)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.member_join
+        self.fixed_volume(header_data, data_msg_str)
+
+    def send_my_page_data_access(self, user_id):
+        """마이 페이지 데이터 서버로 전송"""
+        print("서버로 전송하는 데이터")
+        data_msg = User(user_id)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.my_page_data
         self.fixed_volume(header_data, data_msg_str)
 
     def fixed_volume(self, header, data):
@@ -66,9 +82,20 @@ class ClientApp:
                 else:
                     object_data = self.decoder.binary_to_obj(response_data)
                     self.user_id = object_data.user_id
-                    self.user_name = object_data.user_name
                     self.client_widget.login_check_signal.emit(True)
+            # 회원가입 아이디 중복 확인
+            if response_header == self.member_id_check:
+                if response_data == '.':
+                    self.client_widget.member_id_check_signal.emit(False)
+                else:
+                    self.client_widget.member_id_check_signal.emit(True)
+
             # 회원가입
             if response_header == self.member_join:
-                self.client_widget.abcdef.emit(response_data)
+                self.client_widget.member_join_signal.emit(True)
+
+            # 마이 페이지 데이터
+            if response_header == self.my_page_data:
+                print(response_data, "클라이언트")
+                self.client_widget.my_page_data_signal.emit(response_data)
 

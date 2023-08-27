@@ -58,7 +58,7 @@ border-color: rgb(218, 218, 218);</string>
     <property name="geometry">
      <rect>
       <x>5</x>
-      <y>60</y>
+      <y>53</y>
       <width>290</width>
       <height>41</height>
      </rect>
@@ -149,6 +149,34 @@ color: rgb(90, 90, 90);</string>
     </property>
     <property name="text">
      <string>주선생의 메시지</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>80</y>
+      <width>290</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>G마켓 산스 TTF Bold</family>
+      <pointsize>11</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-color: rgb(255, 255, 255);
+color: rgb(90, 90, 90);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

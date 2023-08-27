@@ -93,7 +93,7 @@ class DBConnector:
     def get_userinfo_by_id(self, t_id: str):
         """아이디로 사용자 닉네임, 선호 음식 정보 조회"""
         self.start_conn()
-        sql = f"select \"USER_ID\", \"USER_NAME\", \"USER_TASTE\" from from \"TB_USER\" where \"USER_ID\" = '{t_id}'"
+        sql = f"select \"USER_ID\", \"USER_NAME\", \"USER_TASTE\" from \"TB_USER\" where \"USER_ID\" = '{t_id}'"
 
         with self.DB.cursor() as cur:
             cur.execute(sql, self.DB)
