@@ -88,7 +88,7 @@ background-color: rgba(255, 255, 255, 0);</string>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>168</x>
+        <x>170</x>
         <y>170</y>
         <width>251</width>
         <height>71</height>
@@ -116,7 +116,7 @@ background-color: rgba(255, 255, 255, 0);</string>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>102</x>
+        <x>100</x>
         <y>243</y>
         <width>401</width>
         <height>51</height>
@@ -353,7 +353,7 @@ background-color: rgba(255, 255, 255, 0);</string>
      <widget class="QLabel" name="label_7">
       <property name="geometry">
        <rect>
-        <x>168</x>
+        <x>170</x>
         <y>170</y>
         <width>251</width>
         <height>71</height>
@@ -381,7 +381,7 @@ background-color: rgba(255, 255, 255, 0);</string>
      <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
-        <x>102</x>
+        <x>100</x>
         <y>243</y>
         <width>401</width>
         <height>51</height>
@@ -406,7 +406,7 @@ background-color: rgba(255, 255, 255, 0);</string>
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLineEdit" name="id_line_2">
+     <widget class="QLineEdit" name="join_id">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -438,7 +438,7 @@ border-radius:10px;
        <string>  아이디 (영문자/숫자만 가능)</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="pw_line_2">
+     <widget class="QLineEdit" name="join_pw">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -473,7 +473,7 @@ border-radius:10px;
        <string>  패스워드 (영문/숫자/특수기호 각 1이상)</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="request_btn">
       <property name="geometry">
        <rect>
         <x>304</x>
@@ -529,7 +529,7 @@ border-radius:10px;</string>
        <string>중복확인</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="pw_line_3">
+     <widget class="QLineEdit" name="check_pw">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -564,7 +564,7 @@ border-radius:10px;
        <string>  패스워드 확인</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="pw_line_4">
+     <widget class="QLineEdit" name="join_name">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -895,7 +895,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1150,7 +1150,7 @@ border-width:1px;</string>
         <widget class="QLabel" name="label_18">
          <property name="geometry">
           <rect>
-           <x>201</x>
+           <x>205</x>
            <y>-13</y>
            <width>131</width>
            <height>111</height>
@@ -1171,10 +1171,10 @@ border-width:0px;
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_19">
+        <widget class="QLabel" name="lbl_user_name">
          <property name="geometry">
           <rect>
-           <x>145</x>
+           <x>149</x>
            <y>86</y>
            <width>250</width>
            <height>20</height>
@@ -1198,10 +1198,10 @@ border-width:0px;</string>
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="label_20">
+        <widget class="QLabel" name="lbl_user_id">
          <property name="geometry">
           <rect>
-           <x>145</x>
+           <x>149</x>
            <y>107</y>
            <width>250</width>
            <height>20</height>
@@ -1377,9 +1377,9 @@ border-style:solid;
        <widget class="QWidget" name="widget_10" native="true">
         <property name="geometry">
          <rect>
-          <x>20</x>
+          <x>55</x>
           <y>40</y>
-          <width>555</width>
+          <width>491</width>
           <height>61</height>
          </rect>
         </property>
@@ -1392,9 +1392,9 @@ border-width:1px;</string>
         <widget class="QLabel" name="label_23">
          <property name="geometry">
           <rect>
-           <x>120</x>
+           <x>10</x>
            <y>8</y>
-           <width>331</width>
+           <width>471</width>
            <height>41</height>
           </rect>
          </property>

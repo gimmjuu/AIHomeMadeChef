@@ -1,10 +1,11 @@
 import sys
 
-# from DataBase.class_DB import DB
 from Server import Server
-# from db.class_dbconnect import DBConnector
+from Source.Common.DBConnector import DBConnector
+
 
 if __name__ == '__main__':
-    # db_conn = DBConnector(test_option=True)
-    server = Server()
+    print("***서버 가동중****")
+    db_conn = DBConnector()
+    server = Server(db_conn)
     server.start()
