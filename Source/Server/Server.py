@@ -26,6 +26,7 @@ class Server:
     recipe_like = "recipe_like"
     like_check = "like_check"
     recipe_hate = "recipe_hate"
+    recipe_jjim = "recipe_jjim"
     pass_encoded = "pass"
     dot_encoded = "."
 
@@ -194,6 +195,15 @@ class Server:
             self.db_conn.remove_preference(object_.like_user_id, object_.like_recipe_id)
             response_header = self.recipe_hate
             response_data = self.encoder.to_JSON_as_binary(Result(True))
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+
+        # 레시피 찜목록 조회/출력
+        if request_header == self.recipe_jjim:
+            object_ = self.decoder.binary_to_obj(request_data)
+            result_ = self.db_conn.find_all_prefers_by_user_id(object_.user_id)
+            response_header = self.recipe_jjim
+            response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 

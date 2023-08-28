@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from Source.Common.JSONConverter import *
 from Source.View.Cooking import Cooking
 from Source.View.Ingredient import Ingredient
+from Source.View.Like import Likes
 from Source.View.Recipe import Recipes
 from Source.View.Telegram import TelegramBot
 from Source.View.Error import Error
@@ -21,6 +22,7 @@ class Main(QWidget):
     recipe_like_signal = pyqtSignal(str)
     recipe_hate_signal = pyqtSignal(str)
     like_check_signal = pyqtSignal(bool)
+    recipe_jjim_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -71,7 +73,6 @@ class Main(QWidget):
         # 메인화면 버튼
         self.picture_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(0))
         self.search_btn.clicked.connect(self.search_recipe)
-        self.choice_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(3))
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
         self.home_btn.clicked.connect(self.home_menu)
@@ -89,6 +90,7 @@ class Main(QWidget):
         self.recipe_all_signal.connect(self.name_search_recipe_show)
         self.recipe_id_signal.connect(self.search_recipe)
         self.like_check_signal.connect(self.recipe_like_check)
+        self.recipe_jjim_signal.connect(self.recipe_jjim_show)
 
     # ============================= 로그인 ==================================
     def login_check(self):
@@ -322,6 +324,35 @@ class Main(QWidget):
 
     def jjim_situation(self):
         """찜 페이지 버튼 클릭시 서버에 데이터 요청 함수"""
+        user_id = self.client.user_id
+        self.client.send_recipe_jjim_access(user_id)
+
+    def recipe_jjim_show(self, recipe_data):
+        """레시피 찜목록 출력 이벤트 함수"""
+        self.label_23.
+        self.clear_layout(self.verticalLayout_5)
+        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacer)
+        recipes = self.decoder.binary_to_obj(recipe_data)
+
+        for rcp in recipes:
+            recipe_id = rcp.recipe_id
+            recipe_name = rcp.recipe_name
+            like_page = Likes(recipe_name)
+            like_page.setParent(self.scrollAreaWidgetContents_4)
+            self.scrollArea_4.widget().layout().insertWidget(len(self.scrollArea_4.widget().layout()) - 1, like_page)
+            like_page.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
+            like_page.jjim_btn.clicked.connect(lambda x: self.jjim_del(recipe_id))
+        self.home_page.setCurrentIndex(3)
+
+    def jjim_del(self, recipe_id):
+        """찜페이지에서 하트버튼 클릭시 찜목록에서 삭제"""
+        user_id = self.client.user_id
+        self.client.send_hate_access(user_id, recipe_id)
+        self.jjim_situation()
+
+
+
 
 
 

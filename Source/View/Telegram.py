@@ -9,7 +9,7 @@ class TelegramBot:
     def __init__(self, lbl_imgview):
         self.bot_token = "6563537418:AAF6LaEx7-VxN8GVWMIMKTC4wIg4nFPv6DQ"
         self.bot = telebot.TeleBot(self.bot_token)
-        self.custom_folder_path = r"C:\Users\KDT113\Desktop\AIHomeMadeChef\Font"
+        self.custom_folder_path = r"C:\Users\KDT113\Desktop\AIHomeMadeChef\Document"
         self.bot.message_handler(content_types=["photo"])(self.handle_image)
         self.file_name = ''
         self.lbl_img = lbl_imgview
