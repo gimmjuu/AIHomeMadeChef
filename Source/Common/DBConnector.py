@@ -228,7 +228,7 @@ class DBConnector:
     def find_all_prefers_by_user_id(self, user_id: str):
         """찜목록 출력을 위해 찜한 레시피 리스트 조회"""
         self.start_conn()
-        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\" from \"TB_PREFER\" natural join \"TB_RECIPE\" "
+        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\" from \"TB_PREFER\" natural join \"TB_RECIPE\" "
         sql += f"where \"USER_ID\" = '{user_id}'"
 
         with self.DB.cursor() as cur:
@@ -238,7 +238,7 @@ class DBConnector:
 
         result_list = list()
         for row in data:
-            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2])
+            result = Recipe(recipe_id=row[0], recipe_name=row[1])
             result_list.append(result)
         return result_list
 
@@ -255,7 +255,7 @@ class DBConnector:
 
         result_list = list()
         for row in data:
-            result = Recipe(recipe_id=row[0], recipe_name=row[1])
+            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2])
             result_list.append(result)
         return result_list
 
