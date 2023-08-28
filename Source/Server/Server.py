@@ -12,8 +12,8 @@ import select
 class Server:
     HOST = '10.10.20.113'
     # HOST = '127.0.0.1'
-    PORT = 9090
-    BUFFER = 100000
+    PORT = 9070
+    BUFFER = 150000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
 
@@ -21,6 +21,7 @@ class Server:
     member_id_check = "member_id_check"
     member_join = "member_join"
     my_page_data = "my_page_data"
+    recipe_all = "recipe_all"
     pass_encoded = "pass"
     dot_encoded = "."
 
@@ -143,9 +144,17 @@ class Server:
         if request_header == self.my_page_data:
             object_ = self.decoder.binary_to_obj(request_data)
             result_ = self.db_conn.get_userinfo_by_id(object_.user_id)
-            print(result_, '서버 result 값 프린트')
             response_header = self.my_page_data
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
+
+        # 레시피 전체 데이터 조회
+        if request_header == self.recipe_all:
+            result_ = self.db_conn.find_all_recipe_list()
+            response_header = self.recipe_all
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+
 
