@@ -7,6 +7,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from Source.Common.JSONConverter import *
 from Source.View.Cooking import Cooking
 from Source.View.Ingredient import Ingredient
+from Source.View.Recipe import Recipes
 from Source.View.Telegram import TelegramBot
 from Source.View.Error import Error
 from threading import Thread
@@ -17,6 +18,7 @@ class Main(QWidget):
     member_id_check_signal = pyqtSignal(bool)
     member_join_signal = pyqtSignal(bool)
     my_page_data_signal = pyqtSignal(str)
+    recipe_all_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -65,11 +67,13 @@ class Main(QWidget):
         self.back_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.id_check.clicked.connect(self.member_id_check)
         # 메인화면 버튼
-        self.home_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(0))
+        self.picture_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(0))
         self.search_btn.clicked.connect(self.search_recipe)
         self.choice_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(3))
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
+        self.home_btn.clicked.connect(self.home_menu)
+        self.name_search_btn.clicked.connect(self.name_search_page)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -77,6 +81,7 @@ class Main(QWidget):
         self.member_id_check_signal.connect(self.member_id_check_situation)
         self.member_join_signal.connect(self.member_join_clear)
         self.my_page_data_signal.connect(self.my_page_show)
+        self.recipe_all_signal.connect(self.name_search_recipe_show)
 
     # ============================= 로그인 ==================================
     def login_check(self):
@@ -98,6 +103,11 @@ class Main(QWidget):
             self.pw_line.clear()
             self.error_box.error_text(1)
             self.error_box.exec_()
+
+    # ================================== 홈 화면 ===============================
+    def home_menu(self):
+        """홈 버튼 클릭시 이벤트 함수"""
+        self.home_page.setCurrentIndex(4)
 
     # ================================= 회원가입 ================================
     def member_id_check(self):
@@ -171,13 +181,29 @@ class Main(QWidget):
     def go_main_page(self):
         """로그인 페이지에서 메인 페이지 이동 함수"""
         self.stackedWidget.setCurrentIndex(2)
-        self.home_page.setCurrentIndex(0)
+        self.home_page.setCurrentIndex(4)
 
-    # ======================== 마이 페이지 =====================================
+    # =============================== 이름 검색 페이지 =================================
+    def name_search_page(self):
+        """이름 검색 버튼 클릭시 서버로 데이터 전송"""
+        recipe_ = 123
+        self.client.send_recipe_all_access(recipe_)
+
+    def name_search_recipe_show(self, recipes_):
+        self.home_page.setCurrentIndex(5)
+        recipe_datas = self.decoder.binary_to_obj(recipes_)
+        self.clear_name_recipe_list()
+        for i in recipe_datas:
+            recipe_name = i.recipe_name
+            recipe = Recipes(recipe_name)
+            recipe.setParent(self.scrollAreaWidgetContents_5)
+            self.scrollArea_5.widget().layout().insertWidget(len(self.scrollArea_5.widget().layout()) - 1, recipe)
+
+
+    # ================================ 마이 페이지 =====================================
     def my_page_request(self):
         """마이 페이지 데이터 서버에 요청 함수"""
-        user_id = self.client.user_id
-        self.client.send_my_page_data_access(user_id)
+        self.client.send_my_page_data_access(1)
 
     def my_page_show(self, user_data):
         """마이 페이지 이동 함수"""
@@ -234,6 +260,17 @@ class Main(QWidget):
     def clear_search_list(self):
         """레시피 검색 내용 클리어 이벤트 함수"""
         layout = self.verticalLayout_3
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.setParent(None)
+        self.Spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        layout.addItem(self.Spacer)
+
+    def clear_name_recipe_list(self):
+        """레시피 이름 검색 내용 클리어 이벤트 함수"""
+        layout = self.verticalLayout_4
         while layout.count():
             item = layout.takeAt(0)
             widget = item.widget()

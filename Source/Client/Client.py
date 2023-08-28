@@ -8,8 +8,8 @@ from Source.Data.Data import *
 class ClientApp:
     HOST = '10.10.20.113'
     # HOST = '127.0.0.1'
-    PORT = 9090
-    BUFFER = 100000
+    PORT = 9070
+    BUFFER = 150000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
 
@@ -17,6 +17,7 @@ class ClientApp:
     member_id_check = "member_id_check"
     member_join = "member_join"
     my_page_data = "my_page_data"
+    recipe_all = "recipe_all"
 
     def __init__(self):
         self.user_id = None
@@ -57,11 +58,16 @@ class ClientApp:
 
     def send_my_page_data_access(self, user_id):
         """마이 페이지 데이터 서버로 전송"""
-        print("서버로 전송하는 데이터")
         data_msg = User(user_id)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.my_page_data
         self.fixed_volume(header_data, data_msg_str)
+
+    def send_recipe_all_access(self, recipe_):
+        """레시피 데이터 조회 서버로 전송"""
+        data_msg = recipe_
+        header_data = self.recipe_all
+        self.fixed_volume(header_data, data_msg)
 
     def fixed_volume(self, header, data):
         """데이터 길이 맞춰서 서버로 전송"""
@@ -96,6 +102,9 @@ class ClientApp:
 
             # 마이 페이지 데이터
             if response_header == self.my_page_data:
-                print(response_data, "클라이언트")
                 self.client_widget.my_page_data_signal.emit(response_data)
+
+            # 레시피 전체 데이터
+            if response_header == self.recipe_all:
+                self.client_widget.recipe_all_signal.emit(response_data)
 
