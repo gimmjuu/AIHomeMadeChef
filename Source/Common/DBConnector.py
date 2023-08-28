@@ -190,7 +190,7 @@ class DBConnector:
     def find_preference(self, user_id: str, recipe_id: str):
         """찜 여부 조회"""
         self.start_conn()
-        sql = f"select * from \"TB_PREFER\" where \"USER_ID\" = '{user_id}' \"RECIPE_ID\" = '{recipe_id}'"
+        sql = f"select * from \"TB_PREFER\" where \"USER_ID\" = '{user_id}' and \"RECIPE_ID\" = '{recipe_id}'"
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
