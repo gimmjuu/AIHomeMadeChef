@@ -22,9 +22,11 @@ class ClientApp:
     recipe_like = "recipe_like"
     recipe_hate = "recipe_hate"
     like_check = "like_check"
+    recipe_jjim = "recipe_jjim"
 
     def __init__(self):
         self.user_id = None
+        self.user_name = None
         self.client_socket = None
         self.config = None
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -101,6 +103,13 @@ class ClientApp:
         header_data = self.recipe_like
         self.fixed_volume(header_data, data_msg_str)
 
+    def send_recipe_jjim_access(self, user_id):
+        data_msg = User(user_id)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.recipe_jjim
+        self.fixed_volume(header_data, data_msg_str)
+
+
     def fixed_volume(self, header, data):
         """데이터 길이 맞춰서 서버로 전송"""
         header_msg = f"{header:<{self.HEADER_LENGTH}}".encode(self.FORMAT)
@@ -120,6 +129,7 @@ class ClientApp:
                 else:
                     object_data = self.decoder.binary_to_obj(response_data)
                     self.user_id = object_data.user_id
+                    self.name_id = object_data.user_name
                     self.client_widget.login_check_signal.emit(True)
             # 회원가입 아이디 중복 확인
             if response_header == self.member_id_check:
@@ -156,4 +166,8 @@ class ClientApp:
             # 레시피 찜목록 삭제
             if response_header == self.recipe_hate:
                 print("찜삭제 완료")
+
+            # 레시피 찜목록 출력
+            if response_header == self.recipe_jjim:
+                self.client_widget.recipe_jjim_signal.emit(response_data)
 
