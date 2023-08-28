@@ -1593,7 +1593,7 @@ border-style:solid;
        <widget class="QWidget" name="widget_10" native="true">
         <property name="geometry">
          <rect>
-          <x>55</x>
+          <x>53</x>
           <y>40</y>
           <width>491</width>
           <height>61</height>
@@ -1635,9 +1635,9 @@ color: rgb(255, 255, 255);</string>
        <widget class="QScrollArea" name="scrollArea_4">
         <property name="geometry">
          <rect>
-          <x>20</x>
+          <x>46</x>
           <y>120</y>
-          <width>551</width>
+          <width>530</width>
           <height>541</height>
          </rect>
         </property>
@@ -1659,7 +1659,7 @@ border-style:solid;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>551</width>
+           <width>530</width>
            <height>541</height>
           </rect>
          </property>
@@ -1668,16 +1668,16 @@ border-style:solid;</string>
            <number>0</number>
           </property>
           <property name="leftMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <item>
            <spacer name="verticalSpacer_3">
@@ -1687,7 +1687,7 @@ border-style:solid;</string>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>532</height>
+              <height>538</height>
              </size>
             </property>
            </spacer>

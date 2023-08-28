@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
+    <width>500</width>
     <height>100</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>535</width>
+    <width>500</width>
     <height>100</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>535</width>
+    <width>500</width>
     <height>100</height>
    </size>
   </property>
@@ -30,36 +30,39 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>535</width>
+     <width>500</width>
      <height>100</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>535</width>
+     <width>500</width>
      <height>100</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>535</width>
+     <width>500</width>
      <height>100</height>
     </size>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255, 255, 255);
-border-color: rgb(255, 148, 148);
-border-width:1px;
+border-left-color: rgb(255, 255, 255);
+border-right-color: rgb(255, 255, 255);
+border-top-color: rgb(255, 255, 255);
+border-bottom-color: rgb(255, 148, 148);
+border-width:2px;
 border-style:dashed;
 </string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>9</y>
-      <width>95</width>
-      <height>80</height>
+      <x>10</x>
+      <y>13</y>
+      <width>80</width>
+      <height>65</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -78,16 +81,16 @@ border-style:dashed;
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>24</y>
-      <width>350</width>
+      <x>98</x>
+      <y>21</y>
+      <width>341</width>
       <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>티머니 둥근바람 ExtraBold</family>
-      <pointsize>18</pointsize>
+      <pointsize>17</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -101,8 +104,8 @@ color: rgb(80, 80, 80);</string>
    <widget class="QPushButton" name="jjim_btn">
     <property name="geometry">
      <rect>
-      <x>474</x>
-      <y>23</y>
+      <x>443</x>
+      <y>20</y>
       <width>51</width>
       <height>51</height>
      </rect>

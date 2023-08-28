@@ -329,10 +329,11 @@ class Main(QWidget):
 
     def recipe_jjim_show(self, recipe_data):
         """레시피 찜목록 출력 이벤트 함수"""
-        self.label_23.
+        user_name = self.client.user_name
+        self.label_23.setText(f"{user_name} 님의 찜목록")
         self.clear_layout(self.verticalLayout_5)
         spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacer)
+        self.verticalLayout_5.addItem(spacer)
         recipes = self.decoder.binary_to_obj(recipe_data)
 
         for rcp in recipes:
@@ -342,7 +343,7 @@ class Main(QWidget):
             like_page.setParent(self.scrollAreaWidgetContents_4)
             self.scrollArea_4.widget().layout().insertWidget(len(self.scrollArea_4.widget().layout()) - 1, like_page)
             like_page.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
-            like_page.jjim_btn.clicked.connect(lambda x: self.jjim_del(recipe_id))
+            like_page.jjim_btn.clicked.connect(lambda x=None, y=recipe_id: self.jjim_del(y))
         self.home_page.setCurrentIndex(3)
 
     def jjim_del(self, recipe_id):
