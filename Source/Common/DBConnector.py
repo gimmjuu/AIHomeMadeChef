@@ -187,10 +187,25 @@ class DBConnector:
             self.end_conn()
 
     # === TB_PREFER
-    def add_preference(self, user_id: str, food_id: str):
+    def find_preference(self, user_id: str, recipe_id: str):
+        """찜 여부 조회"""
+        self.start_conn()
+        sql = f"select * from \"TB_PREFER\" where \"USER_ID\" = '{user_id}' \"RECIPE_ID\" = '{recipe_id}'"
+
+        with self.DB.cursor() as cur:
+            cur.execute(sql)
+            data = cur.fetchone()
+
+        if data:
+            result = Result(True)
+        else:
+            result = Result(False)
+        return result
+
+    def add_preference(self, user_id: str, recipe_id: str):
         """찜하기 추가"""
         self.start_conn()
-        sql = f"insert into \"TB_PREFER\"(\"USER_ID\", \"RECIPE_ID\") values ('{user_id}', '{food_id}')"
+        sql = f"insert into \"TB_PREFER\"(\"USER_ID\", \"RECIPE_ID\") values ('{user_id}', '{recipe_id}')"
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -211,7 +226,7 @@ class DBConnector:
 
     # === TB_RECIPE
     def find_all_recipe_list(self):
-        """전체 레시피 목록 조회"""
+        """전체 레시피 목록 조회 -> 아이디, 이름, 타입"""
         self.start_conn()
         sql = "select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\" from \"TB_RECIPE\""
 
@@ -244,7 +259,7 @@ class DBConnector:
             self.end_conn()
 
     def find_recipe_by_food_id(self, t_id: str):
-        """레시피 정보 조회"""
+        """음식 아이디로 레시피 정보 조회"""
         self.start_conn()
         sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\" " \
               f"from \"TB_RECIPE\" natural join \"TB_FOOD\" where \"FOOD_ID\" = '{t_id}'"
@@ -263,10 +278,10 @@ class DBConnector:
         return result
 
     def find_recipe_by_recipe_id(self, t_id: str):
-        """레시피 정보 조회"""
+        """레시피 아이디로 레시피 정보 조회"""
         self.start_conn()
         sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\" " \
-              f"from \"TB_RECIPE\" where \"RECIPE_ID\" = '{t_id}'"
+                f"from \"TB_RECIPE\" where \"RECIPE_ID\" = '{t_id}'"
 
         with self.DB.cursor() as cur:
             cur.execute(sql)

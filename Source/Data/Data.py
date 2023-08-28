@@ -28,5 +28,11 @@ class Result:
     true_or_false: bool = None
 
 
+@dataclass
+class Like:
+    user_id: str
+    recipe_id: str
+
+
 if __name__ == '__main__':
     usr1 = User('admin', '1234', '관리자')
