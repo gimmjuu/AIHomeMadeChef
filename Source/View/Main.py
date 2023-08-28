@@ -19,6 +19,7 @@ class Main(QWidget):
     member_join_signal = pyqtSignal(bool)
     my_page_data_signal = pyqtSignal(str)
     recipe_all_signal = pyqtSignal(str)
+    recipe_id_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -82,6 +83,7 @@ class Main(QWidget):
         self.member_join_signal.connect(self.member_join_clear)
         self.my_page_data_signal.connect(self.my_page_show)
         self.recipe_all_signal.connect(self.name_search_recipe_show)
+        self.recipe_id_signal.connect(self.search_recipe)
 
     # ============================= 로그인 ==================================
     def login_check(self):
@@ -194,10 +196,13 @@ class Main(QWidget):
         recipe_datas = self.decoder.binary_to_obj(recipes_)
         self.clear_name_recipe_list()
         for i in recipe_datas:
+            recipe_id = i.recipe_id
             recipe_name = i.recipe_name
-            recipe = Recipes(recipe_name)
+            recipe_type = i.recipe_type
+            recipe = Recipes(recipe_name, recipe_type)
             recipe.setParent(self.scrollAreaWidgetContents_5)
             self.scrollArea_5.widget().layout().insertWidget(len(self.scrollArea_5.widget().layout()) - 1, recipe)
+            recipe.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
 
 
     # ================================ 마이 페이지 =====================================
@@ -215,9 +220,15 @@ class Main(QWidget):
         self.lbl_user_name.setText(user_name)
         self.lbl_user_id.setText(user_id)
 
-    # ============================== 레시피 출력 ==============================
-    def search_recipe(self):
+    # ============================================ 레시피  ===========================================
+    def recipe_page_clicked(self, recipe_id):
+        """서버로 레시피 아이디 전송"""
+        self.client.send_recipe_id_access(recipe_id)
+
+    def search_recipe(self, recipe_data):
         """레시피 검색시 출력 함수"""
+        recipe_datas = self.decoder.binary_to_obj(recipe_data)
+        print(recipe_datas)
         # 재료 출력
         self.home_page.setCurrentIndex(1)
         self.clear_layout(self.verticalLayout)

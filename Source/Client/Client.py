@@ -18,6 +18,7 @@ class ClientApp:
     member_join = "member_join"
     my_page_data = "my_page_data"
     recipe_all = "recipe_all"
+    recipe_id = "recipe_id"
 
     def __init__(self):
         self.user_id = None
@@ -69,6 +70,13 @@ class ClientApp:
         header_data = self.recipe_all
         self.fixed_volume(header_data, data_msg)
 
+    def send_recipe_id_access(self, recipe_id):
+        """레시피 아이디로 데이터 조회 서버로 전송"""
+        data_msg = Recipe(recipe_id, None)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.recipe_id
+        self.fixed_volume(header_data, data_msg_str)
+
     def fixed_volume(self, header, data):
         """데이터 길이 맞춰서 서버로 전송"""
         header_msg = f"{header:<{self.HEADER_LENGTH}}".encode(self.FORMAT)
@@ -107,4 +115,8 @@ class ClientApp:
             # 레시피 전체 데이터
             if response_header == self.recipe_all:
                 self.client_widget.recipe_all_signal.emit(response_data)
+
+            # 레시피 아이디로 데이터 조회
+            if response_header == self.recipe_id:
+                self.client_widget.recipe_id_signal.emit(response_data)
 
