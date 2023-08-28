@@ -1,9 +1,12 @@
 import sys
 
-from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtWidgets import QWidget, QApplication, QLayout, QSpacerItem, QSizePolicy
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt, pyqtSignal
 
+from Source.Common.JSONConverter import *
+from Source.View.Cooking import Cooking
+from Source.View.Ingredient import Ingredient
 from Source.View.Telegram import TelegramBot
 from Source.View.Error import Error
 from threading import Thread
@@ -34,6 +37,8 @@ class Main(QWidget):
         self.telebot = TelegramBot(self.lbl_imgview)
         self.check = -1
         self.pw_check = -1
+        self.encoder = ObjEncoder()
+        self.decoder = ObjDecoder()
 
         # 에러 메시지 다이얼로그
         self.error_box = Error()
@@ -61,7 +66,7 @@ class Main(QWidget):
         self.id_check.clicked.connect(self.member_id_check)
         # 메인화면 버튼
         self.home_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(0))
-        self.search_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(1))
+        self.search_btn.clicked.connect(self.search_recipe)
         self.choice_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(3))
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
@@ -176,10 +181,28 @@ class Main(QWidget):
 
     def my_page_show(self, user_data):
         """마이 페이지 이동 함수"""
-        print(user_data)
+        user_ = self.decoder.binary_to_obj(user_data)
+        user_id = user_.user_id
+        user_name = user_.user_name
+        user_taste = user_.user_taste
         self.home_page.setCurrentIndex(2)
-        # self.lbl_user_name.setText(self.client.user_name)
-        # self.lbl_user_id.setText(self.client.user_id)
+        self.lbl_user_name.setText(user_name)
+        self.lbl_user_id.setText(user_id)
+
+    # ============================== 레시피 출력 ==============================
+    def search_recipe(self):
+        """레시피 검색시 출력 함수"""
+        # 재료 출력
+        self.home_page.setCurrentIndex(1)
+        self.clear_layout(self.verticalLayout)
+        ingredient = Ingredient()
+        self.verticalLayout.addWidget(ingredient)
+        # 조리법 출력
+        self.clear_search_list()
+        for i in range(6):
+            cooking = Cooking(i)
+            cooking.setParent(self.scrollAreaWidgetContents)
+            self.scrollArea.widget().layout().insertWidget(len(self.scrollArea.widget().layout()) - 1,cooking)
 
     def is_valid_password(self, password):
         """비밀번호 영문자, 숫자, 특수기호 각각 1개 이상 사용하는지 확인하는 함수"""
@@ -194,5 +217,29 @@ class Main(QWidget):
         else:
             return -1
 
+    def clear_layout(self, layout: QLayout):
+        """레이아웃 안의 모든 객체를 지우는 함수"""
+        if layout is None or not layout.count():
+            return
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+
+            if widget is not None:
+                widget.setParent(None)
+            # 아이템이 레이아웃일 경우 재귀 호출로 레이아웃 내의 위젯 삭제
+            else:
+                self.clear_layout(item.layout())
+
+    def clear_search_list(self):
+        """레시피 검색 내용 클리어 이벤트 함수"""
+        layout = self.verticalLayout_3
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.setParent(None)
+        self.Spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        layout.addItem(self.Spacer)
 
 
