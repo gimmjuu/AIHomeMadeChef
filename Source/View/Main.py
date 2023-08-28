@@ -258,11 +258,11 @@ class Main(QWidget):
     def recipe_like_check(self, like_):
         """찜버튼 클릭 여부 확인"""
         if like_:
-            self.like_btn.show()
-            self.like_btn_2.hide()
-        else:
             self.like_btn_2.show()
             self.like_btn.hide()
+        else:
+            self.like_btn.show()
+            self.like_btn_2.hide()
 
 
     def is_valid_password(self, password):
