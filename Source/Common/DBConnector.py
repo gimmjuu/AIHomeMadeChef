@@ -195,6 +195,7 @@ class DBConnector:
         with self.DB.cursor() as cur:
             cur.execute(sql)
             data = cur.fetchone()
+        self.end_conn()
 
         if data:
             result = Result(True)
@@ -224,6 +225,23 @@ class DBConnector:
         self.commit_db()
         self.end_conn()
 
+    def find_all_prefers_by_user_id(self, user_id: str):
+        """찜목록 출력을 위해 찜한 레시피 리스트 조회"""
+        self.start_conn()
+        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\" from \"TB_PREFER\" natural join \"TB_RECIPE\" "
+        sql += f"where \"USER_ID\" = '{user_id}'"
+
+        with self.DB.cursor() as cur:
+            cur.execute(sql)
+            data = cur.fetchall()
+        self.end_conn()
+
+        result_list = list()
+        for row in data:
+            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2])
+            result_list.append(result)
+        return result_list
+
     # === TB_RECIPE
     def find_all_recipe_list(self):
         """전체 레시피 목록 조회 -> 아이디, 이름, 타입"""
@@ -233,6 +251,7 @@ class DBConnector:
         with self.DB.cursor() as cur:
             cur.execute(sql)
             data = cur.fetchall()
+        self.end_conn()
 
         result_list = list()
         for row in data:
@@ -248,7 +267,6 @@ class DBConnector:
         try:
             with self.DB.cursor() as cur:
                 cur.execute(sql)
-
             self.commit_db()
 
         except Exception as e:
@@ -263,7 +281,6 @@ class DBConnector:
         self.start_conn()
         sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\" " \
               f"from \"TB_RECIPE\" natural join \"TB_FOOD\" where \"FOOD_ID\" = '{t_id}'"
-
         with self.DB.cursor() as cur:
             cur.execute(sql)
             data = cur.fetchone()
@@ -317,6 +334,7 @@ if __name__ == '__main__':
 
     # db.add_preference('joo', '08013004')
     # db.remove_preference('joo', '08013004')
+    # db.find_all_prefers_by_user_id("lss")
     # db.find_recipe_eq_food_nm()
 
     # recipe_ = db.find_recipe_by_food_id('08011004')
