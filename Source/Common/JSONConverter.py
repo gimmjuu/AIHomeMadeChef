@@ -76,6 +76,8 @@ class ObjDecoder(json.JSONDecoder):
             return Recipe(**dict_obj)
         elif "true_or_false" in dict_obj.keys():
             return Result(**dict_obj)
+        elif "target_id" in dict_obj.keys():
+            return Like(**dict_obj)
 
     def list_mapper(self, list_obj):
         result_list = list()

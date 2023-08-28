@@ -30,7 +30,7 @@ class Result:
 
 @dataclass
 class Like:
-    user_id: str
+    target_id: str
     recipe_id: str
 
 
