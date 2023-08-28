@@ -84,22 +84,22 @@ border-style:solid;
    <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>35</x>
-      <y>8</y>
+      <x>37</x>
+      <y>11</y>
       <width>500</width>
-      <height>70</height>
+      <height>65</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>500</width>
-      <height>70</height>
+      <height>65</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>500</width>
-      <height>70</height>
+      <height>65</height>
      </size>
     </property>
     <property name="font">

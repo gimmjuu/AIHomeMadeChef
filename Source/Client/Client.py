@@ -19,6 +19,7 @@ class ClientApp:
     my_page_data = "my_page_data"
     recipe_all = "recipe_all"
     recipe_id = "recipe_id"
+    recipe_like = "recipe_like"
 
     def __init__(self):
         self.user_id = None
@@ -77,6 +78,13 @@ class ClientApp:
         header_data = self.recipe_id
         self.fixed_volume(header_data, data_msg_str)
 
+    def send_like_access(self, user_id, recipe_id):
+        """찜하기 버튼 클릭시 찜목록 데이터 서버로 전송"""
+        data_msg = Like(user_id, recipe_id)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.recipe_like
+        self.fixed_volume(header_data, data_msg_str)
+
     def fixed_volume(self, header, data):
         """데이터 길이 맞춰서 서버로 전송"""
         header_msg = f"{header:<{self.HEADER_LENGTH}}".encode(self.FORMAT)
@@ -119,4 +127,8 @@ class ClientApp:
             # 레시피 아이디로 데이터 조회
             if response_header == self.recipe_id:
                 self.client_widget.recipe_id_signal.emit(response_data)
+
+            # 레시피 찜목록 추가/제거 데이터 조회
+            if response_header == self.recipe_like:
+                self.client_widget.recipe_like_signal.emit(response_data)
 
