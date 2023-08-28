@@ -30,8 +30,8 @@ class Result:
 
 @dataclass
 class Like:
-    target_id: str
-    recipe_id: str
+    like_user_id: str
+    like_recipe_id: str
 
 
 if __name__ == '__main__':
