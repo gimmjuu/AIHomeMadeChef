@@ -129,7 +129,7 @@ class ClientApp:
                 else:
                     object_data = self.decoder.binary_to_obj(response_data)
                     self.user_id = object_data.user_id
-                    self.name_id = object_data.user_name
+                    self.user_name = object_data.user_name
                     self.client_widget.login_check_signal.emit(True)
             # 회원가입 아이디 중복 확인
             if response_header == self.member_id_check:
