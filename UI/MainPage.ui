@@ -167,7 +167,7 @@ border-radius:10px;
 </string>
       </property>
       <property name="text">
-       <string/>
+       <string>lss</string>
       </property>
       <property name="placeholderText">
        <string>  아이디</string>
@@ -199,7 +199,7 @@ border-radius:10px;
 </string>
       </property>
       <property name="text">
-       <string/>
+       <string>111</string>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
@@ -995,7 +995,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1137,8 +1137,8 @@ border-radius:20px;
        <widget class="QLabel" name="lbl_recipe_name">
         <property name="geometry">
          <rect>
-          <x>47</x>
-          <y>55</y>
+          <x>49</x>
+          <y>45</y>
           <width>401</width>
           <height>31</height>
          </rect>
@@ -1146,7 +1146,7 @@ border-radius:20px;
         <property name="font">
          <font>
           <family>티머니 둥근바람 ExtraBold</family>
-          <pointsize>14</pointsize>
+          <pointsize>17</pointsize>
          </font>
         </property>
         <property name="styleSheet">
@@ -1156,7 +1156,7 @@ border-radius:20px;
          <string>음식 이름 : 레시피 명</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="like_btn">
         <property name="geometry">
          <rect>
           <x>190</x>
@@ -1305,6 +1305,33 @@ border-style:solid;
           </item>
          </layout>
         </widget>
+       </widget>
+       <widget class="QPushButton" name="like_btn_2">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>615</y>
+          <width>230</width>
+          <height>42</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>티머니 둥근바람 ExtraBold</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 148, 148);
+color: rgb(255, 255, 255);
+border-width:0px;
+border-style:solid;
+border-radius:20px;
+</string>
+        </property>
+        <property name="text">
+         <string>♥  찜한 레시피</string>
+        </property>
        </widget>
       </widget>
      </widget>

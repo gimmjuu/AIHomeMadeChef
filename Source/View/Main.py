@@ -1,6 +1,4 @@
-import sys
-
-from PyQt5.QtWidgets import QWidget, QApplication, QLayout, QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt, pyqtSignal
 
@@ -20,6 +18,7 @@ class Main(QWidget):
     my_page_data_signal = pyqtSignal(str)
     recipe_all_signal = pyqtSignal(str)
     recipe_id_signal = pyqtSignal(str)
+    recipe_like_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -75,6 +74,7 @@ class Main(QWidget):
         self.request_btn.clicked.connect(self.member_join_request)
         self.home_btn.clicked.connect(self.home_menu)
         self.name_search_btn.clicked.connect(self.name_search_page)
+        self.like_btn.clicked.connect(self.like_situation)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -192,6 +192,7 @@ class Main(QWidget):
         self.client.send_recipe_all_access(recipe_)
 
     def name_search_recipe_show(self, recipes_):
+        """이름으로 레시피 검색 함수"""
         self.home_page.setCurrentIndex(5)
         recipe_datas = self.decoder.binary_to_obj(recipes_)
         self.clear_name_recipe_list()
@@ -208,7 +209,8 @@ class Main(QWidget):
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):
         """마이 페이지 데이터 서버에 요청 함수"""
-        self.client.send_my_page_data_access(1)
+        user_id = self.client.user_id
+        self.client.send_my_page_data_access(user_id)
 
     def my_page_show(self, user_data):
         """마이 페이지 이동 함수"""
@@ -228,18 +230,27 @@ class Main(QWidget):
     def search_recipe(self, recipe_data):
         """레시피 검색시 출력 함수"""
         recipe_datas = self.decoder.binary_to_obj(recipe_data)
-        print(recipe_datas)
+        recipe_id = recipe_datas.recipe_id
+        recipe_name = recipe_datas.recipe_name
+        recipe_type = recipe_datas.recipe_type
+        recipe_stuff = recipe_datas.recipe_stuff
+        recipe_step = recipe_datas.recipe_step
         # 재료 출력
         self.home_page.setCurrentIndex(1)
+        self.lbl_recipe_name.setText(f'<{recipe_name}> 레시피')
+        self.lbl_recipe_name: QLabel
+        self.like_btn.setObjectName(f"{recipe_id}")
         self.clear_layout(self.verticalLayout)
-        ingredient = Ingredient()
+        ingredient = Ingredient(recipe_stuff)
         self.verticalLayout.addWidget(ingredient)
         # 조리법 출력
         self.clear_search_list()
-        for i in range(6):
-            cooking = Cooking(i)
+        recipe_step = recipe_step.replace("/ ", "")
+        step_split = recipe_step.split("|")
+        for i, v in enumerate(step_split):
+            cooking = Cooking(i, v)
             cooking.setParent(self.scrollAreaWidgetContents)
-            self.scrollArea.widget().layout().insertWidget(len(self.scrollArea.widget().layout()) - 1,cooking)
+            self.scrollArea.widget().layout().insertWidget(len(self.scrollArea.widget().layout()) - 1, cooking)
 
     def is_valid_password(self, password):
         """비밀번호 영문자, 숫자, 특수기호 각각 1개 이상 사용하는지 확인하는 함수"""
@@ -289,5 +300,14 @@ class Main(QWidget):
                 widget.setParent(None)
         self.Spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
         layout.addItem(self.Spacer)
+
+   # ======================================== 찜하기 =========================================
+    def like_situation(self):
+        """찜하기 버튼 클릭시 서버에 데이터 요청 함수"""
+        user_id = self.client.user_id
+        target_id = int(self.like_btn.objectName())
+        self.client.send_like_access(user_id, target_id)
+
+
 
 

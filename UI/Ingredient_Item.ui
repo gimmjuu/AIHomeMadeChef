@@ -29,7 +29,7 @@
     <property name="geometry">
      <rect>
       <x>29</x>
-      <y>10</y>
+      <y>12</y>
       <width>501</width>
       <height>114</height>
      </rect>
@@ -43,20 +43,38 @@ border-radius:10px;</string>
     <widget class="QTextEdit" name="textEdit">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>30</y>
-       <width>371</width>
-       <height>61</height>
+       <x>41</x>
+       <y>23</y>
+       <width>440</width>
+       <height>80</height>
       </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>440</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>440</width>
+       <height>80</height>
+      </size>
      </property>
      <property name="font">
       <font>
        <family>티머니 둥근바람 ExtraBold</family>
-       <pointsize>12</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(90, 90, 90);</string>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -67,7 +85,7 @@ border-radius:10px;</string>
     <property name="geometry">
      <rect>
       <x>255</x>
-      <y>-3</y>
+      <y>-4</y>
       <width>56</width>
       <height>31</height>
      </rect>
