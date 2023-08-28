@@ -213,7 +213,7 @@ class DBConnector:
     def find_all_recipe_list(self):
         """전체 레시피 목록 조회"""
         self.start_conn()
-        sql = "select \"RECIPE_ID\", \"RECIPE_NM\" from \"TB_RECIPE\""
+        sql = "select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\" from \"TB_RECIPE\""
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -221,7 +221,7 @@ class DBConnector:
 
         result_list = list()
         for row in data:
-            result = Recipe(recipe_id=row[0], recipe_name=row[1])
+            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2])
             result_list.append(result)
         return result_list
 
