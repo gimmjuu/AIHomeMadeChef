@@ -92,7 +92,7 @@ class DBConnector:
     def login_by_id_pwd(self, t_id: str, t_pwd: str):
         """아이디, 비밀번호로 사용자 정보 조회 후 로그인 결과 반환"""
         self.start_conn()
-        sql = f"select \"USER_ID\" from \"TB_USER\" where \"USER_ID\" = '{t_id}' and \"USER_PWD\" = '{t_pwd}'"
+        sql = f"select \"USER_ID\", \"USER_NM\" from \"TB_USER\" where \"USER_ID\" = '{t_id}' and \"USER_PWD\" = '{t_pwd}'"
 
         with self.DB.cursor() as cur:
             cur.execute(sql, self.DB)
@@ -101,7 +101,7 @@ class DBConnector:
         self.end_conn()
 
         if data:
-            result = User(user_id=data[0])
+            result = User(user_id=data[0], user_name=data[1])
         else:
             result = Result(False)
 
@@ -246,7 +246,7 @@ class DBConnector:
     def find_all_recipe_list(self):
         """전체 레시피 목록 조회 -> 아이디, 이름, 타입"""
         self.start_conn()
-        sql = "select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\" from \"TB_RECIPE\""
+        sql = "select \"RECIPE_ID\", \"RECIPE_NM\" from \"TB_RECIPE\""
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -255,7 +255,7 @@ class DBConnector:
 
         result_list = list()
         for row in data:
-            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2])
+            result = Recipe(recipe_id=row[0], recipe_name=row[1])
             result_list.append(result)
         return result_list
 
