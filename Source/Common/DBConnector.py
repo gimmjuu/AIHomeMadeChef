@@ -262,6 +262,25 @@ class DBConnector:
                         recipe_step=data[4])
         return result
 
+    def find_recipe_by_recipe_id(self, t_id: str):
+        """레시피 정보 조회"""
+        self.start_conn()
+        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\" " \
+              f"from \"TB_RECIPE\" where \"RECIPE_ID\" = '{t_id}'"
+
+        with self.DB.cursor() as cur:
+            cur.execute(sql)
+            data = cur.fetchone()
+
+        self.end_conn()
+
+        result = Recipe(recipe_id=data[0],
+                        recipe_name=data[1],
+                        recipe_type=data[2],
+                        recipe_stuff=data[3],
+                        recipe_step=data[4])
+        return result
+
 
 if __name__ == '__main__':
     db = DBConnector()
