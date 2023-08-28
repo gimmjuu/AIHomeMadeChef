@@ -246,7 +246,7 @@ class DBConnector:
     def find_all_recipe_list(self):
         """전체 레시피 목록 조회 -> 아이디, 이름, 타입"""
         self.start_conn()
-        sql = "select \"RECIPE_ID\", \"RECIPE_NM\" from \"TB_RECIPE\""
+        sql = "select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\" from \"TB_RECIPE\""
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -312,6 +312,16 @@ class DBConnector:
                         recipe_stuff=data[3],
                         recipe_step=data[4])
         return result
+
+    # === Nomination
+    def 사용자_아이템_평가_행렬_생성(self):
+        self.start_conn()
+        sql = "select \"\" from \"TB_USER\" natural join \"TB_PREFER\" natural join \"TB_RECIPE\""
+
+        with self.DB.cursor() as cur:
+            cur.execute(sql)
+            data = cur.fetchall()
+        self.end_conn()
 
 
 if __name__ == '__main__':
