@@ -20,6 +20,7 @@ class ClientApp:
     recipe_all = "recipe_all"
     recipe_id = "recipe_id"
     recipe_like = "recipe_like"
+    like_check = "like_check"
 
     def __init__(self):
         self.user_id = None
@@ -78,6 +79,13 @@ class ClientApp:
         header_data = self.recipe_id
         self.fixed_volume(header_data, data_msg_str)
 
+    def send_like_check(self, user_id, recipe_id):
+        """찜하기 버튼 클릭 여부 조회 서버로 전송"""
+        data_msg = Like(user_id, recipe_id)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.like_check
+        self.fixed_volume(header_data, data_msg_str)
+
     def send_like_access(self, user_id, recipe_id):
         """찜하기 버튼 클릭시 찜목록 데이터 서버로 전송"""
         data_msg = Like(user_id, recipe_id)
@@ -127,6 +135,14 @@ class ClientApp:
             # 레시피 아이디로 데이터 조회
             if response_header == self.recipe_id:
                 self.client_widget.recipe_id_signal.emit(response_data)
+
+            # 레시피 찜목록 버튼 클릭 여부 조회
+            if response_header == self.like_check:
+                print(response_data, "클라이언트")
+                if response_data == Result(False):
+                    self.client_widget.like_check_signal.emit(False)
+                else:
+                    self.client_widget.like_check_signal.emit(True)
 
             # 레시피 찜목록 추가/제거 데이터 조회
             if response_header == self.recipe_like:
