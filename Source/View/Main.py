@@ -19,6 +19,7 @@ class Main(QWidget):
     recipe_all_signal = pyqtSignal(str)
     recipe_id_signal = pyqtSignal(str)
     recipe_like_signal = pyqtSignal(str)
+    recipe_hate_signal = pyqtSignal(str)
     like_check_signal = pyqtSignal(bool)
 
     def __init__(self, clientapp):
@@ -75,7 +76,9 @@ class Main(QWidget):
         self.request_btn.clicked.connect(self.member_join_request)
         self.home_btn.clicked.connect(self.home_menu)
         self.name_search_btn.clicked.connect(self.name_search_page)
-        self.like_btn.clicked.connect(self.like_situation)
+        self.like_btn.clicked.connect(self.like_true_situation)
+        self.like_btn_2.clicked.connect(self.like_false_situation)
+        self.choice_btn.clicked.connect(self.jjim_situation)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -195,9 +198,11 @@ class Main(QWidget):
 
     def name_search_recipe_show(self, recipes_):
         """이름으로 레시피 검색 함수"""
+        self.clear_layout(self.verticalLayout_4)
+        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_4.addItem(spacer)
         self.home_page.setCurrentIndex(5)
         recipe_datas = self.decoder.binary_to_obj(recipes_)
-        self.clear_name_recipe_list()
         for i in recipe_datas:
             recipe_id = i.recipe_id
             recipe_name = i.recipe_name
@@ -240,11 +245,15 @@ class Main(QWidget):
         self.lbl_recipe_name.setText(f'<{recipe_name}> 레시피')
         self.lbl_recipe_name: QLabel
         self.like_btn.setObjectName(f"{recipe_id}")
+        self.like_btn_2.setObjectName(f"{recipe_id}")
         self.clear_layout(self.verticalLayout)
         ingredient = Ingredient(recipe_stuff)
         self.verticalLayout.addWidget(ingredient)
+        # --- 레이아웃 비우기
+        self.clear_layout(self.verticalLayout_3)
+        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacer)
         # 조리법 출력
-        self.clear_search_list()
         recipe_step = recipe_step.replace("/ ", "")
         step_split = recipe_step.split("|")
         for i, v in enumerate(step_split):
@@ -253,16 +262,7 @@ class Main(QWidget):
             self.scrollArea.widget().layout().insertWidget(len(self.scrollArea.widget().layout()) - 1, cooking)
         user_id = self.client.user_id
         self.client.send_like_check(user_id, recipe_id)
-        self.home_page.setCurrentIndex(1)
 
-    def recipe_like_check(self, like_):
-        """찜버튼 클릭 여부 확인"""
-        if like_:
-            self.like_btn_2.show()
-            self.like_btn.hide()
-        else:
-            self.like_btn.show()
-            self.like_btn_2.hide()
 
 
     def is_valid_password(self, password):
@@ -292,34 +292,38 @@ class Main(QWidget):
             else:
                 self.clear_layout(item.layout())
 
-    def clear_search_list(self):
-        """레시피 검색 내용 클리어 이벤트 함수"""
-        layout = self.verticalLayout_3
-        while layout.count():
-            item = layout.takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.setParent(None)
-        self.Spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        layout.addItem(self.Spacer)
-
-    def clear_name_recipe_list(self):
-        """레시피 이름 검색 내용 클리어 이벤트 함수"""
-        layout = self.verticalLayout_4
-        while layout.count():
-            item = layout.takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.setParent(None)
-        self.Spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        layout.addItem(self.Spacer)
-
    # ======================================== 찜하기 =========================================
-    def like_situation(self):
+    def recipe_like_check(self, like_):
+        """찜버튼 클릭 여부 확인"""
+        print("찜버튼 클릭 여부 확인 :", like_)
+        if like_:
+            self.like_btn.hide()    # 찜하기
+            self.like_btn_2.show()  # 찜한
+        else:
+            self.like_btn.show()
+            self.like_btn_2.hide()
+        self.home_page.setCurrentIndex(1)
+
+    def like_true_situation(self):
         """찜하기 버튼 클릭시 서버에 데이터 요청 함수"""
         user_id = self.client.user_id
         target_id = int(self.like_btn.objectName())
         self.client.send_like_access(user_id, target_id)
+        self.like_btn.hide()
+        self.like_btn_2.show()
+
+    def like_false_situation(self):
+        """찜한 버튼 클릭시 서버에 데이터 요청 함수"""
+        user_id = self.client.user_id
+        target_id = int(self.like_btn_2.objectName())
+        self.client.send_hate_access(user_id, target_id)
+        self.like_btn_2.hide()
+        self.like_btn.show()
+
+    def jjim_situation(self):
+        """찜 페이지 버튼 클릭시 서버에 데이터 요청 함수"""
+
+
 
 
 
