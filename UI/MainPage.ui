@@ -995,7 +995,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1636,14 +1636,20 @@ color: rgb(255, 255, 255);</string>
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>130</y>
-          <width>555</width>
-          <height>531</height>
+          <y>120</y>
+          <width>551</width>
+          <height>541</height>
          </rect>
         </property>
         <property name="styleSheet">
          <string notr="true">border-width:0px;
 border-style:solid;</string>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
         <property name="widgetResizable">
          <bool>true</bool>
@@ -1653,10 +1659,40 @@ border-style:solid;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>555</width>
-           <height>531</height>
+           <width>551</width>
+           <height>541</height>
           </rect>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <item>
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>532</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </widget>
        </widget>
       </widget>

@@ -22,7 +22,7 @@ class Start(QWidget):
     def timer_event(self):
         """큐 타이머 이벤트 함수"""
         self.timer = QTimer(self)
-        self.timer.start(1500)  # 1.5초
+        self.timer.start(500)  # 1.5초
         self.timer.timeout.connect(self.go_to_main)
 
     def go_to_main(self):
