@@ -19,6 +19,7 @@ class Main(QWidget):
     recipe_all_signal = pyqtSignal(str)
     recipe_id_signal = pyqtSignal(str)
     recipe_like_signal = pyqtSignal(str)
+    like_check_signal = pyqtSignal(bool)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -84,6 +85,7 @@ class Main(QWidget):
         self.my_page_data_signal.connect(self.my_page_show)
         self.recipe_all_signal.connect(self.name_search_recipe_show)
         self.recipe_id_signal.connect(self.search_recipe)
+        self.like_check_signal.connect(self.recipe_like_check)
 
     # ============================= 로그인 ==================================
     def login_check(self):
@@ -205,7 +207,6 @@ class Main(QWidget):
             self.scrollArea_5.widget().layout().insertWidget(len(self.scrollArea_5.widget().layout()) - 1, recipe)
             recipe.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
 
-
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):
         """마이 페이지 데이터 서버에 요청 함수"""
@@ -236,7 +237,6 @@ class Main(QWidget):
         recipe_stuff = recipe_datas.recipe_stuff
         recipe_step = recipe_datas.recipe_step
         # 재료 출력
-        self.home_page.setCurrentIndex(1)
         self.lbl_recipe_name.setText(f'<{recipe_name}> 레시피')
         self.lbl_recipe_name: QLabel
         self.like_btn.setObjectName(f"{recipe_id}")
@@ -251,6 +251,19 @@ class Main(QWidget):
             cooking = Cooking(i, v)
             cooking.setParent(self.scrollAreaWidgetContents)
             self.scrollArea.widget().layout().insertWidget(len(self.scrollArea.widget().layout()) - 1, cooking)
+        user_id = self.client.user_id
+        self.client.send_like_check(user_id, recipe_id)
+        self.home_page.setCurrentIndex(1)
+
+    def recipe_like_check(self, like_):
+        """찜버튼 클릭 여부 확인"""
+        if like_:
+            self.like_btn.show()
+            self.like_btn_2.hide()
+        else:
+            self.like_btn_2.show()
+            self.like_btn.hide()
+
 
     def is_valid_password(self, password):
         """비밀번호 영문자, 숫자, 특수기호 각각 1개 이상 사용하는지 확인하는 함수"""

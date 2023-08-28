@@ -24,6 +24,7 @@ class Server:
     recipe_all = "recipe_all"
     recipe_id = "recipe_id"
     recipe_like = "recipe_like"
+    like_check = "like_check"
     pass_encoded = "pass"
     dot_encoded = "."
 
@@ -97,7 +98,7 @@ class Server:
             recv_message = client_socket.recv(self.BUFFER)
             request_header = recv_message[:self.HEADER_LENGTH].strip().decode(self.FORMAT)
             request_data = recv_message[self.HEADER_LENGTH:].strip().decode(self.FORMAT)
-            print(f"Server RECEIVED: ({request_header},{request_data})")
+            print(f"Server RECEIVED: ({request_header})")
             # print(request_header)
             # print(type(request_header))
         except:
@@ -168,10 +169,24 @@ class Server:
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
+        # 레시피 찜버튼 클릭 여부
+        if request_header == self.like_check:
+            object_ = self.decoder.binary_to_obj(request_data)
+            result_ = self.db_conn.find_preference(object_.user_id, object_.recipe_id)
+            print(result_, "서버입니다")
+            response_header = self.like_check
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+
         # 레시피 찜목록
         if request_header == self.recipe_like:
             object_ = self.decoder.binary_to_obj(request_data)
             result_ = self.db_conn.add_preference(object_.user_id, object_.food_id)
+            response_header = self.recipe_like
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
 
 
 
