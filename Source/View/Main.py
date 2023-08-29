@@ -103,6 +103,7 @@ class Main(QWidget):
         self.like_btn_2.clicked.connect(self.like_false_situation)
         self.choice_btn.clicked.connect(self.jjim_situation)
         self.search_btn_2.clicked.connect(self.search_recipe_by_name)
+        self.add_btn.clicked.connect(self.add_food)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
