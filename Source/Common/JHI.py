@@ -19,9 +19,6 @@ def main():
     fontDB.addApplicationFont("../../Font/NanumSquareRoundL.ttf")
     fontDB.addApplicationFont("../../Font/NanumSquareRoundR.ttf")
 
-    # === 여기서 UI 연결?
-    # === ===
-
     app.exec()
 
 

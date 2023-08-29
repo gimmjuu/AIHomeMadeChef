@@ -1,5 +1,7 @@
 import psycopg2 as pg
 import pandas as pd
+import numpy as np
+import os
 
 from Source.Data.Data import *
 
@@ -48,6 +50,20 @@ class DBConnector:
 
         self.commit_db()
         self.end_conn()
+
+    def select_data(self, t_col: str, t_table: str, t_option: str = None):
+        self.start_conn()
+        sql = f"select {t_col} from {t_table}"
+
+        if t_option:
+            sql += f" where {t_option}"
+
+        with self.DB.cursor() as cur:
+            cur.execute(sql)
+            data = cur.fetchall()
+
+        self.end_conn()
+        return data
 
     def insert_data(self):
         self.start_conn()
@@ -313,15 +329,20 @@ class DBConnector:
                         recipe_step=data[4])
         return result
 
-    # === Nomination
-    def 사용자_아이템_평가_행렬_생성(self):
-        self.start_conn()
-        sql = "select \"\" from \"TB_USER\" natural join \"TB_PREFER\" natural join \"TB_RECIPE\""
+    def save_recipe_list_to_xlsx(self):
+        """레시피 목록을 엑셀로 저장"""
+        result = self.select_data("\"RECIPE_ID\", \"RECIPE_NM\"", "\"TB_RECIPE\"")
 
-        with self.DB.cursor() as cur:
-            cur.execute(sql)
-            data = cur.fetchall()
-        self.end_conn()
+        data = dict()
+        data["RECIPE_ID"] = list()
+        data["RECIPE_NM"] = list()
+
+        for row in result:
+            data["RECIPE_ID"].append(row[0])
+            data["RECIPE_NM"].append(row[1])
+
+        df = pd.DataFrame.from_dict(data=data, orient="columns")
+        df.to_excel("recipe_list.xlsx", header=True, sheet_name='Sheet1', na_rep='NaN', index=False)
 
 
 if __name__ == '__main__':
