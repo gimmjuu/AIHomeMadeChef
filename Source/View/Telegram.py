@@ -9,9 +9,8 @@ class TelegramBot:
     def __init__(self, lbl_imgview):
         self.bot_token = "6563537418:AAF6LaEx7-VxN8GVWMIMKTC4wIg4nFPv6DQ"
         self.bot = telebot.TeleBot(self.bot_token)
-        self.custom_folder_path = r"C:\Users\KDT113\Desktop\AIHomeMadeChef\Document"
+        self.custom_folder_path = "../Data/Temp"
         self.bot.message_handler(content_types=["photo"])(self.handle_image)
-        self.file_name = ''
         self.lbl_img = lbl_imgview
 
     def generate_unique_filename(self):
@@ -25,8 +24,8 @@ class TelegramBot:
         with open(image_filename, "wb") as new_file:
             new_file.write(downloaded_file)
         self.bot.send_message(message.chat.id, "이미지 저장이 완료되었습니다.")
-        self.file_name = image_filename
-        self.lbl_img.setPixmap(QPixmap(self.file_name))
+        self.lbl_img.setObjectName = image_filename
+        self.lbl_img.setPixmap(QPixmap(image_filename))
 
     def start_polling(self):
         while True:
