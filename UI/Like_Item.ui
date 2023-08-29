@@ -81,16 +81,16 @@ border-style:dashed;
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>98</x>
+      <x>108</x>
       <y>21</y>
-      <width>341</width>
+      <width>331</width>
       <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>티머니 둥근바람 ExtraBold</family>
-      <pointsize>17</pointsize>
+      <pointsize>15</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -104,7 +104,7 @@ color: rgb(80, 80, 80);</string>
    <widget class="QPushButton" name="jjim_btn">
     <property name="geometry">
      <rect>
-      <x>443</x>
+      <x>450</x>
       <y>20</y>
       <width>51</width>
       <height>51</height>

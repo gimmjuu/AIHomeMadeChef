@@ -7,9 +7,11 @@ from Source.View.Cooking import Cooking
 from Source.View.Ingredient import Ingredient
 from Source.View.Like import Likes
 from Source.View.Recipe import Recipes
+from Source.View.Recommend import Recommend
 from Source.View.Telegram import TelegramBot
 from Source.View.Error import Error
 from threading import Thread
+import random
 
 
 class Main(QWidget):
@@ -23,6 +25,7 @@ class Main(QWidget):
     recipe_hate_signal = pyqtSignal(str)
     like_check_signal = pyqtSignal(bool)
     recipe_jjim_signal = pyqtSignal(str)
+    recipe_random_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -80,6 +83,7 @@ class Main(QWidget):
         self.like_btn.clicked.connect(self.like_true_situation)
         self.like_btn_2.clicked.connect(self.like_false_situation)
         self.choice_btn.clicked.connect(self.jjim_situation)
+        self.search_btn_2.clicked.connect(self.search_recipe_by_name)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -91,6 +95,7 @@ class Main(QWidget):
         self.recipe_id_signal.connect(self.search_recipe)
         self.like_check_signal.connect(self.recipe_like_check)
         self.recipe_jjim_signal.connect(self.recipe_jjim_show)
+        self.recipe_random_signal.connect(self.go_main_page)
 
     # ============================= 로그인 ==================================
     def login_check(self):
@@ -106,7 +111,8 @@ class Main(QWidget):
     def login_check_situation(self, login_):
         """로그인 성공 여부 시그널 받는 함수"""
         if login_:
-            self.go_main_page()
+            self.random_recipe_show()
+
         else:
             self.id_line.clear()
             self.pw_line.clear()
@@ -187,10 +193,44 @@ class Main(QWidget):
             self.error_box.exec_()
             self.stackedWidget.setCurrentIndex(0)
 
-    def go_main_page(self):
-        """로그인 페이지에서 메인 페이지 이동 함수"""
+    def random_recipe_show(self):
+        """로그인 페이지에서 메인 페이지 이동하기 전 홈 화면 추천 레시피 출력 서버에 보내는 함수"""
+        user_id = self.client.user_id
+        self.client.send_recipe_random_access(user_id)
+
+    def go_main_page(self, random_):
+        """메인페이지 출력 / 추천 레시피 랜덤으로 출력해주는 함수"""
+        random_recipe = self.decoder.binary_to_obj(random_)
+        random.shuffle(random_recipe)
+        self.clear_layout(self.horizontalLayout)
+        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.horizontalLayout.addItem(spacer)
+        name_list = list()
+        id_list = list()
+        for recipe_ in random_recipe[:5]:
+            recipe_id = recipe_.recipe_id
+            id_list.append(recipe_id)
+            recipe_name = recipe_.recipe_name
+            name_list.append(recipe_name)
+        for i in range(len(name_list)):
+            recommend = Recommend(name_list[i])
+            self.horizontalLayout.insertWidget(len(self.horizontalLayout) - 1, recommend)
+            recommend.mousePressEvent = lambda x=None, y=id_list[i]: self.recipe_page_clicked(y)
         self.stackedWidget.setCurrentIndex(2)
         self.home_page.setCurrentIndex(4)
+
+    def is_valid_password(self, password):
+        """비밀번호 영문자, 숫자, 특수기호 각각 1개 이상 사용하는지 확인하는 함수"""
+        has_lowercase = any(c.islower() for c in password)
+        has_uppercase = any(c.isupper() for c in password)
+        has_digit = any(c.isdigit() for c in password)
+        has_special = any(c for c in password if c in "!@#$%^&*()_+[]{}|;:,.<>?")
+
+        # 모든 조건을 만족하는지 검사
+        if (has_lowercase or has_uppercase) and has_digit and has_special:
+            return 1
+        else:
+            return -1
 
     # =============================== 이름 검색 페이지 =================================
     def name_search_page(self):
@@ -199,7 +239,7 @@ class Main(QWidget):
         self.client.send_recipe_all_access(recipe_)
 
     def name_search_recipe_show(self, recipes_):
-        """이름으로 레시피 검색 함수"""
+        """이름 검색 화면 레시피 출력 함수"""
         self.clear_layout(self.verticalLayout_4)
         spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacer)
@@ -210,8 +250,7 @@ class Main(QWidget):
             recipe_name = i.recipe_name
             recipe_type = i.recipe_type
             recipe = Recipes(recipe_name, recipe_type)
-            recipe.setParent(self.scrollAreaWidgetContents_5)
-            self.scrollArea_5.widget().layout().insertWidget(len(self.scrollArea_5.widget().layout()) - 1, recipe)
+            self.verticalLayout_4.insertWidget(len(self.verticalLayout_4) - 1, recipe)
             recipe.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
 
     # ================================ 마이 페이지 =====================================
@@ -240,7 +279,6 @@ class Main(QWidget):
         recipe_datas = self.decoder.binary_to_obj(recipe_data)
         recipe_id = recipe_datas.recipe_id
         recipe_name = recipe_datas.recipe_name
-        recipe_type = recipe_datas.recipe_type
         recipe_stuff = recipe_datas.recipe_stuff
         recipe_step = recipe_datas.recipe_step
         # 재료 출력
@@ -260,25 +298,9 @@ class Main(QWidget):
         step_split = recipe_step.split("|")
         for i, v in enumerate(step_split):
             cooking = Cooking(i, v)
-            cooking.setParent(self.scrollAreaWidgetContents)
-            self.scrollArea.widget().layout().insertWidget(len(self.scrollArea.widget().layout()) - 1, cooking)
+            self.verticalLayout_3.insertWidget(len(self.verticalLayout_3) - 1, cooking)
         user_id = self.client.user_id
         self.client.send_like_check(user_id, recipe_id)
-
-
-
-    def is_valid_password(self, password):
-        """비밀번호 영문자, 숫자, 특수기호 각각 1개 이상 사용하는지 확인하는 함수"""
-        has_lowercase = any(c.islower() for c in password)
-        has_uppercase = any(c.isupper() for c in password)
-        has_digit = any(c.isdigit() for c in password)
-        has_special = any(c for c in password if c in "!@#$%^&*()_+[]{}|;:,.<>?")
-
-        # 모든 조건을 만족하는지 검사
-        if (has_lowercase or has_uppercase) and has_digit and has_special:
-            return 1
-        else:
-            return -1
 
     def clear_layout(self, layout: QLayout):
         """레이아웃 안의 모든 객체를 지우는 함수"""
@@ -294,10 +316,20 @@ class Main(QWidget):
             else:
                 self.clear_layout(item.layout())
 
+    def search_recipe_by_name(self):
+        """레시피 페이지 이름 검색버특 클릭시 이벤트 함수"""
+        search_name = self.lineEdit.text()
+        recipe_list = self.scrollAreaWidgetContents_5.findChildren(Recipes)
+
+        for recipe_ in recipe_list:
+            if search_name in recipe_.label_2.text():
+                recipe_.setVisible(True)
+            else:
+                recipe_.setVisible(False)
+
    # ======================================== 찜하기 =========================================
     def recipe_like_check(self, like_):
         """찜버튼 클릭 여부 확인"""
-        print("찜버튼 클릭 여부 확인 :", like_)
         if like_:
             self.like_btn.hide()    # 찜하기
             self.like_btn_2.show()  # 찜한
@@ -340,8 +372,7 @@ class Main(QWidget):
             recipe_id = rcp.recipe_id
             recipe_name = rcp.recipe_name
             like_page = Likes(recipe_name)
-            like_page.setParent(self.scrollAreaWidgetContents_4)
-            self.scrollArea_4.widget().layout().insertWidget(len(self.scrollArea_4.widget().layout()) - 1, like_page)
+            self.verticalLayout_5.insertWidget(len(self.verticalLayout_5) - 1, like_page)
             like_page.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
             like_page.jjim_btn.clicked.connect(lambda x=None, y=recipe_id: self.jjim_del(y))
         self.home_page.setCurrentIndex(3)
@@ -351,10 +382,6 @@ class Main(QWidget):
         user_id = self.client.user_id
         self.client.send_hate_access(user_id, recipe_id)
         self.jjim_situation()
-
-
-
-
 
 
 
