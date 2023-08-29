@@ -9,6 +9,7 @@ from Source.View.Ingredient import Ingredient
 from Source.View.Like import Likes
 from Source.View.Recipes import Recipes
 from Source.View.Recommend import Recommend
+from Source.View.Suggest import Suggest
 from Source.View.Telegram import TelegramBot
 from Source.View.Error import Error
 from threading import Thread
@@ -316,7 +317,17 @@ class Main(QWidget):
     def my_page_show(self, recommend_list):
         """마이 페이지 추천 음식 데이터 출력 함수"""
         recipes = self.decoder.binary_to_obj(recommend_list)
-
+        self.clear_layout(self.gridLayout)
+        r, c = 0, 0
+        for rcp in recipes:
+            recipe_id = rcp.recipe_id
+            recipe_name = rcp.recipe_name
+            suggest = Suggest(recipe_name)
+            self.gridLayout.addWidget(suggest, r, c)
+            c += 1
+            if c == 3:
+                c = 0
+                r = 1
         self.home_page.setCurrentIndex(2)
 
 
