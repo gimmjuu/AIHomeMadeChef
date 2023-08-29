@@ -1231,8 +1231,8 @@ border-style:solid;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>552</width>
-            <height>351</height>
+            <width>546</width>
+            <height>345</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -1465,8 +1465,8 @@ border-width:3px;
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>545</width>
-           <height>135</height>
+           <width>549</width>
+           <height>139</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -1564,8 +1564,8 @@ border-width:3px;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>545</width>
-           <height>279</height>
+           <width>549</width>
+           <height>283</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -1659,8 +1659,8 @@ border-style:solid;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>530</width>
-           <height>541</height>
+           <width>528</width>
+           <height>539</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1815,7 +1815,7 @@ boder-width: 0px;
           <x>39</x>
           <y>35</y>
           <width>520</width>
-          <height>150</height>
+          <height>160</height>
          </rect>
         </property>
         <property name="currentIndex">
@@ -1828,7 +1828,7 @@ boder-width: 0px;
             <x>0</x>
             <y>0</y>
             <width>520</width>
-            <height>150</height>
+            <height>160</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -1843,7 +1843,7 @@ border-style:solid;</string>
              <x>0</x>
              <y>0</y>
              <width>520</width>
-             <height>150</height>
+             <height>160</height>
             </rect>
            </property>
            <property name="text">
@@ -1860,7 +1860,7 @@ border-style:solid;</string>
            <property name="geometry">
             <rect>
              <x>260</x>
-             <y>20</y>
+             <y>28</y>
              <width>251</width>
              <height>31</height>
             </rect>
@@ -1886,7 +1886,7 @@ color: rgb(100, 100, 100);</string>
            <property name="geometry">
             <rect>
              <x>255</x>
-             <y>60</y>
+             <y>65</y>
              <width>91</width>
              <height>31</height>
             </rect>
@@ -1912,7 +1912,7 @@ color: rgb(90, 90, 90);</string>
            <property name="geometry">
             <rect>
              <x>341</x>
-             <y>60</y>
+             <y>65</y>
              <width>81</width>
              <height>31</height>
             </rect>
@@ -1938,7 +1938,7 @@ color: rgb(255, 0, 0);</string>
            <property name="geometry">
             <rect>
              <x>418</x>
-             <y>60</y>
+             <y>65</y>
              <width>91</width>
              <height>31</height>
             </rect>
@@ -1964,7 +1964,7 @@ color: rgb(90, 90, 90);</string>
            <property name="geometry">
             <rect>
              <x>262</x>
-             <y>90</y>
+             <y>95</y>
              <width>241</width>
              <height>31</height>
             </rect>
@@ -1995,9 +1995,50 @@ color: rgb(90, 90, 90);</string>
             <x>0</x>
             <y>0</y>
             <width>520</width>
-            <height>150</height>
+            <height>160</height>
            </rect>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(229, 207, 157);</string>
+          </property>
+          <widget class="QLabel" name="label_31">
+           <property name="geometry">
+            <rect>
+             <x>152</x>
+             <y>0</y>
+             <width>220</width>
+             <height>35</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../Images/tenten.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_32">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>36</y>
+             <width>201</width>
+             <height>123</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../Images/tenten2.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
          </widget>
         </widget>
        </widget>
@@ -2093,8 +2134,8 @@ border-style: solid;</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>551</width>
-           <height>511</height>
+           <width>549</width>
+           <height>509</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">

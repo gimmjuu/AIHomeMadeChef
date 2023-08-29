@@ -49,6 +49,7 @@ class Main(QWidget):
         self.encoder = ObjEncoder()
         self.decoder = ObjDecoder()
 
+
         # 에러 메시지 다이얼로그
         self.error_box = Error()
 
@@ -196,6 +197,9 @@ class Main(QWidget):
     def random_recipe_show(self):
         """로그인 페이지에서 메인 페이지 이동하기 전 홈 화면 추천 레시피 출력 서버에 보내는 함수"""
         user_id = self.client.user_id
+        user_name = self.client.user_name
+        self.lbl_user_name.setText(user_name)
+        self.lbl_user_id.setText(user_id)
         self.client.send_recipe_random_access(user_id)
 
     def go_main_page(self, random_):
@@ -262,12 +266,8 @@ class Main(QWidget):
     def my_page_show(self, user_data):
         """마이 페이지 이동 함수"""
         user_ = self.decoder.binary_to_obj(user_data)
-        user_id = user_.user_id
-        user_name = user_.user_name
-        user_taste = user_.user_taste
         self.home_page.setCurrentIndex(2)
-        self.lbl_user_name.setText(user_name)
-        self.lbl_user_id.setText(user_id)
+
 
     # ============================================ 레시피  ===========================================
     def recipe_page_clicked(self, recipe_id):
