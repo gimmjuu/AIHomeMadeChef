@@ -17,7 +17,7 @@ class Classification:
     def __init__(self):
         # --- temp model
         # self.model = YOLO(r"D:\AIHomeMadeChef\Document\trained_model.onnx", task="detect")
-        self.model = YOLO(r"/Document/best.pt", task="detect")
+        self.model = YOLO(r"../../Document/best.pt", task="detect")
 
     def classify_obj_from_img(self, t_path: str=None):
         result_list = list()
