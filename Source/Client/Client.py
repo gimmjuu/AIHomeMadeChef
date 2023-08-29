@@ -23,6 +23,7 @@ class ClientApp:
     recipe_hate = "recipe_hate"
     like_check = "like_check"
     recipe_jjim = "recipe_jjim"
+    recipe_random = "recipe_random"
 
     def __init__(self):
         self.user_id = None
@@ -104,10 +105,18 @@ class ClientApp:
         self.fixed_volume(header_data, data_msg_str)
 
     def send_recipe_jjim_access(self, user_id):
+        """레시피 찜 목록 출력을 위해 서버로 전송"""
         data_msg = User(user_id)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.recipe_jjim
         self.fixed_volume(header_data, data_msg_str)
+
+    def send_recipe_random_access(self, recipe_):
+        """홈화면 켜질때 추천 레시피 출력을 위해 서버로 전송"""
+        data_msg = recipe_
+        header_data = self.recipe_random
+        self.fixed_volume(header_data, data_msg)
+
 
 
     def fixed_volume(self, header, data):
@@ -170,4 +179,8 @@ class ClientApp:
             # 레시피 찜목록 출력
             if response_header == self.recipe_jjim:
                 self.client_widget.recipe_jjim_signal.emit(response_data)
+
+            # 레시피 랜덤으로 추천 출력
+            if response_header == self.recipe_random:
+                self.client_widget.recipe_random_signal.emit(response_data)
 
