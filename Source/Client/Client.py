@@ -6,8 +6,8 @@ from Source.Data.Data import *
 
 
 class ClientApp:
-    HOST = '10.10.20.113'
-    # HOST = '127.0.0.1'
+    # HOST = '10.10.20.113'
+    HOST = '127.0.0.1'
     PORT = 9070
     BUFFER = 150000
     FORMAT = "utf-8"
@@ -16,7 +16,7 @@ class ClientApp:
     login_check = "login_check"
     member_id_check = "member_id_check"
     member_join = "member_join"
-    my_page_data = "my_page_data"
+    recommend_data = "recommend_data"
     recipe_all = "recipe_all"
     recipe_id = "recipe_id"
     recipe_like = "recipe_like"
@@ -63,11 +63,11 @@ class ClientApp:
         header_data = self.member_join
         self.fixed_volume(header_data, data_msg_str)
 
-    def send_my_page_data_access(self, user_id):
+    def send_recommend_data_access(self, user_id, user_taste):
         """마이 페이지 데이터 서버로 전송"""
-        data_msg = User(user_id)
+        data_msg = User(user_id, user_taste=user_taste)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
-        header_data = self.my_page_data
+        header_data = self.recommend_data
         self.fixed_volume(header_data, data_msg_str)
 
     def send_recipe_all_access(self, recipe_):
@@ -78,7 +78,7 @@ class ClientApp:
 
     def send_recipe_id_access(self, recipe_id):
         """레시피 아이디로 데이터 조회 서버로 전송"""
-        data_msg = Recipe(recipe_id, None)
+        data_msg = Recipe(recipe_id)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.recipe_id
         self.fixed_volume(header_data, data_msg_str)
@@ -117,8 +117,6 @@ class ClientApp:
         header_data = self.recipe_random
         self.fixed_volume(header_data, data_msg)
 
-
-
     def fixed_volume(self, header, data):
         """데이터 길이 맞춰서 서버로 전송"""
         header_msg = f"{header:<{self.HEADER_LENGTH}}".encode(self.FORMAT)
@@ -131,6 +129,7 @@ class ClientApp:
             return_result_ = self.client_socket.recv(self.BUFFER).decode(self.FORMAT)
             response_header = return_result_[:self.HEADER_LENGTH].strip()
             response_data = return_result_[self.HEADER_LENGTH:].strip()
+
             # 로그인
             if response_header == self.login_check:
                 if response_data == '.':
@@ -140,6 +139,7 @@ class ClientApp:
                     self.user_id = object_data.user_id
                     self.user_name = object_data.user_name
                     self.client_widget.login_check_signal.emit(True)
+
             # 회원가입 아이디 중복 확인
             if response_header == self.member_id_check:
                 if response_data == '.':
@@ -151,9 +151,9 @@ class ClientApp:
             if response_header == self.member_join:
                 self.client_widget.member_join_signal.emit(True)
 
-            # 마이 페이지 데이터
-            if response_header == self.my_page_data:
-                self.client_widget.my_page_data_signal.emit(response_data)
+            # 마이 페이지 추천 레시피 데이터
+            if response_header == self.recommend_data:
+                self.client_widget.recommend_data_signal.emit(response_data)
 
             # 레시피 전체 데이터
             if response_header == self.recipe_all:

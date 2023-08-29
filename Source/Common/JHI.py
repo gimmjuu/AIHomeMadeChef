@@ -14,10 +14,9 @@ def main():
     app.setStyle("Fusion")
 
     fontDB = QFontDatabase()
-    fontDB.addApplicationFont("../../Font/NanumSquareRoundB.ttf")
-    fontDB.addApplicationFont("../../Font/NanumSquareRoundEB.ttf")
-    fontDB.addApplicationFont("../../Font/NanumSquareRoundL.ttf")
-    fontDB.addApplicationFont("../../Font/NanumSquareRoundR.ttf")
+    fontDB.addApplicationFont("../../Font/GMARKETSANSTTFBOLD.ttf")
+    fontDB.addApplicationFont("../../Font/KIMJUNGCHULSCRIPT-REGULAR.ttf")
+    fontDB.addApplicationFont("../../Font/TMONEYROUNDWINDEXTRABOLD.ttf")
 
     app.exec()
 

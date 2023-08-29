@@ -1,50 +1,44 @@
 """
 날짜 : 23/08/25
 작성 : 주혜인
-내용 : 시스템 폰트 이외의 폰트 설정을 위한 MyFont Class 파일입니다.
+내용 : 시스템 폰트 이외의 커스텀 폰트 설정을 위한 MyFont Class 파일입니다.
 """
 from PyQt5.QtGui import QFont
 
 
 class MyFont:
     @staticmethod
-    def title(t_size: int = 48):
+    def tmoney_font(t_size: int):
         """
-        Font for title text
+        Font 티머니 둥근바람
         :param t_size: font-size
-        :return: 나눔스퀘어라운드 ExtraBold
+        :return: 티머니 둥근바람 ExtraBold
         """
         font = QFont()
         font.setPointSize(t_size)
-        font.setFamily("나눔스퀘어라운드 ExtraBold")
+        font.setFamily("티머니 둥근바람 ExtraBold")
         return font
 
     @staticmethod
-    def button(t_size: int = 13):
+    def gmarket_font(t_size: int):
         """
-        Font for button text
+        Font 지마켓산스
         :param t_size: font-size
-        :return: 나눔스퀘어라운드 ExtraBold
+        :return:
         """
         font = QFont()
         font.setPointSize(t_size)
-        font.setFamily("나눔스퀘어라운드 ExtraBold")
+        font.setFamily("G마켓 산스 TTF Bold")
         return font
 
     @staticmethod
-    def text(t_size: int = 13, t_bold: bool = True):
+    def retro_font(t_size: int):
         """
-        Font for button text
+        Font 김정철
         :param t_size: font-size
-        :param t_bold: default = True
-        :return: 나눔스퀘어라운드 Bold | Regular
+        :return:
         """
         font = QFont()
         font.setPointSize(t_size)
-
-        if t_bold:
-            font.setFamily("나눔스퀘어라운드 Bold")
-        else:
-            font.setFamily("나눔스퀘어라운드 Regular")
-
+        font.setFamily("Kim jung chul Script Regular")
         return font

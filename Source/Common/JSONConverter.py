@@ -27,7 +27,6 @@ class ObjEncoder(json.JSONEncoder):
         return self.obj_to_JSON_with_encode(obj)
 
     def obj_to_JSON_with_encode(self, obj):
-        print(obj.__dict__)
         json_string = json.dumps(obj, default=lambda o: o.__dict__)
         encoded_string = self.encode(json_string)
         return encoded_string

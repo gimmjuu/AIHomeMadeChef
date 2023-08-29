@@ -18,7 +18,7 @@ class Main(QWidget):
     login_check_signal = pyqtSignal(bool)
     member_id_check_signal = pyqtSignal(bool)
     member_join_signal = pyqtSignal(bool)
-    my_page_data_signal = pyqtSignal(str)
+    recommend_data_signal = pyqtSignal(str)
     recipe_all_signal = pyqtSignal(str)
     recipe_id_signal = pyqtSignal(str)
     recipe_like_signal = pyqtSignal(str)
@@ -91,7 +91,7 @@ class Main(QWidget):
         self.login_check_signal.connect(self.login_check_situation)
         self.member_id_check_signal.connect(self.member_id_check_situation)
         self.member_join_signal.connect(self.member_join_clear)
-        self.my_page_data_signal.connect(self.my_page_show)
+        self.recommend_data_signal.connect(self.my_page_show)
         self.recipe_all_signal.connect(self.name_search_recipe_show)
         self.recipe_id_signal.connect(self.search_recipe)
         self.like_check_signal.connect(self.recipe_like_check)
@@ -259,13 +259,19 @@ class Main(QWidget):
 
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):
-        """마이 페이지 데이터 서버에 요청 함수"""
+        """마이 페이지용 추천 음식 데이터 서버에 요청 함수"""
         user_id = self.client.user_id
-        self.client.send_my_page_data_access(user_id)
+        # 임시 데이터
+        user_taste = ["11", "222", "3"]
 
-    def my_page_show(self, user_data):
-        """마이 페이지 이동 함수"""
-        user_ = self.decoder.binary_to_obj(user_data)
+        if user_taste:
+            self.client.send_recommend_data_access(user_id, user_taste)
+        else:
+            self.home_page.setCurrentIndex(2)
+
+    def my_page_show(self, recommend_list):
+        """마이 페이지 추천 음식 데이터 출력 함수"""
+        recipes = self.decoder.binary_to_obj(recommend_list)
         self.home_page.setCurrentIndex(2)
 
 

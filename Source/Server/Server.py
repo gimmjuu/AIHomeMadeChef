@@ -1,18 +1,17 @@
-import os
-import threading
+import select
+
 from socket import *
-from threading import Thread, Event, Timer
+from threading import Thread
 
 from Source.Common.DBConnector import DBConnector
 from Source.Common.JSONConverter import ObjEncoder, ObjDecoder
 from Source.Data.Data import *
 from Source.Server.Nomination import Nomination
-import select
 
 
 class Server:
-    HOST = '10.10.20.113'
-    # HOST = '127.0.0.1'
+    # HOST = '10.10.20.113'
+    HOST = '127.0.0.1'
     PORT = 9070
     BUFFER = 150000
     FORMAT = "utf-8"
@@ -21,7 +20,7 @@ class Server:
     login_check = "login_check"
     member_id_check = "member_id_check"
     member_join = "member_join"
-    my_page_data = "my_page_data"
+    recommend_data = "recommend_data"
     recipe_all = "recipe_all"
     recipe_id = "recipe_id"
     recipe_like = "recipe_like"
@@ -103,9 +102,8 @@ class Server:
             request_header = recv_message[:self.HEADER_LENGTH].strip().decode(self.FORMAT)
             request_data = recv_message[self.HEADER_LENGTH:].strip().decode(self.FORMAT)
             print(f"Server RECEIVED: ({request_header})")
-            # print(request_header)
-            # print(type(request_header))
-        except:
+        except Exception as e:
+            print("[ Server Error ]", e)
             return False
 
         # 로그인
@@ -147,11 +145,12 @@ class Server:
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
-        # 마이페이지
-        if request_header == self.my_page_data:
+        # 마이페이지 : 추천 레시피 조회
+        if request_header == self.recommend_data:
             object_ = self.decoder.binary_to_obj(request_data)
-            result_ = self.db_conn.get_userinfo_by_id(object_.user_id)
-            response_header = self.my_page_data
+            print(object_.user_id, object_.user_taste)
+            result_ = self.get_nomination_result(object_.user_id, object_.user_taste)
+            response_header = self.recommend_data
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
@@ -217,18 +216,17 @@ class Server:
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
-    def get_nomination_result(self):
+    def get_nomination_result(self, user_id: str, user_taste: list):
         """각 사용자의 선호에 맞는 추천 레시피 반환 -> 6개의 아이디 리스트"""
         result = list()
-        user_id = ''
-        tastes = []
 
         nm = Nomination()
         nm.load_dataset()
-        recommends = nm.get_recommendation_list(user_id, tastes)
+        recommends = nm.get_recommendation_list(user_id, user_taste)
 
         for item in recommends:
-            result.append(Recipe(recipe_id=item))
+            data_ = self.db_conn.select_data("\"RECIPE_NM\"", "\"TB_RECIPE\"", f"\"RECIPE_ID\" = '{item}'")
+            result.append(Recipe(recipe_id=item, recipe_name=data_[0][0]))
 
         print("[서버] 추천 음식 개수 :", len(result))
         return result

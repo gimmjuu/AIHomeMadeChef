@@ -3,6 +3,7 @@ import sys
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtGui import QFontDatabase
 
 from Source.Client.Client import ClientApp
 from Source.View.Main import Main
@@ -12,6 +13,10 @@ class Start(QWidget):
     def __init__(self):
         super().__init__()
         loadUi('../../UI/StartPage.ui', self)
+        fontDB = QFontDatabase()
+        fontDB.addApplicationFont("../../Font/GMARKETSANSTTFBOLD.ttf")
+        fontDB.addApplicationFont("../../Font/KIMJUNGCHULSCRIPT-REGULAR.ttf")
+        fontDB.addApplicationFont("../../Font/TMONEYROUNDWINDEXTRABOLD.ttf")
         self.window_option()
         self.timer_event()
 
@@ -35,6 +40,7 @@ class Start(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
     client = ClientApp()
     myWindow = Start()
     myWindow.show()
