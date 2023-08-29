@@ -15,13 +15,14 @@ class Classification:
         return cls.__instance__
 
     def __init__(self):
+        self.file_path = r"../Source/Data/Temp/"
         # --- temp model
         # self.model = YOLO(r"D:\AIHomeMadeChef\Document\trained_model.onnx", task="detect")
-        self.model = YOLO(r"/Document/best.pt", task="detect")
+        self.model = YOLO(r"/Document/trained_model.pt", task="detect")
 
-    def classify_obj_from_img(self, t_path: str=None):
+    def classify_obj_from_img(self, t_file: str=None):
         result_list = list()
-        predicted_result = self.model.predict(source=fr"{t_path}", save=False)
+        predicted_result = self.model.predict(source=fr"{self.file_path}{t_file}", save=False)
 
         for v_ in predicted_result:
             if v_.boxes:
