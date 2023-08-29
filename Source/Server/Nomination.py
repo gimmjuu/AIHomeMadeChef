@@ -26,7 +26,7 @@ class Nomination:
         db = DBConnector()
 
         # --- 사용자 선호 정보 조회
-        query_1 = "\"USER_ID\", \"RECIPE_NM\""
+        query_1 = "\"USER_ID\", \"RECIPE_ID\""
         query_2 = "\"TB_PREFER\" natural join \"TB_RECIPE\""
         rows = db.select_data(query_1, query_2)
 
@@ -38,17 +38,17 @@ class Nomination:
             self.user_likes[k_].append(v_)
 
         # --- 레시피 데이터 조회
-        query_3 = "\"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\""
+        query_3 = "\"RECIPE_ID\", \"RECIPE_TY\", \"RECIPE_INGR\""
         query_4 = "\"TB_RECIPE\""
         rows = db.select_data(query_3, query_4)
 
         recipes = dict()
-        recipes["RECIPE_NM"] = list()
+        recipes["RECIPE_ID"] = list()
         recipes["RECIPE_TY"] = list()
         recipes["RECIPE_INGR"] = list()
 
         for (i, j, k) in rows:
-            recipes["RECIPE_NM"].append(i)
+            recipes["RECIPE_ID"].append(i)
             recipes["RECIPE_TY"].append(j)
             recipes["RECIPE_INGR"].append(k)
 
@@ -65,14 +65,14 @@ class Nomination:
         cosine_sim_content = linear_kernel(tfidf_matrix, tfidf_matrix)
 
         # 콘텐츠 기반 필터링 결과 → 디버깅 완료
-        content_idx = self.recipes[self.recipes['RECIPE_NM'] == recipe_nm].index[0]
+        content_idx = self.recipes[self.recipes['RECIPE_ID'] == recipe_nm].index[0]
         content_sim_scores = list(enumerate(cosine_sim_content[content_idx]))
         content_sim_scores = sorted(content_sim_scores, key=lambda x: x[1], reverse=True)
 
         return content_sim_scores
 
     def get_collaborative_filtering(self, user):
-        ratings = pd.DataFrame(index=self.user_likes.keys(), columns=self.recipes['RECIPE_NM'])
+        ratings = pd.DataFrame(index=self.user_likes.keys(), columns=self.recipes['RECIPE_ID'])
         for user, liked_recipes in self.user_likes.items():
             ratings.loc[user, liked_recipes] = 1
 
@@ -91,8 +91,8 @@ class Nomination:
     # === 하이브리드 모델 정의
     def get_hybrid_recommendations(self, collaborative_sim_scores, content_sim_scores, num_recommendations=2):
         # 가중치 조정 (실험적으로 조정)
-        content_weight = 0.5  # 콘텐츠 기반 유사도 가중치
-        collaborative_weight = 0.5  # 협업 필터링 유사도 가중치
+        content_weight = 0.4  # 콘텐츠 기반 유사도 가중치
+        collaborative_weight = 0.6  # 협업 필터링 유사도 가중치
 
         # 가중 평균하여 추천
         hybrid_sim_scores = [(idx, content_sim * content_weight + collaborative_sim * collaborative_weight)
@@ -103,14 +103,14 @@ class Nomination:
         hybrid_sim_scores = hybrid_sim_scores[1:num_recommendations+1]
 
         recipe_indices = [i[0] for i in hybrid_sim_scores]
-        return self.recipes['RECIPE_NM'].iloc[recipe_indices]
+        return self.recipes['RECIPE_ID'].iloc[recipe_indices]
 
     def get_recommendation_list(self, user_id:str, user_taste: list):
         collaborative_result = self.get_collaborative_filtering(user_id)
 
         content_result = list()
         for i, v_ in enumerate(user_taste):
-            result_ = self.get_content_filtering(v_)
+            result_ = self.get_content_filtering(int(v_))
             content_result.append(result_)
 
         hybrid_recommended_recipes = list()
@@ -127,12 +127,13 @@ if __name__ == '__main__':
 
     # --- 추천에 사용할 개인화 정보
     user_ = 'lss'
-    recipe_title = ['동치미', '우유두부', '떡꼬치']
+    # recipe_title = ['동치미', '우유두부', '떡꼬치']
+    recipe_title = ['1', '2', '3']
 
     # --- 현재 데이터셋 확보 후 함수 호출
-    # nm.load_dataset()
-    # result = nm.get_recommendation_list(user_, recipe_title)
+    nm.load_dataset()
+    result = nm.get_recommendation_list(user_, recipe_title)
 
     # --- 총 6종의 추천 음식을 리스트의 형태로 반환
-    # print(user_, "님의 추천 음식 :", result)
+    print(user_, "님의 추천 음식 :", result)
     # lss 님의 추천 음식 : ['굴깍두기', '배추밤김치', '오징어불고기', '무말랭이무침', '떡국', '돼지불고기']

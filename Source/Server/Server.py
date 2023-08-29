@@ -6,6 +6,7 @@ from threading import Thread, Event, Timer
 from Source.Common.DBConnector import DBConnector
 from Source.Common.JSONConverter import ObjEncoder, ObjDecoder
 from Source.Data.Data import *
+from Source.Server.Nomination import Nomination
 import select
 
 
@@ -145,7 +146,7 @@ class Server:
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
-        # 마이페이지
+        # 마이페이지 : 사용자 선호 정보가 있는 경우,
         if request_header == self.my_page_data:
             object_ = self.decoder.binary_to_obj(request_data)
             result_ = self.db_conn.get_userinfo_by_id(object_.user_id)
@@ -207,5 +208,18 @@ class Server:
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
+    def get_nomination_result(self):
+        """각 사용자의 선호에 맞는 추천 레시피 반환 -> 6개의 아이디 리스트"""
+        result = list()
+        user_id = ''
+        tastes = []
 
+        nm = Nomination()
+        nm.load_dataset()
+        recommends = nm.get_recommendation_list(user_id, tastes)
 
+        for item in recommends:
+            result.append(Recipe(recipe_id=item))
+
+        print("[서버] 추천 음식 개수 :", len(result))
+        return result
