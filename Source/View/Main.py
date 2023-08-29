@@ -1,7 +1,7 @@
-from PyQt5.QtGui import QMovie
 from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel
-from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt, pyqtSignal, QByteArray, QTimer
+from PyQt5.QtGui import QPixmap, QMovie
+from PyQt5.uic import loadUi
 
 from Source.Common.JSONConverter import *
 from Source.View.Cooking import Cooking
@@ -93,7 +93,7 @@ class Main(QWidget):
         self.back_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.id_check.clicked.connect(self.member_id_check)
         # 메인화면 버튼
-        self.picture_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(0))
+        self.picture_btn.clicked.connect(self.picture_page_show)
         self.search_btn.clicked.connect(self.classify_food_image)
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
@@ -286,12 +286,20 @@ class Main(QWidget):
             recipe.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
 
     # ================================ 이미지 검색 =====================================
+    def picture_page_show(self):
+        """이미지 검색 화면 초기화 함수"""
+        self.lbl_imgview: QLabel
+        # self.lbl_imgview.setObjectName("")
+        self.lbl_imgview.clear()
+        print(self.lbl_imgview.objectName())
+        self.home_page.setCurrentIndex(0)
+
     def classify_food_image(self):
+        """음식 이미지 검색 함수 호출"""
         file_path = self.lbl_imgview.objectName()
 
         if file_path:
-            pass
-            # 여기서 클라이언트 함수 호출!
+            self.client.classify_food_id_from_img(file_path)
 
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):
@@ -308,6 +316,7 @@ class Main(QWidget):
     def my_page_show(self, recommend_list):
         """마이 페이지 추천 음식 데이터 출력 함수"""
         recipes = self.decoder.binary_to_obj(recommend_list)
+
         self.home_page.setCurrentIndex(2)
 
 

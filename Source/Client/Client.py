@@ -43,6 +43,11 @@ class ClientApp:
     def set_widget(self, widget_):
         self.client_widget = widget_
 
+    def classify_food_id_from_img(self, file_path: str):
+        cf = Classification()
+        result = cf.classify_obj_from_img(file_path)
+        print(len(result))
+
     def send_login_check_access(self, user_id, user_pwd):
         """로그인 데이터 서버로 전송"""
         data_msg = User(user_id, user_pwd)
