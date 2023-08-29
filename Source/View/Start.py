@@ -40,7 +40,7 @@ class Start(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    # app.setStyle("Fusion")
     client = ClientApp()
     myWindow = Start()
     myWindow.show()
