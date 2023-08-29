@@ -94,7 +94,7 @@ class Main(QWidget):
         self.id_check.clicked.connect(self.member_id_check)
         # 메인화면 버튼
         self.picture_btn.clicked.connect(lambda: self.home_page.setCurrentIndex(0))
-        self.search_btn.clicked.connect(self.search_recipe)
+        self.search_btn.clicked.connect(self.classify_food_image)
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
         self.home_btn.clicked.connect(self.home_menu)
@@ -283,6 +283,14 @@ class Main(QWidget):
             recipe = Recipes(recipe_name, recipe_type)
             self.verticalLayout_4.insertWidget(len(self.verticalLayout_4) - 1, recipe)
             recipe.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
+
+    # ================================ 이미지 검색 =====================================
+    def classify_food_image(self):
+        file_path = self.lbl_imgview.objectName()
+
+        if file_path:
+            pass
+            # 여기서 클라이언트 함수 호출!
 
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):

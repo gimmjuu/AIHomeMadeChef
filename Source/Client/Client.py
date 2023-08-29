@@ -3,6 +3,7 @@ from threading import *
 
 from Source.Common.JSONConverter import ObjEncoder, ObjDecoder
 from Source.Data.Data import *
+from Source.Client.Classification import Classification
 
 
 class ClientApp:
