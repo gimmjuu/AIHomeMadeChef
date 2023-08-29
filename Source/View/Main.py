@@ -1,6 +1,7 @@
+from PyQt5.QtGui import QMovie
 from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSignal, QByteArray, QTimer
 
 from Source.Common.JSONConverter import *
 from Source.View.Cooking import Cooking
@@ -57,6 +58,23 @@ class Main(QWidget):
         self.img_thread = Thread(target=self.telebot.start_polling, daemon=True)
         self.img_thread.start()
 
+        # gif 실행 코드
+        self.movie = QMovie('../../Images/cafe.gif', QByteArray(), self)
+        self.movie_2 = QMovie('../../Images/trip.gif', QByteArray(), self)
+        self.movie.setCacheMode(QMovie.CacheAll)
+        self.movie_2.setCacheMode(QMovie.CacheAll)
+        self.label_33.setMovie(self.movie) # 샌드위치 gif
+        self.label_35.setMovie(self.movie_2) # 요리 여행 gif
+        self.movie.start()
+        self.movie_2.start()
+
+        # 광고 배너 qtimer
+        self.timer = QTimer(self)
+        self.timer.start(5000)  # 5초 반복
+        self.timer.timeout.connect(self.timer_event)
+        self.ad.setCurrentIndex(0)
+        self.ad_count = 1
+
     def lbl_event(self):
         """라벨 클릭 이벤트 함수"""
         self.label_11.mousePressEvent = self.close_event
@@ -97,6 +115,15 @@ class Main(QWidget):
         self.like_check_signal.connect(self.recipe_like_check)
         self.recipe_jjim_signal.connect(self.recipe_jjim_show)
         self.recipe_random_signal.connect(self.go_main_page)
+
+    # ============================= 메인화면 광고배너 =================================
+    def timer_event(self):
+        """광고배너 타이머 이벤트 함수"""
+        ad_list = [0, 1]
+        self.ad.setCurrentIndex(ad_list[self.ad_count])
+        self.ad_count += 1
+        if self.ad_count == 2:
+            self.ad_count = 0
 
     # ============================= 로그인 ==================================
     def login_check(self):
@@ -211,7 +238,7 @@ class Main(QWidget):
         self.horizontalLayout.addItem(spacer)
         name_list = list()
         id_list = list()
-        for recipe_ in random_recipe[:5]:
+        for recipe_ in random_recipe[:3]:
             recipe_id = recipe_.recipe_id
             id_list.append(recipe_id)
             recipe_name = recipe_.recipe_name
