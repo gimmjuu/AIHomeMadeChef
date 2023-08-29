@@ -77,7 +77,7 @@ border-style:dashed;</string>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>143</x>
+      <x>138</x>
       <y>20</y>
       <width>290</width>
       <height>41</height>
@@ -86,7 +86,7 @@ border-style:dashed;</string>
     <property name="font">
      <font>
       <family>티머니 둥근바람 ExtraBold</family>
-      <pointsize>17</pointsize>
+      <pointsize>15</pointsize>
      </font>
     </property>
     <property name="styleSheet">

@@ -27,6 +27,7 @@ class Server:
     like_check = "like_check"
     recipe_hate = "recipe_hate"
     recipe_jjim = "recipe_jjim"
+    recipe_random = "recipe_random"
     pass_encoded = "pass"
     dot_encoded = "."
 
@@ -203,6 +204,14 @@ class Server:
             object_ = self.decoder.binary_to_obj(request_data)
             result_ = self.db_conn.find_all_prefers_by_user_id(object_.user_id)
             response_header = self.recipe_jjim
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+
+        # 레시피 랜덤 출력
+        if request_header == self.recipe_random:
+            result_ = self.db_conn.find_all_recipe_list()
+            response_header = self.recipe_random
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
