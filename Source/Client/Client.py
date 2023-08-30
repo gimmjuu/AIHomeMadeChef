@@ -9,7 +9,7 @@ from Source.Model.Classification import Classification
 class ClientApp:
     # HOST = '10.10.20.113'
     HOST = '127.0.0.1'
-    PORT = 9070
+    PORT = 8080
     BUFFER = 300000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30

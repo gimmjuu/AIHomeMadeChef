@@ -292,6 +292,7 @@ class DBConnector:
 
         result_list = list()
         for row in data:
+            print(row[3])
             result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2], recipe_img=row[3])
             result_list.append(result)
         return result_list

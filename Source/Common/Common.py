@@ -11,4 +11,4 @@ def set_pixmap_from_url(t_label: QLabel, t_url: str):
     imgfromurl = urllib.request.urlopen(urlstring).read()
     pixmap = QPixmap()
     pixmap.loadFromData(imgfromurl)
-    t_label.setPixmap(pixmap)
+    t_label.setPixmap(pixmap.scaledToWidth(t_label.width()))

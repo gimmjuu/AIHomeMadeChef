@@ -106,7 +106,7 @@ class Main(QWidget):
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
         self.home_btn.clicked.connect(self.home_menu)
-        self.name_search_btn.clicked.connect(self.name_search_page)
+        self.name_search_btn.clicked.connect(self.name_search_recipe_show)
         self.like_btn.clicked.connect(self.like_true_situation)
         self.like_btn_2.clicked.connect(self.like_false_situation)
         self.choice_btn.clicked.connect(self.jjim_situation)
@@ -121,7 +121,7 @@ class Main(QWidget):
         self.member_id_check_signal.connect(self.member_id_check_situation)
         self.member_join_signal.connect(self.member_join_clear)
         self.recommend_data_signal.connect(self.my_page_show)
-        self.recipe_all_signal.connect(self.name_search_recipe_show)
+        # self.recipe_all_signal.connect(self.name_search_recipe_show)
         self.recipe_id_signal.connect(self.search_recipe)
         self.like_check_signal.connect(self.recipe_like_check)
         self.recipe_jjim_signal.connect(self.recipe_jjim_show)
@@ -244,16 +244,15 @@ class Main(QWidget):
 
     def go_main_page(self, random_):
         """메인페이지 출력 / 추천 레시피 랜덤으로 출력해주는 함수"""
-        random_recipe = self.decoder.binary_to_obj(random_)
-        self.name_search_recipe_show(random_)
-        random.shuffle(random_recipe)
+        self.all_recipe = self.decoder.binary_to_obj(random_)
+        random.shuffle(self.all_recipe)
         self.clear_layout(self.horizontalLayout)
         spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.horizontalLayout.addItem(spacer)
         name_list = list()
         id_list = list()
         img_list = list()
-        for recipe_ in random_recipe[:3]:
+        for recipe_ in self.all_recipe[:3]:
             recipe_id = recipe_.recipe_id
             id_list.append(recipe_id)
             recipe_name = recipe_.recipe_name
@@ -281,27 +280,19 @@ class Main(QWidget):
             return -1
 
     # =============================== 이름 검색 페이지 =================================
-    def name_search_page(self):
-        """이름 검색 버튼 클릭시 서버로 데이터 전송"""
-        recipe_ = -1
-        self.client.send_recipe_all_access(recipe_)
-
-    #### ★★★★★★★★★★★★★★★★★★★증 요★★★★★★★★★★★★★★★★★★★★★★★★★
-    #### ★★★★★★★★★★★★★★★★★★★스 크 롤★★★★★★★★★★★★★★★★★★★★★★★★★
-    def name_search_recipe_show(self, recipes_):
+    # ★★★★★★★★★★★★★★★★★★★증 요★★★★★★★★★★★★★★★★★★★★★★★★★
+    # ★★★★★★★★★★★★★★★★★★★스 크 롤★★★★★★★★★★★★★★★★★★★★★★★★★
+    def name_search_recipe_show(self):
         """이름 검색 화면 레시피 출력 함수"""
         self.clear_layout(self.verticalLayout_4)
         spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacer)
-        recipe_datas = self.decoder.binary_to_obj(recipes_)
-        for i in recipe_datas:
-            recipe_id = i.recipe_id
-            recipe_name = i.recipe_name
-            recipe_type = i.recipe_type
-            recipe_img = i.recipe_img
-            recipe = Recipes(recipe_name, recipe_type, recipe_img)
+        for rcp_ in self.all_recipe[:10]:
+            recipe = Recipes(rcp_.recipe_name, rcp_.recipe_type, rcp_.recipe_img)
             self.verticalLayout_4.insertWidget(len(self.verticalLayout_4) - 1, recipe)
-            recipe.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
+            recipe.mousePressEvent = lambda x=None, y=rcp_.recipe_id: self.recipe_page_clicked(y)
+
+        self.home_page.setCurrentWidget(self.page_7)
 
     # ================================ 이미지 검색 =====================================
     def picture_page_show(self):

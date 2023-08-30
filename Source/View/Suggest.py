@@ -19,7 +19,7 @@ class Suggest(QWidget):
             self.label_2.setText(f"{recipe_name[:7]}\n{recipe_name[7:]}")
 
     def enterEvent(self, event):
-        """마수스가 위젯 위에 올라올 때 라벨 보이기"""
+        """마우스가 위젯 위에 올라올 때 라벨 보이기"""
         self.label_2.show()
 
     def leaveEvent(self, event):
