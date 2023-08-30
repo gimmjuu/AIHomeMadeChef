@@ -9,7 +9,7 @@ from Source.Model.Classification import Classification
 class ClientApp:
     # HOST = '10.10.20.113'
     HOST = '127.0.0.1'
-    PORT = 8080
+    PORT = 9090
     BUFFER = 300000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
@@ -27,6 +27,7 @@ class ClientApp:
     recipe_jjim = "recipe_jjim"
     recipe_random = "recipe_random"
     rd_recipe_id = "rd_recipe_id"
+    prefer_food_save = "prefer_food_save"
 
     def __init__(self):
         self.user_id = None
@@ -147,6 +148,14 @@ class ClientApp:
         header_data = self.rd_recipe_id
         self.fixed_volume(header_data, data_msg_str)
 
+    def send_prefer_food_save_access(self, recipe_id_list):
+        """선호 음식 추가 다이얼로그에서 저장하기 버튼 클릭 시 서버로 레시피 아이디 리스트 전송"""
+        taste_string = "|".join(recipe_id_list)
+        data_msg = User(user_id=self.user_id, user_taste=taste_string)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.prefer_food_save
+        self.fixed_volume(header_data, data_msg_str)
+
     def fixed_volume(self, header, data):
         """데이터 길이 맞춰서 서버로 전송"""
         header_msg = f"{header:<{self.HEADER_LENGTH}}".encode(self.FORMAT)
@@ -217,4 +226,8 @@ class ClientApp:
             # 랜덤 레시피 아이디 값으로 선호 음식 추가 다이얼로그 출력
             if response_header == self.rd_recipe_id:
                 self.client_widget.rd_recipe_id_signal.emit(response_data)
+
+            # 선호 음식 추가 다이얼로그에서 저장하기 버튼 클릭
+            if response_header == self.prefer_food_save:
+                self.client_widget.prefer_food_save_signal.emit(response_data)
 

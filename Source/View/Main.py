@@ -1,7 +1,5 @@
-import os
-
 from PyQt5.QtTest import QTest
-from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
+from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog, QPushButton
 from PyQt5.QtCore import Qt, pyqtSignal, QByteArray, QTimer
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.uic import loadUi
@@ -10,6 +8,7 @@ from Source.Common.JSONConverter import *
 from Source.View.Cooking import Cooking
 from Source.View.Ingredient import Ingredient
 from Source.View.Like import Likes
+from Source.View.Prefer import Prefer
 from Source.View.Recipes import Recipes
 from Source.View.Recommend import Recommend
 from Source.View.Suggest import Suggest
@@ -33,6 +32,7 @@ class Main(QWidget):
     recipe_random_signal = pyqtSignal(str)
     yolo_false_signal = pyqtSignal(bool)
     rd_recipe_id_signal = pyqtSignal(str)
+    prefer_food_save_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -53,9 +53,10 @@ class Main(QWidget):
         self.telebot = TelegramBot(self.lbl_imgview)
         self.check = -1
         self.pw_check = -1
+        self.selected_items = list()
+        self.food_btn_list = self.food_btn_area.findChildren(QPushButton)
         self.encoder = ObjEncoder()
         self.decoder = ObjDecoder()
-
 
         # 에러 메시지 다이얼로그
         self.error_box = Error()
@@ -113,7 +114,8 @@ class Main(QWidget):
         self.search_btn_2.clicked.connect(self.search_recipe_by_name)
         self.upload_btn.clicked.connect(self.open_file_dialog)
         self.add_btn.clicked.connect(self.add_prefer_food)
-        self.retry_btn.clicked.connect(self.add_prefer_food_2)
+        self.retry_btn.clicked.connect(self.request_prefer_food)
+        self.save_btn.clicked.connect(self.prefer_food_save)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -128,6 +130,7 @@ class Main(QWidget):
         self.recipe_all_signal.connect(self.set_all_recipe_list)
         self.yolo_false_signal.connect(self.show_search_fail_dlg)
         self.rd_recipe_id_signal.connect(self.prefer_food_show)
+        self.prefer_food_save_signal.connect(self.prefer_list_show)
 
     # ============================= 메인화면 광고배너 =================================
     def timer_event(self):
@@ -277,8 +280,8 @@ class Main(QWidget):
             recipe = Recipes(rcp_.recipe_name, rcp_.recipe_type, rcp_.recipe_img)
             self.verticalLayout_4.insertWidget(len(self.verticalLayout_4) - 1, recipe)
             recipe.mousePressEvent = lambda x, y=rcp_.recipe_id: self.recipe_page_clicked(y)
-            if (i+1) % 15 == 0:
-                QTest.qWait(50)
+            if (i+1) % 10 == 0:
+                QTest.qWait(70)
 
     def name_search_recipe_show(self):
         """이름 검색 화면 출력 함수"""
@@ -294,6 +297,7 @@ class Main(QWidget):
         """이미지 검색 화면 초기화 함수"""
         if self.home_page.currentIndex() != 0:
             self.lbl_imgview: QLabel
+            self.lbl_imgview.setText("Image Preview")
             self.lbl_imgview.setObjectName("")
             self.lbl_imgview.setPixmap(QPixmap(""))
             self.home_page.setCurrentIndex(0)
@@ -336,22 +340,26 @@ class Main(QWidget):
         """마이 페이지 추천 음식 데이터 출력 함수"""
         recipes = self.decoder.binary_to_obj(recommend_list)
         self.clear_layout(self.gridLayout)
+
         r, c = 0, 0
         for rcp in recipes:
             suggest = Suggest(rcp.recipe_name, rcp.recipe_img)
+            suggest.mousePressEvent = lambda x, y=rcp.recipe_id: self.recipe_page_clicked(y)
             self.gridLayout.addWidget(suggest, r, c)
             c += 1
             if c == 3:
                 c = 0
                 r = 1
+
         self.home_page.setCurrentIndex(2)
 
     def add_prefer_food(self):
-        """선호 음식 추가 버튼 클릭시 이벤트 함수 함수"""
+        """선호 음식 추가 화면 초기화 함수"""
         self.recipe_id_list = [n for n in range(1, 541)]
-        self.add_prefer_food_2()
+        self.request_prefer_food()
 
-    def add_prefer_food_2(self):
+    def request_prefer_food(self):
+        """선호 음식 추가 버튼 클릭시 이벤트 함수 함수"""
         if len(self.recipe_id_list) > 12:
             random_id = random.sample(self.recipe_id_list, 12)
             for ran_id in random_id:
@@ -364,26 +372,53 @@ class Main(QWidget):
     def prefer_food_show(self, prefer_):
         """선호 음식 12개 랜덤으로 받아오는 이벤트 함수"""
         prefer_data = self.decoder.binary_to_obj(prefer_)
-        food_btn_list = [self.food_btn_1, self.food_btn_2, self.food_btn_3, self.food_btn_4, self.food_btn_5, self.food_btn_6,
-                         self.food_btn_7, self.food_btn_8, self.food_btn_9, self.food_btn_10, self.food_btn_11, self.food_btn_12]
-        for i, data in enumerate(prefer_data):
-            recipe_id = data.recipe_id
-            recipe_name = data.recipe_name
-            food_btn_list[i].setText(recipe_name)
-            food_btn_list[i].clicked.connect(lambda x=None, y=(recipe_id, recipe_name): self.food_name_text(y))
+        prefer_data:list
+        self.food_btn_list:list
+
+        for btn, rcp in zip(self.food_btn_list, prefer_data):
+            btn.setChecked(False)
+            btn.setObjectName(f"{rcp.recipe_id}")
+            btn.setText(rcp.recipe_name)
+            idx = self.food_btn_list.index(btn)
+            btn.released.connect(lambda x=btn: self.add_food_name_prefer_list(x))
         self.home_page.setCurrentIndex(6)
 
-    def food_name_text(self, data_):
+    def add_food_name_prefer_list(self, btn: QPushButton):
         """선호 음식 추가 다이얼로그에서 음식 버튼 클릭시 이벤트 함수"""
-        if len(self.label_38.text()) == 0:
-            id_1 = data_[0]
-            self.label_38.setText(f'{data_[1]}')
-        elif len(self.label_46.text()) == 0:
-            id_2 = data_[0]
-            self.label_46.setText(f'{data_[1]}')
-        elif len(self.label_51.text()) == 0:
-            id_3 = data_[0]
-            self.label_51.setText(f'{data_[1]}')
+        target_ = [int(btn.objectName()), btn.text()]
+        labels = [self.label_38, self.label_46, self.label_51]
+
+        if btn.isChecked():
+            if self.selected_items and len(self.selected_items) == 3:
+                btn.setChecked(False)
+                return
+            self.selected_items.append(target_)
+
+        else:
+            print(target_)
+            self.selected_items.remove(target_)
+
+        for i, lbl in enumerate(labels):
+            if (i+1) <= len(self.selected_items):
+                lbl.setText(self.selected_items[i][1])
+            else:
+                lbl.setText("")
+
+    def prefer_food_save(self):
+        """선호 음식 추가 다이얼로그에서 저장하기 버튼 클릭 시 이벤트 함수"""
+        self.error_box.error_text(11)
+        self.error_box.exec_()
+        self.client.send_prefer_food_save_access([str(item[0]) for item in self.selected_items])
+
+    def prefer_list_show(self, prefer_list):
+        """선호 음식 박스 위젯 출력 이벤트 함수"""
+        prefer_food = self.decoder.binary_to_obj(prefer_list)
+        self.clear_layout(self.horizontalLayout_2)
+        for pf in prefer_food:
+            prfer = Prefer(pf.recipe_name)
+            self.horizontalLayout_2.addWidget(prfer)
+            prfer.mousePressEvent = lambda x, y=pf.recipe_id: self.recipe_page_clicked(y)
+        self.home_page.setCurrentIndex(2)
 
     # ============================================ 레시피  ===========================================
     def recipe_page_clicked(self, recipe_id):
@@ -396,25 +431,26 @@ class Main(QWidget):
         recipe_id = recipe_datas.recipe_id
         recipe_step = recipe_datas.recipe_step
 
+        # --- 레이아웃 비우기
+        self.clear_layout(self.verticalLayout)
+        self.clear_layout(self.verticalLayout_3)
+        # spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        # self.verticalLayout_3.addItem(spacer)
+
         # 재료 출력
         self.lbl_recipe_name.setText(f'<{recipe_datas.recipe_name}> 레시피')
         self.like_btn.setObjectName(f"{recipe_id}")
         self.like_btn_2.setObjectName(f"{recipe_id}")
-        self.clear_layout(self.verticalLayout)
         ingredient = Ingredient(recipe_datas.recipe_stuff)
         self.verticalLayout.addWidget(ingredient)
-
-        # --- 레이아웃 비우기
-        self.clear_layout(self.verticalLayout_3)
-        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacer)
 
         # 조리법 출력
         recipe_step = recipe_step.replace("/ ", "")
         step_split = recipe_step.split("|")
         for i, v in enumerate(step_split):
             cooking = Cooking(i, v)
-            self.verticalLayout_3.insertWidget(len(self.verticalLayout_3) - 1, cooking)
+            # self.verticalLayout_3.insertWidget(len(self.verticalLayout_3) - 1, cooking)
+            self.verticalLayout_3.addWidget(cooking)
 
         self.client.send_like_check(self.client.user_id, recipe_id)
 
@@ -433,7 +469,7 @@ class Main(QWidget):
                 self.clear_layout(item.layout())
 
     def search_recipe_by_name(self):
-        """레시피 페이지 이름 검색버특 클릭시 이벤트 함수"""
+        """레시피 이름 검색 버튼 클릭시 이벤트 함수"""
         search_name = self.lineEdit.text()
         recipe_list = self.scrollAreaWidgetContents_5.findChildren(Recipes)
 
@@ -452,6 +488,7 @@ class Main(QWidget):
         else:
             self.like_btn.show()
             self.like_btn_2.hide()
+
         self.home_page.setCurrentIndex(1)
 
     def like_true_situation(self):
@@ -492,7 +529,7 @@ class Main(QWidget):
         self.home_page.setCurrentIndex(3)
 
     def jjim_del(self, recipe_id):
-        """찜페이지에서 하트버튼 클릭시 찜목록에서 삭제"""
+        """찜 페이지에서 하트 버튼 클릭시 찜목록에서 삭제"""
         user_id = self.client.user_id
         self.client.send_hate_access(user_id, recipe_id)
         self.jjim_situation()

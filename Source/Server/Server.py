@@ -12,7 +12,7 @@ from Source.Server.Nomination import Nomination
 class Server:
     # HOST = '10.10.20.113'
     HOST = '127.0.0.1'
-    PORT = 8080
+    PORT = 9090
     BUFFER = 300000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
@@ -30,6 +30,7 @@ class Server:
     recipe_jjim = "recipe_jjim"
     recipe_random = "recipe_random"
     rd_recipe_id = "rd_recipe_id"
+    prefer_food_save = "prefer_food_save"
     pass_encoded = "pass"
     dot_encoded = "."
 
@@ -232,6 +233,16 @@ class Server:
             object_ = self.decoder.binary_to_obj(request_data)
             result_ = self.db_conn.find_optional_recipe_list(object_.recipe_id)
             response_header = self.rd_recipe_id
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+
+        # 선호 음식 선택 화면 저장하기 버튼 클릭
+        if request_header == self.prefer_food_save:
+            object_ = self.decoder.binary_to_obj(request_data)
+            self.db_conn.update_user_taste_info(object_.user_id, object_.user_taste)
+            result_ = self.db_conn.find_optional_recipe_list(object_.user_taste.split("|"))
+            response_header = self.prefer_food_save
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
