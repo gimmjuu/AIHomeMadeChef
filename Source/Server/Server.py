@@ -217,8 +217,6 @@ class Server:
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
-        # 레시피 아이디 랜덤으로 18개 선호 음식 다이얼로그 출력
-
 
     def get_nomination_result(self, user_id: str, user_taste: list):
         """각 사용자의 선호에 맞는 추천 레시피 반환 -> 6개의 아이디 리스트"""
