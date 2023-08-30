@@ -46,7 +46,7 @@ class Recipes(QWidget):
             self.label_3.setPixmap(QPixmap('../../Images/pizza.png'))
         if recipe_type == '그라탕/리조또':
             self.label_3.setPixmap(QPixmap('../../Images/grt.png.jpg'))
-        if recipe_type == '햄버거':
+        if recipe_type == '샌드위치/햄버거':
             self.label_3.setPixmap(QPixmap('../../Images/hamburger.png'))
         if recipe_type == '볶음':
             self.label_3.setPixmap(QPixmap('../../Images/bokum.png'))

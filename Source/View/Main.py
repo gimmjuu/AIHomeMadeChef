@@ -2,6 +2,9 @@ from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel
 from PyQt5.QtCore import Qt, pyqtSignal, QByteArray, QTimer
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.uic import loadUi
+from tkinter import *
+from tkinter import filedialog
+
 
 from Source.Common.JSONConverter import *
 from Source.View.Cooking import Cooking
@@ -39,7 +42,7 @@ class Main(QWidget):
 
     def window_option(self, clientapp):
         """프로그램 실행시 옵션 설정 함수"""
-        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.FramelessWindowHint)
         self.stackedWidget.setCurrentIndex(0)
 
         # 변수 설정
@@ -99,12 +102,13 @@ class Main(QWidget):
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
         self.home_btn.clicked.connect(self.home_menu)
-        self.name_search_btn.clicked.connect(self.name_search_page)
+        self.name_search_btn.clicked.connect(lambda : self.home_page.setCurrentIndex(5))
         self.like_btn.clicked.connect(self.like_true_situation)
         self.like_btn_2.clicked.connect(self.like_false_situation)
         self.choice_btn.clicked.connect(self.jjim_situation)
         self.search_btn_2.clicked.connect(self.search_recipe_by_name)
-        # self.add_btn.clicked.connect(self.add_food)
+        self.upload_btn.clicked.connect(self.open_file_dialog)
+        self.add_btn.clicked.connect(self.add_prefer_food)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -234,6 +238,7 @@ class Main(QWidget):
     def go_main_page(self, random_):
         """메인페이지 출력 / 추천 레시피 랜덤으로 출력해주는 함수"""
         random_recipe = self.decoder.binary_to_obj(random_)
+        self.name_search_recipe_show(random_)
         random.shuffle(random_recipe)
         self.clear_layout(self.horizontalLayout)
         spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -276,7 +281,6 @@ class Main(QWidget):
         self.clear_layout(self.verticalLayout_4)
         spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacer)
-        self.home_page.setCurrentIndex(5)
         recipe_datas = self.decoder.binary_to_obj(recipes_)
         for i in recipe_datas:
             recipe_id = i.recipe_id
@@ -292,6 +296,7 @@ class Main(QWidget):
         self.lbl_imgview: QLabel
         # self.lbl_imgview.setObjectName("")
         self.lbl_imgview.clear()
+        self.lbl_imgview.setText("Img Preview")
         print(self.lbl_imgview.objectName())
         self.home_page.setCurrentIndex(0)
 
@@ -301,6 +306,14 @@ class Main(QWidget):
 
         if file_path:
             self.client.classify_food_id_from_img(file_path)
+
+    def open_file_dialog(self):
+        """파일 다이얼로그 출력 함수"""
+        root = Tk()
+        root.withdraw()
+        file_path = filedialog.askopenfilename(initialdir=r"C:\Users\KDT113\Desktop\AIHomeMadeChef\Document",
+                                               filetypes=(('Image files', '*.jpg;*.png'), ('All files', '*.*')))
+        self.lbl_imgview.setPixmap(QPixmap(f'{file_path}'))
 
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):
@@ -329,6 +342,12 @@ class Main(QWidget):
                 c = 0
                 r = 1
         self.home_page.setCurrentIndex(2)
+
+    def add_prefer_food(self):
+        """선호 음식 추가 버튼 클릭시 이벤트 함수 함수"""
+        recipe_id_list = list()
+
+        self.home_page.setCurrentIndex(7)
 
 
     # ============================================ 레시피  ===========================================
@@ -444,6 +463,9 @@ class Main(QWidget):
         user_id = self.client.user_id
         self.client.send_hate_access(user_id, recipe_id)
         self.jjim_situation()
+
+
+
 
 
 
