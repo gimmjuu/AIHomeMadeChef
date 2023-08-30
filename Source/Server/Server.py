@@ -23,6 +23,7 @@ class Server:
     recommend_data = "recommend_data"
     recipe_all = "recipe_all"
     recipe_id = "recipe_id"
+    food_id = "food_id"
     recipe_like = "recipe_like"
     like_check = "like_check"
     recipe_hate = "recipe_hate"
@@ -167,6 +168,15 @@ class Server:
         if request_header == self.recipe_id:
             object_ = self.decoder.binary_to_obj(request_data)
             result_ = self.db_conn.find_recipe_by_recipe_id(object_.recipe_id)
+            response_header = self.recipe_id
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
+
+        # 음식 아이디로 데이터 조회
+        if request_header == self.food_id:
+            object_ = self.decoder.binary_to_obj(request_data)
+            result_ = self.db_conn.find_recipe_by_food_id(object_.food_id)
             response_header = self.recipe_id
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)
