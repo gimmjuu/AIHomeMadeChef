@@ -9,7 +9,7 @@ class Suggest(QWidget):
         super().__init__(parent)
         loadUi('../../UI/Suggest_Item.ui', self)
         self.label_2.hide()
-        # set_pixmap_from_url(self.label, recipe_img)
+        set_pixmap_from_url(self.label, recipe_img)
 
         if len(recipe_name) <= 6:
             self.label_2.setText(recipe_name)

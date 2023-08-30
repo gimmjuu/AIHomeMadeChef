@@ -2,12 +2,16 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.uic import loadUi
 
+from Source.Common.Common import set_pixmap_from_url
+
 
 class Recipes(QWidget):
-    def __init__(self, recipe_name, recipe_type, parent=None):
+    def __init__(self, recipe_name, recipe_type, recipe_img, parent=None):
         super().__init__(parent)
         loadUi('../../UI/Recipe_Item.ui', self)
+        set_pixmap_from_url(self.label, recipe_img)
         self.label_2.setText(f'{recipe_name}')
+
         if recipe_type == '밥':
             self.label_3.setPixmap(QPixmap('../../Images/rice.png'))
         if recipe_type == '떡/한과':

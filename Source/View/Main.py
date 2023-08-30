@@ -248,13 +248,16 @@ class Main(QWidget):
         self.horizontalLayout.addItem(spacer)
         name_list = list()
         id_list = list()
+        img_list = list()
         for recipe_ in random_recipe[:3]:
             recipe_id = recipe_.recipe_id
             id_list.append(recipe_id)
             recipe_name = recipe_.recipe_name
             name_list.append(recipe_name)
+            recipe_img = recipe_.recipe_img
+            img_list.append(recipe_img)
         for i in range(len(name_list)):
-            recommend = Recommend(name_list[i])
+            recommend = Recommend(name_list[i], img_list[i])
             self.horizontalLayout.insertWidget(len(self.horizontalLayout) - 1, recommend)
             recommend.mousePressEvent = lambda x=None, y=id_list[i]: self.recipe_page_clicked(y)
         self.stackedWidget.setCurrentIndex(2)
@@ -279,6 +282,8 @@ class Main(QWidget):
         recipe_ = -1
         self.client.send_recipe_all_access(recipe_)
 
+    #### ★★★★★★★★★★★★★★★★★★★증 요★★★★★★★★★★★★★★★★★★★★★★★★★
+    #### ★★★★★★★★★★★★★★★★★★★스 크 롤★★★★★★★★★★★★★★★★★★★★★★★★★
     def name_search_recipe_show(self, recipes_):
         """이름 검색 화면 레시피 출력 함수"""
         self.clear_layout(self.verticalLayout_4)
@@ -289,7 +294,8 @@ class Main(QWidget):
             recipe_id = i.recipe_id
             recipe_name = i.recipe_name
             recipe_type = i.recipe_type
-            recipe = Recipes(recipe_name, recipe_type)
+            recipe_img = i.recipe_img
+            recipe = Recipes(recipe_name, recipe_type, recipe_img)
             self.verticalLayout_4.insertWidget(len(self.verticalLayout_4) - 1, recipe)
             recipe.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
 
@@ -300,7 +306,6 @@ class Main(QWidget):
         # self.lbl_imgview.setObjectName("")
         self.lbl_imgview.clear()
         self.lbl_imgview.setText("Img Preview")
-        print(self.lbl_imgview.objectName())
         self.home_page.setCurrentIndex(0)
 
     def classify_food_image(self):
@@ -339,7 +344,6 @@ class Main(QWidget):
             recipe_id = rcp.recipe_id
             recipe_name = rcp.recipe_name
             recipe_img = rcp.recipe_img
-            print(recipe_img)
             suggest = Suggest(recipe_name, recipe_img)
             self.gridLayout.addWidget(suggest, r, c)
             c += 1
@@ -489,7 +493,8 @@ class Main(QWidget):
         for rcp in recipes:
             recipe_id = rcp.recipe_id
             recipe_name = rcp.recipe_name
-            like_page = Likes(recipe_name)
+            recipe_img = rcp.recipe_img
+            like_page = Likes(recipe_name, recipe_img)
             self.verticalLayout_5.insertWidget(len(self.verticalLayout_5) - 1, like_page)
             like_page.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
             like_page.jjim_btn.clicked.connect(lambda x=None, y=recipe_id: self.jjim_del(y))

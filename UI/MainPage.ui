@@ -1004,7 +1004,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1641,7 +1641,7 @@ border-style:solid;
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>7</number>
+          <number>6</number>
          </property>
          <property name="spacing">
           <number>0</number>
