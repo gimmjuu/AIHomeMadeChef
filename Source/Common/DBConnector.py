@@ -1,7 +1,11 @@
+"""
+작성자 : 주혜인
+작성일 : 23/08/25 -
+내용 : PostgreSQL DataBase에 대해 CRUD를 수행하는 Class입니다.
+참조 : SELECT * FROM public."TB_RECIPE" where "RECIPE_NM" like '%샌드위치%';
+"""
 import psycopg2 as pg
 import pandas as pd
-import numpy as np
-import os
 
 from Source.Data.Data import *
 
@@ -43,7 +47,7 @@ class DBConnector:
     def create_table(self):
         """새로운 테이블 생성"""
         self.start_conn()
-        sql = "create"
+        sql = "create table"
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -65,9 +69,26 @@ class DBConnector:
         self.end_conn()
         return data
 
-    def insert_data(self):
+    def insert_data(self, t_table: str, t_col: str, t_value: str):
         self.start_conn()
-        sql = ""
+        sql = f"insert into {t_table}({t_col}) values ({t_value})"
+
+        try:
+            with self.DB.cursor() as cur:
+                cur.execute(sql)
+
+            self.commit_db()
+
+        except Exception as e:
+            self.DB.rollback()
+            print("Error : ", e)
+
+        finally:
+            self.end_conn()
+
+    def update_data(self, t_table: str, t_col_val: str, t_option: str):
+        self.start_conn()
+        sql = f"update {t_table} set {t_col_val} where {t_option}"
 
         try:
             with self.DB.cursor() as cur:
@@ -190,7 +211,7 @@ class DBConnector:
                 cur.execute(sql1)
                 recipes = cur.fetchall()
                 for recipe_id, recipe_nm in recipes:
-                    sql2 = f"update \"TB_FOOD\" set \"RECIPE_ID\"='{recipe_id}' where \"FOOD_NM\" = '{recipe_nm}'"
+                    sql2 = f"update \"TB_FOOD\" set \"RECIPE_ID\"='{recipe_id}' where \"RECIPE_ID\" is null and \"FOOD_NM\" = '{recipe_nm}'"
                     cur.execute(sql2)
 
             self.commit_db()
@@ -244,7 +265,7 @@ class DBConnector:
     def find_all_prefers_by_user_id(self, user_id: str):
         """찜목록 출력을 위해 찜한 레시피 리스트 조회"""
         self.start_conn()
-        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\" from \"TB_PREFER\" natural join \"TB_RECIPE\" "
+        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_THUMB\" from \"TB_PREFER\" natural join \"TB_RECIPE\" "
         sql += f"where \"USER_ID\" = '{user_id}'"
 
         with self.DB.cursor() as cur:
@@ -254,7 +275,7 @@ class DBConnector:
 
         result_list = list()
         for row in data:
-            result = Recipe(recipe_id=row[0], recipe_name=row[1])
+            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_img=row[2])
             result_list.append(result)
         return result_list
 
@@ -262,7 +283,7 @@ class DBConnector:
     def find_all_recipe_list(self):
         """전체 레시피 목록 조회 -> 아이디, 이름, 타입"""
         self.start_conn()
-        sql = "select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\" from \"TB_RECIPE\""
+        sql = "select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_THUMB\" from \"TB_RECIPE\""
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -271,14 +292,16 @@ class DBConnector:
 
         result_list = list()
         for row in data:
-            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2])
+            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2], recipe_img=row[3])
             result_list.append(result)
         return result_list
 
-    def insert_recipe_data(self, t_nm, t_ty, t_ingr, t_proc):
+    def insert_recipe_data(self, t_nm, t_ty, t_ingr, t_proc, t_thumb):
         """레시피 데이터 추가"""
         self.start_conn()
-        sql = f"insert into \"TB_RECIPE\"(\"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\") values ('{t_nm}', '{t_ty}', '{t_ingr}', '{t_proc}')"
+        sql = f"insert into \"TB_RECIPE\"" \
+              f"(\"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\", \"RECIPE_THUMB\") " \
+              f"values ('{t_nm}', '{t_ty}', '{t_ingr}', '{t_proc}', '{t_thumb}')"
 
         try:
             with self.DB.cursor() as cur:
@@ -295,7 +318,7 @@ class DBConnector:
     def find_recipe_by_food_id(self, t_id: str):
         """음식 아이디로 레시피 정보 조회"""
         self.start_conn()
-        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\" " \
+        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\", \"RECIPE_THUMB\" " \
               f"from \"TB_RECIPE\" natural join \"TB_FOOD\" where \"FOOD_ID\" = '{t_id}'"
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -307,14 +330,15 @@ class DBConnector:
                         recipe_name=data[1],
                         recipe_type=data[2],
                         recipe_stuff=data[3],
-                        recipe_step=data[4])
+                        recipe_step=data[4],
+                        recipe_img=data[5])
         return result
 
     def find_recipe_by_recipe_id(self, t_id: str):
         """레시피 아이디로 레시피 정보 조회"""
         self.start_conn()
-        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\" " \
-                f"from \"TB_RECIPE\" where \"RECIPE_ID\" = '{t_id}'"
+        sql = f"select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_INGR\", \"RECIPE_PROC\", \"RECIPE_THUMB\" " \
+              f"from \"TB_RECIPE\" where \"RECIPE_ID\" = '{t_id}'"
 
         with self.DB.cursor() as cur:
             cur.execute(sql)
@@ -326,7 +350,8 @@ class DBConnector:
                         recipe_name=data[1],
                         recipe_type=data[2],
                         recipe_stuff=data[3],
-                        recipe_step=data[4])
+                        recipe_step=data[4],
+                        recipe_img=data[5])
         return result
 
     def save_recipe_list_to_xlsx(self):
@@ -402,23 +427,29 @@ if __name__ == '__main__':
     #     db.insert_recipe_data(_nm, _ty, t_ig, t_pr)
     # -----------------------------------------
 
+    # --- tb_recipe 컬럼 추가 ---------------
+    # df = pd.read_csv(r"D:\AIHomeMadeChef\Document\recipe_thumb.csv")
+    # print(df.values.tolist())   # [[id, nm, path]]
+    # rows = df.values.tolist()
+    # for row in rows:
+    #     db.update_data("\"TB_RECIPE\"", f"\"RECIPE_THUMB\" = '{row[2]}'",
+    #                    f"\"RECIPE_ID\" = '{row[0]}' and \"RECIPE_NM\" = '{row[1]}'")
+    # -----------------------------------------
+
     # --- TB_RECIPE 누락 데이터 수기 추가 : 학습 진행 데이터에 한해 추가
-    # db.insert_recipe_data("건새우볶음", "볶음", "", "")
-    # db.insert_recipe_data("오징어볶음", "볶음", "", "")
-    # db.insert_recipe_data("주꾸미볶음", "볶음", "", "")
-    # db.insert_recipe_data("해물볶음", "볶음", "", "")
-    # db.insert_recipe_data("감자볶음", "볶음", "", "")
-    # db.insert_recipe_data("김치볶음", "볶음", "", "")
-    # db.insert_recipe_data("깻잎나물볶음", "볶음", "", "")
-    # db.insert_recipe_data("느타리버섯볶음", "볶음", "", "")
-    # db.insert_recipe_data("머위나물볶음", "볶음", "", "")
-    # db.insert_recipe_data("양송이버섯볶음", "볶음", "", "")
-    # db.insert_recipe_data("표고버섯볶음", "볶음", "", "")
-    # db.insert_recipe_data("고추잡채", "볶음", "", "")
-    # db.insert_recipe_data("호박볶음", "볶음", "", "")
-    # db.insert_recipe_data("돼지고기볶음", "볶음", "", "")
-    # db.insert_recipe_data("돼지껍데기볶음", "볶음", "", "")
-    # db.insert_recipe_data("소세지볶음", "볶음", "", "")
-    # db.insert_recipe_data("오리불고기", "볶음", "", "")
-    # db.insert_recipe_data("오삼불고기", "볶음", "", "")
-    # db.insert_recipe_data("마파두부", "볶음", "", "")
+    # db.insert_recipe_data("오징어볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("해물볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("김치볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("깻잎나물볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("느타리버섯볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("머위나물볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("양송이버섯볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("표고버섯볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("고추잡채", "볶음", "", "", "")
+    # db.insert_recipe_data("호박볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("돼지고기볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("돼지껍데기볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("소세지볶음", "볶음", "", "", "")
+    # db.insert_recipe_data("오리불고기", "볶음", "", "", "")
+    # db.insert_recipe_data("오삼불고기", "볶음", "", "", "")
+    # db.insert_recipe_data("마파두부", "볶음", "", "", "")
