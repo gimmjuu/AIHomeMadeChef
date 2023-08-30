@@ -273,7 +273,7 @@ class Main(QWidget):
     # =============================== 이름 검색 페이지 =================================
     def name_search_page(self):
         """이름 검색 버튼 클릭시 서버로 데이터 전송"""
-        recipe_ = 123
+        recipe_ = -1
         self.client.send_recipe_all_access(recipe_)
 
     def name_search_recipe_show(self, recipes_):

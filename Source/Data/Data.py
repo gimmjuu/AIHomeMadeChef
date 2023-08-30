@@ -21,6 +21,7 @@ class Recipe:
     recipe_type: str = None
     recipe_stuff: str = None
     recipe_step: str = None
+    recipe_img: str = None
 
 
 @dataclass
