@@ -244,8 +244,8 @@ class Server:
         recommends = nm.get_recommendation_list(user_id, user_taste)
 
         for item in recommends:
-            data_ = self.db_conn.select_data("\"RECIPE_NM\"", "\"TB_RECIPE\"", f"\"RECIPE_ID\" = '{item}'")
-            result.append(Recipe(recipe_id=item, recipe_name=data_[0][0]))
+            data_ = self.db_conn.select_data("\"RECIPE_NM\", \"RECIPE_THUMB\"", "\"TB_RECIPE\"", f"\"RECIPE_ID\" = '{item}'")
+            result.append(Recipe(recipe_id=item, recipe_name=data_[0][0], recipe_img=data_[0][1]))
 
         print("[서버] 추천 음식 개수 :", len(result))
         return result
