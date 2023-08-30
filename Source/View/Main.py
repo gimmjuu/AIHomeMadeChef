@@ -31,6 +31,7 @@ class Main(QWidget):
     like_check_signal = pyqtSignal(bool)
     recipe_jjim_signal = pyqtSignal(str)
     recipe_random_signal = pyqtSignal(str)
+    rd_recipe_id_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
         super().__init__()
@@ -109,6 +110,7 @@ class Main(QWidget):
         self.search_btn_2.clicked.connect(self.search_recipe_by_name)
         self.upload_btn.clicked.connect(self.open_file_dialog)
         self.add_btn.clicked.connect(self.add_prefer_food)
+        self.retry_btn.clicked.connect(self.add_prefer_food_2)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -121,6 +123,7 @@ class Main(QWidget):
         self.like_check_signal.connect(self.recipe_like_check)
         self.recipe_jjim_signal.connect(self.recipe_jjim_show)
         self.recipe_random_signal.connect(self.go_main_page)
+        self.rd_recipe_id_signal.connect(self.prefer_food_show)
 
     # ============================= 메인화면 광고배너 =================================
     def timer_event(self):
@@ -335,7 +338,8 @@ class Main(QWidget):
         for rcp in recipes:
             recipe_id = rcp.recipe_id
             recipe_name = rcp.recipe_name
-            suggest = Suggest(recipe_name)
+            recipe_img = rcp.recipe_img
+            suggest = Suggest(recipe_name, recipe_img)
             self.gridLayout.addWidget(suggest, r, c)
             c += 1
             if c == 3:
@@ -345,12 +349,42 @@ class Main(QWidget):
 
     def add_prefer_food(self):
         """선호 음식 추가 버튼 클릭시 이벤트 함수 함수"""
-        recipe_id_list = [n for n in range(1, 541)]
-        random_id = random.sample(recipe_id_list, 18)
-        recipe_id_list.remove(random_id)
+        self.recipe_id_list = [n for n in range(1, 541)]
+        self.add_prefer_food_2()
 
+    def add_prefer_food_2(self):
+        if len(self.recipe_id_list) > 12:
+            random_id = random.sample(self.recipe_id_list, 12)
+            for ran_id in random_id:
+                if ran_id in self.recipe_id_list:
+                    self.recipe_id_list.remove(ran_id)
+            self.client.send_random_recipe_id_access(random_id)
+        else:
+            self.add_prefer_food()
 
-        self.home_page.setCurrentIndex(7)
+    def prefer_food_show(self, prefer_):
+        """선호 음식 12개 랜덤으로 받아오는 이벤트 함수"""
+        prefer_data = self.decoder.binary_to_obj(prefer_)
+        food_btn_list = [self.food_btn_1, self.food_btn_2, self.food_btn_3, self.food_btn_4, self.food_btn_5, self.food_btn_6,
+                         self.food_btn_7, self.food_btn_8, self.food_btn_9, self.food_btn_10, self.food_btn_11, self.food_btn_12]
+        for i, data in enumerate(prefer_data):
+            recipe_id = data.recipe_id
+            recipe_name = data.recipe_name
+            food_btn_list[i].setText(recipe_name)
+            food_btn_list[i].clicked.connect(lambda x=None, y=(recipe_id, recipe_name): self.food_name_text(y))
+        self.home_page.setCurrentIndex(6)
+
+    def food_name_text(self, data_):
+        """선호 음식 추가 다이얼로그에서 음식 버튼 클릭시 이벤트 함수"""
+        if len(self.label_38.text()) == 0:
+            id_1 = data_[0]
+            self.label_38.setText(f'{data_[1]}')
+        elif len(self.label_46.text()) == 0:
+            id_2 = data_[0]
+            self.label_46.setText(f'{data_[1]}')
+        elif len(self.label_51.text()) == 0:
+            id_3 = data_[0]
+            self.label_51.setText(f'{data_[1]}')
 
 
     # ============================================ 레시피  ===========================================

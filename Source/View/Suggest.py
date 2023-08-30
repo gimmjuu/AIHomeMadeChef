@@ -3,7 +3,7 @@ from PyQt5.uic import loadUi
 
 
 class Suggest(QWidget):
-    def __init__(self, recipe_name, parent=None):
+    def __init__(self, recipe_name, recipe_img, parent=None):
         super().__init__(parent)
         loadUi('../../UI/Suggest_Item.ui', self)
         self.label_2.hide()
@@ -22,5 +22,6 @@ class Suggest(QWidget):
     def leaveEvent(self, event):
         """마우스가 위젯 위에서 떠났을때 라벨 숨기기"""
         self.label_2.hide()
+
 
 
