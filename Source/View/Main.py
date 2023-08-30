@@ -31,6 +31,7 @@ class Main(QWidget):
     like_check_signal = pyqtSignal(bool)
     recipe_jjim_signal = pyqtSignal(str)
     recipe_random_signal = pyqtSignal(str)
+    yolo_false_signal = pyqtSignal(bool)
     rd_recipe_id_signal = pyqtSignal(str)
 
     def __init__(self, clientapp):
@@ -94,16 +95,18 @@ class Main(QWidget):
         self.close_btn.clicked.connect(self.close_event)
         self.join_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
         self.login_btn.clicked.connect(self.login_check)
+
         # 회원가입 화면 버튼
         self.back_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
         self.id_check.clicked.connect(self.member_id_check)
+
         # 메인화면 버튼
         self.picture_btn.clicked.connect(self.picture_page_show)
         self.search_btn.clicked.connect(self.classify_food_image)
         self.mypage_btn.clicked.connect(self.my_page_request)
         self.request_btn.clicked.connect(self.member_join_request)
         self.home_btn.clicked.connect(self.home_menu)
-        self.name_search_btn.clicked.connect(lambda : self.home_page.setCurrentIndex(5))
+        self.name_search_btn.clicked.connect(self.name_search_page)
         self.like_btn.clicked.connect(self.like_true_situation)
         self.like_btn_2.clicked.connect(self.like_false_situation)
         self.choice_btn.clicked.connect(self.jjim_situation)
@@ -123,6 +126,7 @@ class Main(QWidget):
         self.like_check_signal.connect(self.recipe_like_check)
         self.recipe_jjim_signal.connect(self.recipe_jjim_show)
         self.recipe_random_signal.connect(self.go_main_page)
+        self.yolo_false_signal.connect(self.show_search_fail_dlg)
         self.rd_recipe_id_signal.connect(self.prefer_food_show)
 
     # ============================= 메인화면 광고배너 =================================
@@ -303,17 +307,23 @@ class Main(QWidget):
     def picture_page_show(self):
         """이미지 검색 화면 초기화 함수"""
         self.lbl_imgview: QLabel
-        # self.lbl_imgview.setObjectName("")
-        self.lbl_imgview.clear()
-        self.lbl_imgview.setText("Img Preview")
+        self.lbl_imgview.setObjectName("")
         self.home_page.setCurrentIndex(0)
 
     def classify_food_image(self):
         """음식 이미지 검색 함수 호출"""
-        file_path = self.lbl_imgview.objectName()
+        file_nm = self.lbl_imgview.objectName()
 
-        if file_path:
-            self.client.classify_food_id_from_img(file_path)
+        if file_nm:
+            self.client.classify_food_id_from_img(file_nm)
+        else:
+            self.error_box.error_text(100, "업로드 이미지가 없습니다.")
+            self.error_box.exec_()
+
+    def show_search_fail_dlg(self, e):
+        """이미지 분류 실패 시 검색 실패 다이얼로그 출력"""
+        self.error_box.error_text(100, "검색 결과가 없습니다.\n이미지를 확인해주세요.")
+        self.error_box.exec_()
 
     def open_file_dialog(self):
         """파일 다이얼로그 출력 함수"""
@@ -449,7 +459,7 @@ class Main(QWidget):
             else:
                 recipe_.setVisible(False)
 
-   # ======================================== 찜하기 =========================================
+    # ======================================== 찜하기 =========================================
     def recipe_like_check(self, like_):
         """찜버튼 클릭 여부 확인"""
         if like_:
@@ -505,11 +515,3 @@ class Main(QWidget):
         user_id = self.client.user_id
         self.client.send_hate_access(user_id, recipe_id)
         self.jjim_situation()
-
-
-
-
-
-
-
-
