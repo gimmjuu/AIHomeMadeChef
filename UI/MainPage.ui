@@ -1004,7 +1004,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1789,7 +1789,7 @@ border-style:solid;</string>
         <property name="geometry">
          <rect>
           <x>42</x>
-          <y>252</y>
+          <y>230</y>
           <width>515</width>
           <height>140</height>
          </rect>
@@ -1869,7 +1869,7 @@ border-color:white;
         <property name="geometry">
          <rect>
           <x>38</x>
-          <y>205</y>
+          <y>185</y>
           <width>201</width>
           <height>41</height>
          </rect>
@@ -1891,13 +1891,13 @@ border-color:white;
         <property name="geometry">
          <rect>
           <x>39</x>
-          <y>35</y>
+          <y>25</y>
           <width>520</width>
-          <height>160</height>
+          <height>150</height>
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page_8">
          <widget class="QWidget" name="widget_15" native="true">
@@ -1906,7 +1906,7 @@ border-color:white;
             <x>0</x>
             <y>0</y>
             <width>520</width>
-            <height>160</height>
+            <height>150</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -1921,7 +1921,7 @@ border-style:solid;</string>
              <x>0</x>
              <y>0</y>
              <width>520</width>
-             <height>160</height>
+             <height>150</height>
             </rect>
            </property>
            <property name="text">
@@ -2073,7 +2073,7 @@ color: rgb(90, 90, 90);</string>
             <x>0</x>
             <y>0</y>
             <width>520</width>
-            <height>160</height>
+            <height>150</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -2102,7 +2102,7 @@ color: rgb(90, 90, 90);</string>
            <property name="geometry">
             <rect>
              <x>330</x>
-             <y>20</y>
+             <y>8</y>
              <width>161</width>
              <height>141</height>
             </rect>
