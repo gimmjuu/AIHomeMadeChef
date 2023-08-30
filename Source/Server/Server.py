@@ -13,7 +13,7 @@ class Server:
     # HOST = '10.10.20.113'
     HOST = '127.0.0.1'
     PORT = 9070
-    BUFFER = 150000
+    BUFFER = 300000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
 
@@ -227,8 +227,14 @@ class Server:
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
-        # 레시피 아이디 랜덤으로 18개 선호 음식 다이얼로그 출력
-
+        # 랜덤 레시피 아이디로 선호 음식 다이얼로그 출력
+        if request_header == self.rd_recipe_id:
+            object_ = self.decoder.binary_to_obj(request_data)
+            result_ = self.db_conn.find_optional_recipe_list(object_.recipe_id)
+            response_header = self.rd_recipe_id
+            response_data = self.encoder.to_JSON_as_binary(result_)
+            return_result = self.fixed_volume(response_header, response_data)
+            self.send_message(client_socket, return_result)
 
     def get_nomination_result(self, user_id: str, user_taste: list):
         """각 사용자의 선호에 맞는 추천 레시피 반환 -> 6개의 아이디 리스트"""

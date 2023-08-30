@@ -1004,7 +1004,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1499,8 +1499,8 @@ border-width:3px;
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>549</width>
-           <height>139</height>
+           <width>545</width>
+           <height>135</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -2399,7 +2399,7 @@ border-style: solid;</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="retry_btn">
         <property name="geometry">
          <rect>
           <x>420</x>
@@ -2474,7 +2474,7 @@ QPushButton:checked{
 
 </string>
         </property>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="food_btn_1">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2499,7 +2499,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="food_btn_2">
          <property name="geometry">
           <rect>
            <x>290</x>
@@ -2524,7 +2524,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_7">
+        <widget class="QPushButton" name="food_btn_4">
          <property name="geometry">
           <rect>
            <x>290</x>
@@ -2549,7 +2549,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_8">
+        <widget class="QPushButton" name="food_btn_3">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2574,7 +2574,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_10">
+        <widget class="QPushButton" name="food_btn_6">
          <property name="geometry">
           <rect>
            <x>290</x>
@@ -2599,7 +2599,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_11">
+        <widget class="QPushButton" name="food_btn_5">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2624,7 +2624,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_13">
+        <widget class="QPushButton" name="food_btn_8">
          <property name="geometry">
           <rect>
            <x>290</x>
@@ -2649,7 +2649,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_14">
+        <widget class="QPushButton" name="food_btn_7">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2674,7 +2674,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_16">
+        <widget class="QPushButton" name="food_btn_10">
          <property name="geometry">
           <rect>
            <x>290</x>
@@ -2699,7 +2699,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_17">
+        <widget class="QPushButton" name="food_btn_9">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2724,7 +2724,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_19">
+        <widget class="QPushButton" name="food_btn_12">
          <property name="geometry">
           <rect>
            <x>290</x>
@@ -2749,7 +2749,7 @@ QPushButton:checked{
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_20">
+        <widget class="QPushButton" name="food_btn_11">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2870,7 +2870,7 @@ border-width:3px;
 border-style: solid;</string>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -2990,7 +2990,7 @@ border-width:3px;
 border-style: solid;</string>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -3071,7 +3071,7 @@ border-width:3px;
 border-style: solid;</string>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -3118,7 +3118,7 @@ border-radius: 10px;
        <zorder>label_51</zorder>
        <zorder>label_46</zorder>
        <zorder>label_38</zorder>
-       <zorder>pushButton_2</zorder>
+       <zorder>retry_btn</zorder>
        <zorder>widget_18</zorder>
        <zorder>label_37</zorder>
        <zorder>pushButton_5</zorder>
