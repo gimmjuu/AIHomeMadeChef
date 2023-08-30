@@ -14,7 +14,7 @@ class Error(QDialog):
         self.btn_lbl_event()
         self.move(813, 412)
 
-    def error_text(self, num):
+    def error_text(self, num, t_txt: str = None):
         """에러 메시지 텍스트 출력"""
         if num == 0:
             self.label_2.setPixmap(QPixmap("../../Images/경고.png"))
@@ -50,6 +50,10 @@ class Error(QDialog):
             self.label_2.setPixmap(QPixmap("../../Images/경고.png"))
             self.label_3.setText("패스워드에 영문자,숫자,특수기호")
             self.label_5.setText("각 1개 이상 입력해주세요.")
+
+        if num == 100:
+            self.label_2.setPixmap(QPixmap("../../Images/경고.png"))
+            self.label_3.setText(f"{t_txt}")
 
     def btn_lbl_event(self):
         """버튼, 라벨 클릭 이벤트 함수"""

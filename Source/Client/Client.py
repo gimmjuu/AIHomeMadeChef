@@ -3,7 +3,7 @@ from threading import *
 
 from Source.Common.JSONConverter import ObjEncoder, ObjDecoder
 from Source.Data.Data import *
-from Source.Client.Classification import Classification
+from Source.Model.Classification import Classification
 
 
 class ClientApp:
@@ -20,6 +20,7 @@ class ClientApp:
     recommend_data = "recommend_data"
     recipe_all = "recipe_all"
     recipe_id = "recipe_id"
+    food_id = "food_id"
     recipe_like = "recipe_like"
     recipe_hate = "recipe_hate"
     like_check = "like_check"
@@ -44,9 +45,15 @@ class ClientApp:
         self.client_widget = widget_
 
     def classify_food_id_from_img(self, file_nm: str):
+        """이미지에서 음식 아이디 분류"""
         cf = Classification()
         result = cf.classify_obj_from_img(file_nm)
-        print(len(result))
+        print("[Yolo Result]", result)
+
+        if result:
+            self.send_food_id_access(result[0])
+        else:
+            self.client_widget.yolo_false_signal.emit(False)
 
     def send_login_check_access(self, user_id, user_pwd):
         """로그인 데이터 서버로 전송"""
@@ -87,6 +94,13 @@ class ClientApp:
         data_msg = Recipe(recipe_id)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.recipe_id
+        self.fixed_volume(header_data, data_msg_str)
+
+    def send_food_id_access(self, food_id: str):
+        """음식 아이디로 데이터 조회 서버로 전송"""
+        data_msg = Food(food_id)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.food_id
         self.fixed_volume(header_data, data_msg_str)
 
     def send_like_check(self, user_id, recipe_id):

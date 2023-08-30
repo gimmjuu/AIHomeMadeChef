@@ -281,7 +281,7 @@ class DBConnector:
 
     # === TB_RECIPE
     def find_all_recipe_list(self):
-        """전체 레시피 목록 조회 -> 아이디, 이름, 타입"""
+        """전체 레시피 목록 조회 -> 아이디, 이름, 타입, 이미지 경로"""
         self.start_conn()
         sql = "select \"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_TY\", \"RECIPE_THUMB\" from \"TB_RECIPE\""
 
@@ -293,6 +293,23 @@ class DBConnector:
         result_list = list()
         for row in data:
             result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2], recipe_img=row[3])
+            result_list.append(result)
+        return result_list
+
+    def find_optional_recipe_list(self, t_list: list):
+        """아이디 리스트로 레시피 리스트 추출"""
+        sql = ""
+
+        for item in t_list:
+            sql += f"\"RECIPE_ID\" = {item}"
+            if item != t_list[-1]:
+                sql += " or "
+
+        results = self.select_data("\"RECIPE_ID\", \"RECIPE_NM\"", "\"TB_RECIPE\"", sql)
+
+        result_list = list()
+        for row in results:
+            result = Recipe(recipe_id=row[0], recipe_name=row[1])
             result_list.append(result)
         return result_list
 
