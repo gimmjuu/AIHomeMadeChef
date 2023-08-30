@@ -3,6 +3,7 @@
 작성일 : 23/08/29
 내용 : 학습된 Yolov8 모델을 사용하여 입력받은 사진에서 객체를 인식하고 분류하여 결과를 반환합니다.
 """
+import os
 from ultralytics import YOLO
 
 
@@ -17,11 +18,15 @@ class Classification:
     def __init__(self):
         self.file_path = r"Temp/"
         # --- temp model
-        self.model = YOLO("trained_model.pt", task="detect")
+        print(os.getcwd())  # D:\AIHomeMadeChef\Source\View
+        path_ = os.getcwd()
+        self.model = YOLO(fr"{path_[:-4]}Model\trained_model.pt", task="detect")
 
-    def classify_obj_from_img(self, t_file: str=None):
+    def classify_obj_from_img(self, file_path: str=None):
+        print("[classify_obj_from_img]", file_path)
+
         result_list = list()
-        predicted_result = self.model.predict(source=fr"{self.file_path}{t_file}", save=False)
+        predicted_result = self.model.predict(source=fr"{file_path}", save=False)
 
         for v_ in predicted_result:
             if v_.boxes:

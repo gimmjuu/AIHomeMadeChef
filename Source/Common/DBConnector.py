@@ -292,7 +292,6 @@ class DBConnector:
 
         result_list = list()
         for row in data:
-            print(row[3])
             result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_type=row[2], recipe_img=row[3])
             result_list.append(result)
         return result_list
@@ -306,11 +305,11 @@ class DBConnector:
             if item != t_list[-1]:
                 sql += " or "
 
-        results = self.select_data("\"RECIPE_ID\", \"RECIPE_NM\"", "\"TB_RECIPE\"", sql)
+        results = self.select_data("\"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_THUMB\"", "\"TB_RECIPE\"", sql)
 
         result_list = list()
         for row in results:
-            result = Recipe(recipe_id=row[0], recipe_name=row[1])
+            result = Recipe(recipe_id=row[0], recipe_name=row[1], recipe_img=row[2])
             result_list.append(result)
         return result_list
 

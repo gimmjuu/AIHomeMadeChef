@@ -105,7 +105,7 @@ class Server:
             request_data = recv_message[self.HEADER_LENGTH:].strip().decode(self.FORMAT)
             print(f"Server RECEIVED: ({request_header})")
         except Exception as e:
-            print("[ Server Error ]", e)
+            # print("[ Server Error ]", e)
             return False
 
         # 로그인
@@ -220,7 +220,8 @@ class Server:
 
         # 레시피 랜덤 출력
         if request_header == self.recipe_random:
-            result_ = self.db_conn.find_all_recipe_list()
+            object_ = self.decoder.binary_to_obj(request_data)
+            result_ = self.db_conn.find_optional_recipe_list(object_.recipe_id)
             response_header = self.recipe_random
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)

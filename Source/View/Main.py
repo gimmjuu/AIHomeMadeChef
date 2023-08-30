@@ -1,10 +1,10 @@
-from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel
+import os
+
+from PyQt5.QtTest import QTest
+from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog
 from PyQt5.QtCore import Qt, pyqtSignal, QByteArray, QTimer
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.uic import loadUi
-from tkinter import *
-from tkinter import filedialog
-
 
 from Source.Common.JSONConverter import *
 from Source.View.Cooking import Cooking
@@ -121,11 +121,11 @@ class Main(QWidget):
         self.member_id_check_signal.connect(self.member_id_check_situation)
         self.member_join_signal.connect(self.member_join_clear)
         self.recommend_data_signal.connect(self.my_page_show)
-        # self.recipe_all_signal.connect(self.name_search_recipe_show)
         self.recipe_id_signal.connect(self.search_recipe)
         self.like_check_signal.connect(self.recipe_like_check)
         self.recipe_jjim_signal.connect(self.recipe_jjim_show)
         self.recipe_random_signal.connect(self.go_main_page)
+        self.recipe_all_signal.connect(self.set_all_recipe_list)
         self.yolo_false_signal.connect(self.show_search_fail_dlg)
         self.rd_recipe_id_signal.connect(self.prefer_food_show)
 
@@ -143,6 +143,7 @@ class Main(QWidget):
         """로그인 데이터 클라이언트에 전송 함수"""
         user_id = self.id_line.text()
         user_pwd = self.pw_line.text()
+
         if len(user_id) == 0 or len(user_pwd) == 0:
             self.error_box.error_text(0)
             self.error_box.exec_()
@@ -236,33 +237,22 @@ class Main(QWidget):
 
     def random_recipe_show(self):
         """로그인 페이지에서 메인 페이지 이동하기 전 홈 화면 추천 레시피 출력 서버에 보내는 함수"""
-        user_id = self.client.user_id
-        user_name = self.client.user_name
-        self.lbl_user_name.setText(user_name)
-        self.lbl_user_id.setText(user_id)
-        self.client.send_recipe_random_access(user_id)
+        self.lbl_user_name.setText(self.client.user_id)
+        self.lbl_user_id.setText(self.client.user_name)
+
+        all_recipe_id = [n for n in range(1, 541)]
+        target_id_list = random.sample(all_recipe_id, 3)
+        self.client.send_recipe_random_access(target_id_list)
 
     def go_main_page(self, random_):
         """메인페이지 출력 / 추천 레시피 랜덤으로 출력해주는 함수"""
-        self.all_recipe = self.decoder.binary_to_obj(random_)
-        random.shuffle(self.all_recipe)
-        self.clear_layout(self.horizontalLayout)
-        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.horizontalLayout.addItem(spacer)
-        name_list = list()
-        id_list = list()
-        img_list = list()
-        for recipe_ in self.all_recipe[:3]:
-            recipe_id = recipe_.recipe_id
-            id_list.append(recipe_id)
-            recipe_name = recipe_.recipe_name
-            name_list.append(recipe_name)
-            recipe_img = recipe_.recipe_img
-            img_list.append(recipe_img)
-        for i in range(len(name_list)):
-            recommend = Recommend(name_list[i], img_list[i])
-            self.horizontalLayout.insertWidget(len(self.horizontalLayout) - 1, recommend)
-            recommend.mousePressEvent = lambda x=None, y=id_list[i]: self.recipe_page_clicked(y)
+        random_list = self.decoder.binary_to_obj(random_)
+
+        for recipe_ in random_list:
+            recommend = Recommend(recipe_.recipe_name, recipe_.recipe_img)
+            recommend.mousePressEvent = lambda x=None, y=recipe_.recipe_id: self.recipe_page_clicked(y)
+            self.horizontalLayout.addWidget(recommend)
+
         self.stackedWidget.setCurrentIndex(2)
         self.home_page.setCurrentIndex(4)
 
@@ -280,33 +270,40 @@ class Main(QWidget):
             return -1
 
     # =============================== 이름 검색 페이지 =================================
-    # ★★★★★★★★★★★★★★★★★★★증 요★★★★★★★★★★★★★★★★★★★★★★★★★
-    # ★★★★★★★★★★★★★★★★★★★스 크 롤★★★★★★★★★★★★★★★★★★★★★★★★★
-    def name_search_recipe_show(self):
-        """이름 검색 화면 레시피 출력 함수"""
-        self.clear_layout(self.verticalLayout_4)
-        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacer)
-        for rcp_ in self.all_recipe[:10]:
+    def set_all_recipe_list(self, t_list):
+        """이름 검색 화면 전체 레시피 출력 함수"""
+        all_recipe = self.decoder.binary_to_obj(t_list)
+        for i, rcp_ in enumerate(all_recipe):
             recipe = Recipes(rcp_.recipe_name, rcp_.recipe_type, rcp_.recipe_img)
             self.verticalLayout_4.insertWidget(len(self.verticalLayout_4) - 1, recipe)
-            recipe.mousePressEvent = lambda x=None, y=rcp_.recipe_id: self.recipe_page_clicked(y)
+            recipe.mousePressEvent = lambda x, y=rcp_.recipe_id: self.recipe_page_clicked(y)
+            if (i+1) % 15 == 0:
+                QTest.qWait(50)
 
+    def name_search_recipe_show(self):
+        """이름 검색 화면 출력 함수"""
         self.home_page.setCurrentWidget(self.page_7)
+
+        if self.widget_14.findChildren(Recipes):
+            return
+
+        self.client.send_recipe_all_access(Recipe(-1))
 
     # ================================ 이미지 검색 =====================================
     def picture_page_show(self):
         """이미지 검색 화면 초기화 함수"""
-        self.lbl_imgview: QLabel
-        self.lbl_imgview.setObjectName("")
-        self.home_page.setCurrentIndex(0)
+        if self.home_page.currentIndex() != 0:
+            self.lbl_imgview: QLabel
+            self.lbl_imgview.setObjectName("")
+            self.lbl_imgview.setPixmap(QPixmap(""))
+            self.home_page.setCurrentIndex(0)
 
     def classify_food_image(self):
         """음식 이미지 검색 함수 호출"""
-        file_nm = self.lbl_imgview.objectName()
+        file_path = self.lbl_imgview.objectName()
 
-        if file_nm:
-            self.client.classify_food_id_from_img(file_nm)
+        if file_path:
+            self.client.classify_food_id_from_img(file_path)
         else:
             self.error_box.error_text(100, "업로드 이미지가 없습니다.")
             self.error_box.exec_()
@@ -318,11 +315,10 @@ class Main(QWidget):
 
     def open_file_dialog(self):
         """파일 다이얼로그 출력 함수"""
-        root = Tk()
-        root.withdraw()
-        file_path = filedialog.askopenfilename(initialdir=r"C:\Users\KDT113\Desktop\AIHomeMadeChef\Document",
-                                               filetypes=(('Image files', '*.jpg;*.png'), ('All files', '*.*')))
-        self.lbl_imgview.setPixmap(QPixmap(f'{file_path}'))
+        fname = QFileDialog.getOpenFileNames(self, 'Open File', r'../Model/Temp', 'Image files(*.jpg *.png)')
+        print(fname[0][0])
+        self.lbl_imgview.setObjectName(fname[0][0])
+        self.lbl_imgview.setPixmap(QPixmap(fr'{fname[0][0]}'))
 
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):
@@ -342,10 +338,7 @@ class Main(QWidget):
         self.clear_layout(self.gridLayout)
         r, c = 0, 0
         for rcp in recipes:
-            recipe_id = rcp.recipe_id
-            recipe_name = rcp.recipe_name
-            recipe_img = rcp.recipe_img
-            suggest = Suggest(recipe_name, recipe_img)
+            suggest = Suggest(rcp.recipe_name, rcp.recipe_img)
             self.gridLayout.addWidget(suggest, r, c)
             c += 1
             if c == 3:
@@ -401,29 +394,29 @@ class Main(QWidget):
         """레시피 검색시 출력 함수"""
         recipe_datas = self.decoder.binary_to_obj(recipe_data)
         recipe_id = recipe_datas.recipe_id
-        recipe_name = recipe_datas.recipe_name
-        recipe_stuff = recipe_datas.recipe_stuff
         recipe_step = recipe_datas.recipe_step
+
         # 재료 출력
-        self.lbl_recipe_name.setText(f'<{recipe_name}> 레시피')
-        self.lbl_recipe_name: QLabel
+        self.lbl_recipe_name.setText(f'<{recipe_datas.recipe_name}> 레시피')
         self.like_btn.setObjectName(f"{recipe_id}")
         self.like_btn_2.setObjectName(f"{recipe_id}")
         self.clear_layout(self.verticalLayout)
-        ingredient = Ingredient(recipe_stuff)
+        ingredient = Ingredient(recipe_datas.recipe_stuff)
         self.verticalLayout.addWidget(ingredient)
+
         # --- 레이아웃 비우기
         self.clear_layout(self.verticalLayout_3)
         spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacer)
+
         # 조리법 출력
         recipe_step = recipe_step.replace("/ ", "")
         step_split = recipe_step.split("|")
         for i, v in enumerate(step_split):
             cooking = Cooking(i, v)
             self.verticalLayout_3.insertWidget(len(self.verticalLayout_3) - 1, cooking)
-        user_id = self.client.user_id
-        self.client.send_like_check(user_id, recipe_id)
+
+        self.client.send_like_check(self.client.user_id, recipe_id)
 
     def clear_layout(self, layout: QLayout):
         """레이아웃 안의 모든 객체를 지우는 함수"""
@@ -487,18 +480,15 @@ class Main(QWidget):
         user_name = self.client.user_name
         self.label_23.setText(f"{user_name} 님의 찜목록")
         self.clear_layout(self.verticalLayout_5)
-        spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.verticalLayout_5.addItem(spacer)
         recipes = self.decoder.binary_to_obj(recipe_data)
 
         for rcp in recipes:
             recipe_id = rcp.recipe_id
-            recipe_name = rcp.recipe_name
-            recipe_img = rcp.recipe_img
-            like_page = Likes(recipe_name, recipe_img)
-            self.verticalLayout_5.insertWidget(len(self.verticalLayout_5) - 1, like_page)
+            like_page = Likes(rcp.recipe_name, rcp.recipe_img)
+            self.verticalLayout_5.addWidget(like_page)
             like_page.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
             like_page.jjim_btn.clicked.connect(lambda x=None, y=recipe_id: self.jjim_del(y))
+
         self.home_page.setCurrentIndex(3)
 
     def jjim_del(self, recipe_id):

@@ -87,8 +87,9 @@ class ClientApp:
     def send_recipe_all_access(self, recipe_):
         """레시피 데이터 조회 서버로 전송"""
         data_msg = recipe_
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.recipe_all
-        self.fixed_volume(header_data, data_msg)
+        self.fixed_volume(header_data, data_msg_str)
 
     def send_recipe_id_access(self, recipe_id):
         """레시피 아이디로 데이터 조회 서버로 전송"""
@@ -134,9 +135,10 @@ class ClientApp:
 
     def send_recipe_random_access(self, recipe_):
         """홈화면 켜질때 추천 레시피 출력을 위해 서버로 데이터 전송"""
-        data_msg = recipe_
+        data_msg = Recipe(recipe_)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.recipe_random
-        self.fixed_volume(header_data, data_msg)
+        self.fixed_volume(header_data, data_msg_str)
 
     def send_random_recipe_id_access(self, random_recipe_id):
         """선호 음식 추가 다이얼로그 버튼 출력을 위해 서버로 데이터 전송"""
