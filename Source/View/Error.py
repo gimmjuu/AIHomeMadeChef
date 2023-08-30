@@ -51,6 +51,10 @@ class Error(QDialog):
             self.label_3.setText("패스워드에 영문자,숫자,특수기호")
             self.label_5.setText("각 1개 이상 입력해주세요.")
 
+        if num == 11:
+            self.label_2.setPixmap(QPixmap("../../Images/clear.png"))
+            self.label_3.setText("선호음식 저장이 완료되었습니다.")
+
         if num == 100:
             self.label_2.setPixmap(QPixmap("../../Images/경고.png"))
             self.label_3.setText(f"{t_txt}")
