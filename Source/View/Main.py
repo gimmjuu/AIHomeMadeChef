@@ -345,7 +345,10 @@ class Main(QWidget):
 
     def add_prefer_food(self):
         """선호 음식 추가 버튼 클릭시 이벤트 함수 함수"""
-        recipe_id_list = list()
+        recipe_id_list = [n for n in range(1, 541)]
+        random_id = random.sample(recipe_id_list, 18)
+        recipe_id_list.remove(random_id)
+
 
         self.home_page.setCurrentIndex(7)
 

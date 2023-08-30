@@ -25,6 +25,7 @@ class ClientApp:
     like_check = "like_check"
     recipe_jjim = "recipe_jjim"
     recipe_random = "recipe_random"
+    rd_recipe_id = "rd_recipe_id"
 
     def __init__(self):
         self.user_id = None
@@ -118,10 +119,17 @@ class ClientApp:
         self.fixed_volume(header_data, data_msg_str)
 
     def send_recipe_random_access(self, recipe_):
-        """홈화면 켜질때 추천 레시피 출력을 위해 서버로 전송"""
+        """홈화면 켜질때 추천 레시피 출력을 위해 서버로 데이터 전송"""
         data_msg = recipe_
         header_data = self.recipe_random
         self.fixed_volume(header_data, data_msg)
+
+    def send_random_recipe_id_access(self, random_recipe_id):
+        """선호 음식 추가 다이얼로그 버튼 출력을 위해 서버로 데이터 전송"""
+        data_msg = Recipe(random_recipe_id)
+        data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
+        header_data = self.rd_recipe_id
+        self.fixed_volume(header_data, data_msg_str)
 
     def fixed_volume(self, header, data):
         """데이터 길이 맞춰서 서버로 전송"""
@@ -189,4 +197,8 @@ class ClientApp:
             # 레시피 랜덤으로 추천 출력
             if response_header == self.recipe_random:
                 self.client_widget.recipe_random_signal.emit(response_data)
+
+            # 랜덤 레시피 아이디 값으로 선호 음식 추가 다이얼로그 출력
+            if response_header == self.rd_recipe_id:
+                self.client_widget.rd_recipe_id_signal.emit(response_data)
 
