@@ -150,7 +150,6 @@ class Server:
         # 마이페이지 : 추천 레시피 조회
         if request_header == self.recommend_data:
             object_ = self.decoder.binary_to_obj(request_data)
-            print(object_.user_id, object_.user_taste)
             result_ = self.get_nomination_result(object_.user_id, object_.user_taste)
             response_header = self.recommend_data
             response_data = self.encoder.to_JSON_as_binary(result_)

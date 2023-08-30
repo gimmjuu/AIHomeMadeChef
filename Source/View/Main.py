@@ -339,6 +339,7 @@ class Main(QWidget):
             recipe_id = rcp.recipe_id
             recipe_name = rcp.recipe_name
             recipe_img = rcp.recipe_img
+            print(recipe_img)
             suggest = Suggest(recipe_name, recipe_img)
             self.gridLayout.addWidget(suggest, r, c)
             c += 1
@@ -385,7 +386,6 @@ class Main(QWidget):
         elif len(self.label_51.text()) == 0:
             id_3 = data_[0]
             self.label_51.setText(f'{data_[1]}')
-
 
     # ============================================ 레시피  ===========================================
     def recipe_page_clicked(self, recipe_id):
