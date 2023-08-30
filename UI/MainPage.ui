@@ -1004,7 +1004,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1106,26 +1106,51 @@ border-radius:20px;
        <widget class="QLabel" name="label_15">
         <property name="geometry">
          <rect>
-          <x>87</x>
-          <y>105</y>
-          <width>431</width>
+          <x>24</x>
+          <y>108</y>
+          <width>421</width>
           <height>31</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>티머니 둥근바람 ExtraBold</family>
-          <pointsize>15</pointsize>
+          <pointsize>16</pointsize>
          </font>
         </property>
         <property name="styleSheet">
          <string notr="true">color: rgb(90, 90, 90);</string>
         </property>
         <property name="text">
-         <string>레시피가 궁금한 음식 사진을 업로드 해주세요!</string>
+         <string>레시피가 궁금한 음식 사진을 업로드 해주세요</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="upload_btn">
+        <property name="geometry">
+         <rect>
+          <x>490</x>
+          <y>110</y>
+          <width>81</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>티머니 둥근바람 ExtraBold</family>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 148, 148);
+color: rgb(255, 255, 255);
+border-radius: 10px;
+</string>
+        </property>
+        <property name="text">
+         <string>업로드</string>
         </property>
        </widget>
       </widget>
@@ -1474,8 +1499,8 @@ border-width:3px;
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>545</width>
-           <height>135</height>
+           <width>549</width>
+           <height>139</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -1939,7 +1964,7 @@ color: rgb(100, 100, 100);</string>
            <property name="geometry">
             <rect>
              <x>255</x>
-             <y>65</y>
+             <y>67</y>
              <width>91</width>
              <height>31</height>
             </rect>
@@ -1965,7 +1990,7 @@ color: rgb(90, 90, 90);</string>
            <property name="geometry">
             <rect>
              <x>341</x>
-             <y>67</y>
+             <y>69</y>
              <width>81</width>
              <height>31</height>
             </rect>
@@ -1991,7 +2016,7 @@ color: rgb(255, 0, 0);</string>
            <property name="geometry">
             <rect>
              <x>418</x>
-             <y>65</y>
+             <y>67</y>
              <width>91</width>
              <height>31</height>
             </rect>
@@ -2017,7 +2042,7 @@ color: rgb(90, 90, 90);</string>
            <property name="geometry">
             <rect>
              <x>262</x>
-             <y>95</y>
+             <y>100</y>
              <width>241</width>
              <height>31</height>
             </rect>
@@ -2207,7 +2232,7 @@ p, li { white-space: pre-wrap; }
         <property name="geometry">
          <rect>
           <x>312</x>
-          <y>610</y>
+          <y>611</y>
           <width>245</width>
           <height>50</height>
          </rect>
