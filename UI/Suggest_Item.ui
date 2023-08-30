@@ -27,7 +27,8 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 8px;</string>
+border-radius: 8px;
+border-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">

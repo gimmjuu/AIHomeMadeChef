@@ -1004,7 +1004,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1481,14 +1481,25 @@ border-width:0px;</string>
          <rect>
           <x>20</x>
           <y>204</y>
-          <width>551</width>
-          <height>141</height>
+          <width>550</width>
+          <height>160</height>
          </rect>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>550</width>
+          <height>160</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>550</width>
+          <height>160</height>
+         </size>
+        </property>
         <property name="styleSheet">
-         <string notr="true">border-color: rgb(255, 148, 148);
-border-style:solid;
-border-width:3px;
+         <string notr="true">border-style:solid;
+border-width:0px;
 </string>
         </property>
         <property name="widgetResizable">
@@ -1499,8 +1510,8 @@ border-width:3px;
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>545</width>
-           <height>135</height>
+           <width>550</width>
+           <height>160</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -1508,6 +1519,21 @@ border-width:3px;
 border-style:solid;
 </string>
          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>529</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </widget>
        </widget>
        <widget class="QLabel" name="label_17">
@@ -1558,7 +1584,7 @@ border-style:solid;
         <property name="geometry">
          <rect>
           <x>19</x>
-          <y>360</y>
+          <y>372</y>
           <width>121</width>
           <height>21</height>
          </rect>
@@ -1607,7 +1633,7 @@ border-radius: 10px;
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>390</y>
+          <y>400</y>
           <width>550</width>
           <height>260</height>
          </rect>
@@ -2797,7 +2823,7 @@ QPushButton:checked{
          <string>음식 리스트</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="save_btn">
         <property name="geometry">
          <rect>
           <x>490</x>
@@ -3121,7 +3147,7 @@ border-radius: 10px;
        <zorder>retry_btn</zorder>
        <zorder>widget_18</zorder>
        <zorder>label_37</zorder>
-       <zorder>pushButton_5</zorder>
+       <zorder>save_btn</zorder>
        <zorder>pushButton_6</zorder>
        <zorder>label_39</zorder>
        <zorder>label_40</zorder>
