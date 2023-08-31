@@ -22,7 +22,7 @@ class Main(QWidget):
     login_check_signal = pyqtSignal(bool)
     member_id_check_signal = pyqtSignal(bool)
     member_join_signal = pyqtSignal(bool)
-    recommend_data_signal = pyqtSignal(str)
+    recommend_data_signal = pyqtSignal(list)
     recipe_all_signal = pyqtSignal(str)
     recipe_id_signal = pyqtSignal(str)
     recipe_like_signal = pyqtSignal(str)
@@ -88,6 +88,7 @@ class Main(QWidget):
 
     def close_event(self, e):
         """프로그램 종료 이벤트 함수"""
+        self.client.client_socket.close()
         self.close()
 
     def btn_event(self):
@@ -124,7 +125,7 @@ class Main(QWidget):
         self.login_check_signal.connect(self.login_check_situation)
         self.member_id_check_signal.connect(self.member_id_check_situation)
         self.member_join_signal.connect(self.member_join_clear)
-        self.recommend_data_signal.connect(self.my_page_show)
+        self.recommend_data_signal.connect(self.recommendation_item_check)
         self.recipe_id_signal.connect(self.search_recipe)
         self.like_check_signal.connect(self.recipe_like_check)
         self.recipe_jjim_signal.connect(self.recipe_jjim_show)
@@ -343,21 +344,23 @@ class Main(QWidget):
         self.label_51.clear()
 
     def my_page_request(self):
-        """마이 페이지용 추천 음식 데이터 서버에 요청 함수"""
+        """마이 페이지용 사용자 선호 음식 정보, 추천 음식 데이터 서버에 요청 함수"""
         user_id = self.client.user_id
-        # 임시 데이터
-        user_taste = ["11", "222", "3"]
+        self.client.send_recommend_data_access(user_id)
+        self.home_page.setCurrentIndex(2)
 
-        if user_taste:
-            self.client.send_recommend_data_access(user_id, user_taste)
-        else:
-            self.home_page.setCurrentIndex(2)
+    def recommendation_item_check(self, resp_list: list):
+        # [ User(id, taste="해물전골|파전"), Recipe()... ]
+        """마이 페이지 관련 응답 데이터 처리 함수"""
+        self.set_prefer_list(~~~인자를 넣어주세여~~~)
 
-    def my_page_show(self, recommend_list):
+        if len(resp_list) > 1:
+            # 추천 음식 데이터가 있을 때
+            self.my_page_show(resp_list[1:])
+
+    def my_page_show(self, recipes):
         """마이 페이지 추천 음식 데이터 출력 함수"""
-        recipes = self.decoder.binary_to_obj(recommend_list)
         self.clear_layout(self.gridLayout)
-
         r, c = 0, 0
         for rcp in recipes:
             suggest = Suggest(rcp.recipe_name, rcp.recipe_img)
@@ -376,7 +379,7 @@ class Main(QWidget):
         self.request_prefer_food()
 
     def request_prefer_food(self):
-        """선호 음식 추가 버튼 클릭시 이벤트 함수 함수"""
+        """선호 음식 추가 버튼 클릭시 이벤트 함수"""
         if len(self.recipe_id_list) > 12:
             random_id = random.sample(self.recipe_id_list, 12)
             for ran_id in random_id:
@@ -423,6 +426,11 @@ class Main(QWidget):
 
     def prefer_food_save(self):
         """선호 음식 추가 다이얼로그에서 저장하기 버튼 클릭 시 이벤트 함수"""
+        if len(self.selected_items) == 0:
+            self.error_box.error_text(100, "선택한 음식이 없습니다.")
+            self.error_box.exec_()
+            return
+
         self.error_box.error_text(11)
         self.error_box.exec_()
         self.client.send_prefer_food_save_access([str(item[0]) for item in self.selected_items])
@@ -430,11 +438,10 @@ class Main(QWidget):
     def prefer_list_show(self, prefer_list):
         """선호 음식 박스 위젯 출력 이벤트 함수"""
         prefer_food = self.decoder.binary_to_obj(prefer_list)
-        self.clear_layout(self.horizontalLayout_2)
-        for pf in prefer_food:
-            prfer = Prefer(pf.recipe_name)
-            self.horizontalLayout_2.addWidget(prfer)
-            prfer.mousePressEvent = lambda x, y=pf.recipe_id: self.recipe_page_clicked(y)
+        self.set_prefer_list(["없음, 없음, 없음"])
+
+    def set_prefer_list(self, t_list: list):
+        # --------------- 여기서 라벨에 이름 깔아줘야함
         self.home_page.setCurrentIndex(2)
 
     # ============================================ 레시피  ===========================================

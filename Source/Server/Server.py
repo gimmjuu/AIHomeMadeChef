@@ -113,6 +113,7 @@ class Server:
         if request_header == self.login_check:
             object_ = self.decoder.binary_to_obj(request_data)
             result_ = self.db_conn.login_by_id_pwd(object_.user_id, object_.user_pwd)
+
             if result_ == Result(False):
                 response_header = self.login_check
                 response_data = self.dot_encoded
@@ -151,7 +152,24 @@ class Server:
         # 마이페이지 : 추천 레시피 조회
         if request_header == self.recommend_data:
             object_ = self.decoder.binary_to_obj(request_data)
-            result_ = self.get_nomination_result(object_.user_id, object_.user_taste)
+            result_ = list()
+            result_1 = self.db_conn.get_usertaste_by_id(object_.user_id)
+            result_.append(result_1)
+
+            if result_1.user_taste:
+                taste_list = result_1.user_taste.split("|")
+
+                # --- 사용자 선호 음식 이름 조회
+                recipes = self.db_conn.find_optional_recipe_list(taste_list)
+                recipes = [rcp.recipe_name for rcp in recipes]
+                result_1.user_taste = "|".join(recipes)
+
+                # --- 사용자 추천 음식 정보 조회
+                result_2 = self.get_nomination_result(result_1.user_id, taste_list)
+                if result_2:
+                    result_.extend(result_2)
+
+            print("[Server : recommend_data]", result_)
             response_header = self.recommend_data
             response_data = self.encoder.to_JSON_as_binary(result_)
             return_result = self.fixed_volume(response_header, response_data)

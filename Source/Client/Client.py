@@ -78,9 +78,9 @@ class ClientApp:
         header_data = self.member_join
         self.fixed_volume(header_data, data_msg_str)
 
-    def send_recommend_data_access(self, user_id, user_taste):
+    def send_recommend_data_access(self, user_id: str):
         """마이 페이지 데이터 서버로 전송"""
-        data_msg = User(user_id, user_taste=user_taste)
+        data_msg = User(user_id)
         data_msg_str = self.encoder.to_JSON_as_binary(data_msg)
         header_data = self.recommend_data
         self.fixed_volume(header_data, data_msg_str)
@@ -192,7 +192,8 @@ class ClientApp:
 
             # 마이 페이지 추천 레시피 데이터
             if response_header == self.recommend_data:
-                self.client_widget.recommend_data_signal.emit(response_data)
+                object_list = self.decoder.binary_to_obj(response_data)
+                self.client_widget.recommend_data_signal.emit(object_list)
 
             # 레시피 전체 데이터
             if response_header == self.recipe_all:

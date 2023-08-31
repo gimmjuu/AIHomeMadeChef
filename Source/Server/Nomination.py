@@ -105,7 +105,7 @@ class Nomination:
         recipe_indices = [i[0] for i in hybrid_sim_scores]
         return self.recipes['RECIPE_ID'].iloc[recipe_indices]
 
-    def get_recommendation_list(self, user_id:str, user_taste: list):
+    def get_recommendation_list(self, user_id: str, user_taste: list):
         collaborative_result = self.get_collaborative_filtering(user_id)
 
         content_result = list()

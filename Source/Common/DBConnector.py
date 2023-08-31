@@ -144,10 +144,10 @@ class DBConnector:
 
         return result
 
-    def get_userinfo_by_id(self, t_id: str):
-        """아이디로 사용자 닉네임, 선호 음식 정보 조회"""
+    def get_usertaste_by_id(self, t_id: str):
+        """아이디로 사용자 선호 음식 정보 조회"""
         self.start_conn()
-        sql = f"select \"USER_ID\", \"USER_NM\", \"USER_TASTE\" from \"TB_USER\" where \"USER_ID\" = '{t_id}'"
+        sql = f"select \"USER_ID\", \"USER_TASTE\" from \"TB_USER\" where \"USER_ID\" = '{t_id}'"
 
         with self.DB.cursor() as cur:
             cur.execute(sql, self.DB)
@@ -155,7 +155,11 @@ class DBConnector:
 
         self.end_conn()
 
-        result = User(user_id=data[0], user_name=data[1], user_taste=data[2])
+        if data[1]:
+            result = User(user_id=data[0], user_taste=data[1])
+        else:
+            result = User(user_id=data[0], user_taste="")
+
         return result
 
     def check_id_duplication(self, t_id: str):
