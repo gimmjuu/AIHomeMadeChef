@@ -7,7 +7,6 @@ from PyQt5.QtGui import QFontDatabase
 
 from Source.Client.Client import ClientApp
 from Source.View.Main import Main
-from Source.View.Splash import Splash
 
 
 class Start(QWidget):
@@ -18,6 +17,7 @@ class Start(QWidget):
         fontDB.addApplicationFont("../../Font/GMARKETSANSTTFBOLD.ttf")
         fontDB.addApplicationFont("../../Font/KIMJUNGCHULSCRIPT-REGULAR.ttf")
         fontDB.addApplicationFont("../../Font/TMONEYROUNDWINDEXTRABOLD.ttf")
+        fontDB.addApplicationFont("../../Font/THE_Nakseo.ttf")
         self.window_option()
         self.timer_event()
 
@@ -41,11 +41,7 @@ class Start(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    sp = Splash()
-    sp.show()
-    app.processEvents()
     client = ClientApp()
     myWindow = Start()
     myWindow.show()
-    sp.close()
     app.exec_()

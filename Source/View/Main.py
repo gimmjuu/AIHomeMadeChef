@@ -1,21 +1,22 @@
-from PyQt5.QtTest import QTest
-from PyQt5.QtWidgets import QWidget, QLayout, QSpacerItem, QSizePolicy, QLabel, QFileDialog, QPushButton
-from PyQt5.QtCore import Qt, pyqtSignal, QByteArray, QTimer
+import os
+import random
+from threading import Thread
+
+from PyQt5.QtWidgets import QWidget, QLayout, QLabel, QFileDialog, QPushButton, QStackedWidget
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.uic import loadUi
 
 from Source.Common.JSONConverter import *
+from Source.View.Splash import SplashScreen, SplashThread
 from Source.View.Cooking import Cooking
 from Source.View.Ingredient import Ingredient
 from Source.View.Like import Likes
-from Source.View.Prefer import Prefer
 from Source.View.Recipes import Recipes
 from Source.View.Recommend import Recommend
 from Source.View.Suggest import Suggest
 from Source.View.Telegram import TelegramBot
 from Source.View.Error import Error
-from threading import Thread
-import random
 
 
 class Main(QWidget):
@@ -66,8 +67,8 @@ class Main(QWidget):
         self.img_thread.start()
 
         # gif 실행 코드
-        self.movie = QMovie('../../Images/cafe.gif', QByteArray(), self)
-        self.movie_2 = QMovie('../../Images/trip.gif', QByteArray(), self)
+        self.movie = QMovie('../../Images/cafe.gif')
+        self.movie_2 = QMovie('../../Images/trip.gif')
         self.movie.setCacheMode(QMovie.CacheAll)
         self.movie_2.setCacheMode(QMovie.CacheAll)
         self.label_33.setMovie(self.movie) # 샌드위치 gif
@@ -77,10 +78,11 @@ class Main(QWidget):
 
         # 광고 배너 qtimer
         self.timer = QTimer(self)
-        self.timer.start(5000)  # 5초 반복
+        self.timer.setInterval(5000)  # 5초 반복
         self.timer.timeout.connect(self.timer_event)
         self.ad.setCurrentIndex(0)
         self.ad_count = 1
+        self.home_page.currentChanged.connect(self.timer_check)
 
     def lbl_event(self):
         """라벨 클릭 이벤트 함수"""
@@ -89,6 +91,12 @@ class Main(QWidget):
     def close_event(self, e):
         """프로그램 종료 이벤트 함수"""
         self.client.client_socket.close()
+
+        files_ = os.listdir(r'../Model/Temp')
+        for file_ in files_:
+            if '.jpg' in file_ or '.png' in file_ or '.jpeg' in file_:
+                os.remove(fr'../Model/Temp/{file_}')
+
         self.close()
 
     def btn_event(self):
@@ -148,6 +156,14 @@ class Main(QWidget):
         if self.ad_count == 2:
             self.ad_count = 0
 
+    def timer_check(self):
+        """현재 홈화면을 확인한 후 타이머를 실행시키는 함수"""
+        if self.home_page.currentIndex() == 4:
+            self.timer.start()
+        else:
+            if self.timer.isActive():
+                self.timer.stop()
+
     # ============================= 로그인 ==================================
     def login_check(self):
         """로그인 데이터 클라이언트에 전송 함수"""
@@ -174,6 +190,7 @@ class Main(QWidget):
     # ================================== 홈 화면 ===============================
     def home_menu(self):
         """홈 버튼 클릭시 이벤트 함수"""
+        self.home_page: QStackedWidget
         self.home_page.setCurrentIndex(4)
 
     # ================================= 회원가입 ================================
@@ -288,8 +305,19 @@ class Main(QWidget):
             return -1
 
     # =============================== 이름 검색 페이지 =================================
+    def name_search_recipe_show(self):
+        """이름 검색 화면 전체 레시피 요청 함수"""
+        self.home_page.setCurrentWidget(self.page_7)
+        if self.widget_14.findChildren(Recipes):
+            return
+
+        self.client.send_recipe_all_access(Recipe(0))
+
     def set_all_recipe_list(self, t_list):
         """이름 검색 화면 전체 레시피 출력 함수"""
+        # ------------------------------------------- 로딩 화면 -------------------------------------------
+        # loading_thread = SplashThread(loading)
+        # loading_thread.start()
         all_recipe = self.decoder.binary_to_obj(t_list)
 
         for i, rcp_ in enumerate(all_recipe):
@@ -297,14 +325,20 @@ class Main(QWidget):
             self.verticalLayout_4.addWidget(recipe)
             recipe.mousePressEvent = lambda x, y=rcp_.recipe_id: self.recipe_page_clicked(y)
 
-    def name_search_recipe_show(self):
-        """이름 검색 화면 출력 함수"""
-        self.home_page.setCurrentWidget(self.page_7)
+        # loading_thread.start()
+        # loading_thread.quit()
+        # --------------------------------------------------------------------------------------------
 
-        if self.widget_14.findChildren(Recipes):
-            return
+    def search_recipe_by_name(self):
+        """레시피 이름 검색 버튼 클릭시 이벤트 함수"""
+        search_name = self.lineEdit.text()
+        recipe_list = self.scrollAreaWidgetContents_5.findChildren(Recipes)
 
-        self.client.send_recipe_all_access(Recipe(-1))
+        for recipe_ in recipe_list:
+            if search_name in recipe_.label_2.text():
+                recipe_.setVisible(True)
+            else:
+                recipe_.setVisible(False)
 
     # ================================ 이미지 검색 =====================================
     def picture_page_show(self):
@@ -339,13 +373,6 @@ class Main(QWidget):
         self.lbl_imgview.setPixmap(QPixmap(fr'{fname[0][0]}'))
 
     # ================================ 마이 페이지 =====================================
-    def prefer_text_del(self):
-        """선호 음식 추천 다이얼로그에서 전체삭제 버튼 클릭시 3개의 텍스트 내용 삭제 """
-        self.selected_items.clear()
-        self.label_38.clear()
-        self.label_46.clear()
-        self.label_51.clear()
-
     def my_page_request(self):
         """마이 페이지용 사용자 선호 음식 정보, 추천 음식 데이터 서버에 요청 함수"""
         user_id = self.client.user_id
@@ -360,6 +387,28 @@ class Main(QWidget):
         if len(resp_list) > 1:
             # 추천 음식 데이터가 있을 때
             self.my_page_show(resp_list[1:])
+
+    def prefer_list_show(self, prefer_list):
+        """선호 음식 박스 위젯 출력 이벤트 함수"""
+        prefer_food = self.decoder.binary_to_obj(prefer_list)
+        prefer_list = [item.recipe_name for item in prefer_food]
+        self.set_prefer_list(prefer_list)
+
+    def set_prefer_list(self, t_list: list):
+        """유저의 선호 음식 리스트 받아와서 라벨에 출력해주는 함수"""
+        prefer_lbl_list = [[self.prefer_lbl_1, self.prefer_lbl_2],
+                           [self.prefer2_lbl_1, self.prefer2_lbl_2],
+                           [self.prefer3_lbl_1, self.prefer3_lbl_2]]
+
+        if t_list[0] == '':
+            t_list[0] = '없음'
+
+        for i in range(3 - len(t_list)):
+            t_list.append('없음')
+
+        for nm, lb in zip(t_list, prefer_lbl_list):
+            lb[0].setText(nm)
+            lb[1].setText(nm)
 
     def my_page_show(self, recipes):
         """마이 페이지 추천 음식 데이터 출력 함수"""
@@ -400,6 +449,7 @@ class Main(QWidget):
             btn.setChecked(False)
             btn.setObjectName(f"{rcp.recipe_id}")
             btn.setText(rcp.recipe_name)
+
         self.home_page.setCurrentIndex(6)
 
     def add_food_name_prefer_list(self, btn: QPushButton):
@@ -434,24 +484,15 @@ class Main(QWidget):
         self.error_box.exec_()
         self.client.send_prefer_food_save_access([str(item[0]) for item in self.selected_items])
 
-    def prefer_list_show(self, prefer_list):
-        """선호 음식 박스 위젯 출력 이벤트 함수"""
-        prefer_food = self.decoder.binary_to_obj(prefer_list)
-        self.set_prefer_list(["없음, 없음, 없음"])
+    def prefer_text_del(self):
+        """선호 음식 추천 다이얼로그에서 전체 삭제 버튼 클릭시 선택 내용 초기화"""
+        self.selected_items.clear()
+        self.label_38.clear()
+        self.label_46.clear()
+        self.label_51.clear()
 
-    def set_prefer_list(self, t_list: list):
-        """유저의 선호 음식 리스트 받아와서 라벨에 출력해주는 함수"""
-        prefer_lbl_list = [[self.prefer_lbl_1, self.prefer_lbl_2], [self.prefer2_lbl_1, self.prefer2_lbl_2],
-                           [self.prefer3_lbl_1, self.prefer3_lbl_2]]
-        if t_list[0] == '':
-            t_list[0] = '없음'
-
-        for i in range(3 - len(t_list)):
-            t_list.append('없음')
-
-        for nm, lb in zip(t_list, prefer_lbl_list):
-            lb[0].setText(nm)
-            lb[1].setText(nm)
+        for btn in self.food_btn_list:
+            btn.setChecked(False)
 
     # ============================================ 레시피  ===========================================
     def recipe_page_clicked(self, recipe_id):
@@ -467,22 +508,20 @@ class Main(QWidget):
         # --- 레이아웃 비우기
         self.clear_layout(self.verticalLayout)
         self.clear_layout(self.verticalLayout_3)
-        # spacer = QSpacerItem(20, 373, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        # self.verticalLayout_3.addItem(spacer)
 
-        # 재료 출력
+        # --- 재료 출력
         self.lbl_recipe_name.setText(f'<{recipe_datas.recipe_name}> 레시피')
         self.like_btn.setObjectName(f"{recipe_id}")
         self.like_btn_2.setObjectName(f"{recipe_id}")
         ingredient = Ingredient(recipe_datas.recipe_stuff)
         self.verticalLayout.addWidget(ingredient)
 
-        # 조리법 출력
+        # --- 조리법 출력
         recipe_step = recipe_step.replace("/ ", "")
         step_split = recipe_step.split("|")
+
         for i, v in enumerate(step_split):
             cooking = Cooking(i, v)
-            # self.verticalLayout_3.insertWidget(len(self.verticalLayout_3) - 1, cooking)
             self.verticalLayout_3.addWidget(cooking)
 
         self.client.send_like_check(self.client.user_id, recipe_id)
@@ -500,17 +539,6 @@ class Main(QWidget):
             # 아이템이 레이아웃일 경우 재귀 호출로 레이아웃 내의 위젯 삭제
             else:
                 self.clear_layout(item.layout())
-
-    def search_recipe_by_name(self):
-        """레시피 이름 검색 버튼 클릭시 이벤트 함수"""
-        search_name = self.lineEdit.text()
-        recipe_list = self.scrollAreaWidgetContents_5.findChildren(Recipes)
-
-        for recipe_ in recipe_list:
-            if search_name in recipe_.label_2.text():
-                recipe_.setVisible(True)
-            else:
-                recipe_.setVisible(False)
 
     # ======================================== 찜하기 =========================================
     def recipe_like_check(self, like_):
