@@ -19,24 +19,24 @@
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>15</x>
+     <x>0</x>
      <y>0</y>
-     <width>140</width>
+     <width>170</width>
      <height>140</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(0, 0, 0);
-background-color: rgb(173, 216, 230, 220);
-border-radius: 70px;</string>
+background-color: rgb(255, 255, 255);
+</string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>45</y>
-      <width>138</width>
-      <height>41</height>
+      <y>0</y>
+      <width>170</width>
+      <height>140</height>
      </rect>
     </property>
     <property name="font">
@@ -48,6 +48,40 @@ border-radius: 70px;</string>
     <property name="styleSheet">
      <string notr="true">color: rgb(255, 255, 255);
 background-color: rgba(255, 255, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../postit1.jpg</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>3</x>
+      <y>55</y>
+      <width>164</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>THE낙서</family>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(0, 0, 0, 180);</string>
     </property>
     <property name="text">
      <string>TextLabel</string>
