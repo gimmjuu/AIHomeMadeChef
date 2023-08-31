@@ -41,11 +41,7 @@ class Start(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    sp = Splash()
-    sp.show()
-    app.processEvents()
     client = ClientApp()
     myWindow = Start()
     myWindow.show()
-    sp.close()
     app.exec_()
