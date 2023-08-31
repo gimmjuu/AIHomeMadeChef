@@ -304,9 +304,9 @@ class DBConnector:
         """아이디 리스트로 레시피 리스트 추출"""
         sql = ""
 
-        for item in t_list:
+        for i, item in enumerate(t_list):
             sql += f"\"RECIPE_ID\" = {item}"
-            if item != t_list[-1]:
+            if i < len(t_list) - 1:
                 sql += " or "
 
         results = self.select_data("\"RECIPE_ID\", \"RECIPE_NM\", \"RECIPE_THUMB\"", "\"TB_RECIPE\"", sql)

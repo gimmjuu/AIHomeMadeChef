@@ -135,7 +135,7 @@ class Main(QWidget):
         self.add_btn.clicked.connect(self.add_prefer_food)
         self.retry_btn.clicked.connect(self.request_prefer_food)
         self.save_btn.clicked.connect(self.prefer_food_save)
-        self.back_page_btn.clicked.connect(lambda: self.home_page.setCurrentIdex(6))
+        self.back_page_btn.clicked.connect(self.prefer_back_page)
         self.all_del_btn.clicked.connect(self.prefer_text_del)
 
     def signal_event(self):
@@ -155,7 +155,7 @@ class Main(QWidget):
 
     # ============================= 메인화면 광고배너 =================================
     def timer_event(self):
-        """광고배너 타이머 이벤트 함수"""
+        """광고 배너 타이머 이벤트 함수"""
         ad_list = [0, 1]
         self.ad.setCurrentIndex(ad_list[self.ad_count])
         self.ad_count += 1
@@ -340,11 +340,16 @@ class Main(QWidget):
         search_name = self.lineEdit.text()
         recipe_list = self.scrollAreaWidgetContents_5.findChildren(Recipes)
 
+        base_size, item_cnt = 80, 0
+
         for recipe_ in recipe_list:
             if search_name in recipe_.label_2.text():
                 recipe_.setVisible(True)
+                item_cnt += 1
             else:
                 recipe_.setVisible(False)
+
+        self.scrollAreaWidgetContents_5.setMaximumHeight(base_size * item_cnt)
 
     # ================================ 이미지 검색 =====================================
     def picture_page_show(self):
@@ -374,9 +379,10 @@ class Main(QWidget):
     def open_file_dialog(self):
         """파일 다이얼로그 출력 함수"""
         fname = QFileDialog.getOpenFileNames(self, 'Open File', r'../Model/Temp', 'Image files(*.jpg *.png)')
-        print(fname[0][0])
-        self.lbl_imgview.setObjectName(fname[0][0])
-        self.lbl_imgview.setPixmap(QPixmap(fr'{fname[0][0]}'))
+
+        if fname[0]:
+            self.lbl_imgview.setObjectName(fname[0][0])
+            self.lbl_imgview.setPixmap(QPixmap(fr'{fname[0][0]}'))
 
     # ================================ 마이 페이지 =====================================
     def my_page_request(self):
@@ -396,9 +402,9 @@ class Main(QWidget):
 
     def prefer_list_show(self, prefer_list):
         """선호 음식 박스 위젯 출력 이벤트 함수"""
-        prefer_food = self.decoder.binary_to_obj(prefer_list)
-        prefer_list = [item.recipe_name for item in prefer_food]
-        self.set_prefer_list(prefer_list)
+        result_ = self.decoder.binary_to_obj(prefer_list)
+        if result_.true_or_false:
+            self.my_page_request()
 
     def set_prefer_list(self, t_list: list):
         """유저의 선호 음식 리스트 받아와서 라벨에 출력해주는 함수"""
@@ -458,19 +464,19 @@ class Main(QWidget):
 
         self.home_page.setCurrentIndex(6)
 
-    def add_food_name_prefer_list(self, btn: QPushButton):
+    def add_food_name_prefer_list(self, idx: int):
         """선호 음식 추가 다이얼로그에서 음식 버튼 클릭시 이벤트 함수"""
+        btn = self.food_btn_list[idx]
         target_ = [int(btn.objectName()), btn.text()]
         labels = [self.label_38, self.label_46, self.label_51]
 
         if btn.isChecked():
-            if self.selected_items and len(self.selected_items) == 3:
+            if (self.selected_items and len(self.selected_items) == 3) or target_ in self.selected_items:
                 btn.setChecked(False)
                 return
             self.selected_items.append(target_)
 
         else:
-            print(target_)
             self.selected_items.remove(target_)
 
         for i, lbl in enumerate(labels):
@@ -489,6 +495,10 @@ class Main(QWidget):
         self.error_box.error_text(11)
         self.error_box.exec_()
         self.client.send_prefer_food_save_access([str(item[0]) for item in self.selected_items])
+        self.home_page.setCurrentIndex(2)
+        self.label_38.clear()
+        self.label_46.clear()
+        self.label_51.clear()
 
     def prefer_text_del(self):
         """선호 음식 추천 다이얼로그에서 전체 삭제 버튼 클릭시 선택 내용 초기화"""
@@ -499,6 +509,13 @@ class Main(QWidget):
 
         for btn in self.food_btn_list:
             btn.setChecked(False)
+
+    def prefer_back_page(self):
+        """선호음식 추가 다이얼로그에서 뒤로가기 버튼 클릭시 이벤트 함수"""
+        self.label_38.clear()
+        self.label_46.clear()
+        self.label_51.clear()
+        self.home_page.setCurrentIndex(6)
 
     # ============================================ 레시피  ===========================================
     def recipe_page_clicked(self, recipe_id):
@@ -593,6 +610,7 @@ class Main(QWidget):
             like_page.mousePressEvent = lambda x=None, y=recipe_id: self.recipe_page_clicked(y)
             like_page.jjim_btn.clicked.connect(lambda x=None, y=recipe_id: self.jjim_del(y))
 
+        self.scrollAreaWidgetContents_4.setMaximumHeight(len(recipes) * 100)
         self.home_page.setCurrentIndex(3)
 
     def jjim_del(self, recipe_id):

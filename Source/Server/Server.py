@@ -259,9 +259,8 @@ class Server:
         if request_header == self.prefer_food_save:
             object_ = self.decoder.binary_to_obj(request_data)
             self.db_conn.update_user_taste_info(object_.user_id, object_.user_taste)
-            result_ = self.db_conn.find_optional_recipe_list(object_.user_taste.split("|"))
             response_header = self.prefer_food_save
-            response_data = self.encoder.to_JSON_as_binary(result_)
+            response_data = self.encoder.to_JSON_as_binary(Result(True))
             return_result = self.fixed_volume(response_header, response_data)
             self.send_message(client_socket, return_result)
 
