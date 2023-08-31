@@ -9,7 +9,7 @@ from Source.Model.Classification import Classification
 class ClientApp:
     # HOST = '10.10.20.113'
     HOST = '127.0.0.1'
-    PORT = 9090
+    PORT = 9432
     BUFFER = 300000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
@@ -39,8 +39,7 @@ class ClientApp:
         self.encoder = ObjEncoder()
         self.decoder = ObjDecoder()
 
-        self.receive_thread = Thread(target=self.receive_message)
-        self.receive_thread.daemon = True
+        self.receive_thread = Thread(target=self.receive_message, daemon=True)
         self.receive_thread.start()
 
     def set_widget(self, widget_):
@@ -165,70 +164,74 @@ class ClientApp:
     def receive_message(self):
         """서버에서 데이터 받아옴"""
         while True:
-            return_result_ = self.client_socket.recv(self.BUFFER).decode(self.FORMAT)
-            response_header = return_result_[:self.HEADER_LENGTH].strip()
-            response_data = return_result_[self.HEADER_LENGTH:].strip()
+            try:
+                return_result_ = self.client_socket.recv(self.BUFFER).decode(self.FORMAT)
+                response_header = return_result_[:self.HEADER_LENGTH].strip()
+                response_data = return_result_[self.HEADER_LENGTH:].strip()
 
-            # 로그인
-            if response_header == self.login_check:
-                if response_data == '.':
-                    self.client_widget.login_check_signal.emit(False)
-                else:
+                # 로그인
+                if response_header == self.login_check:
+                    if response_data == '.':
+                        self.client_widget.login_check_signal.emit(False)
+                    else:
+                        object_data = self.decoder.binary_to_obj(response_data)
+                        self.user_id = object_data.user_id
+                        self.user_name = object_data.user_name
+                        self.client_widget.login_check_signal.emit(True)
+
+                # 회원가입 아이디 중복 확인
+                if response_header == self.member_id_check:
+                    if response_data == '.':
+                        self.client_widget.member_id_check_signal.emit(False)
+                    else:
+                        self.client_widget.member_id_check_signal.emit(True)
+
+                # 회원가입
+                if response_header == self.member_join:
+                    self.client_widget.member_join_signal.emit(True)
+
+                # 마이 페이지 추천 레시피 데이터
+                if response_header == self.recommend_data:
+                    object_list = self.decoder.binary_to_obj(response_data)
+                    self.client_widget.recommend_data_signal.emit(object_list)
+
+                # 레시피 전체 데이터
+                if response_header == self.recipe_all:
+                    self.client_widget.recipe_all_signal.emit(response_data)
+
+                # 레시피 아이디로 데이터 조회
+                if response_header == self.recipe_id:
+                    self.client_widget.recipe_id_signal.emit(response_data)
+
+                # 레시피 찜목록 버튼 클릭 여부 조회
+                if response_header == self.like_check:
                     object_data = self.decoder.binary_to_obj(response_data)
-                    self.user_id = object_data.user_id
-                    self.user_name = object_data.user_name
-                    self.client_widget.login_check_signal.emit(True)
+                    self.client_widget.like_check_signal.emit(object_data.true_or_false)
 
-            # 회원가입 아이디 중복 확인
-            if response_header == self.member_id_check:
-                if response_data == '.':
-                    self.client_widget.member_id_check_signal.emit(False)
-                else:
-                    self.client_widget.member_id_check_signal.emit(True)
+                # 레시피 찜목록 추가 데이터 조회
+                if response_header == self.recipe_like:
+                    print("찜하기 완료")
 
-            # 회원가입
-            if response_header == self.member_join:
-                self.client_widget.member_join_signal.emit(True)
+                # 레시피 찜목록 삭제
+                if response_header == self.recipe_hate:
+                    print("찜삭제 완료")
 
-            # 마이 페이지 추천 레시피 데이터
-            if response_header == self.recommend_data:
-                object_list = self.decoder.binary_to_obj(response_data)
-                self.client_widget.recommend_data_signal.emit(object_list)
+                # 레시피 찜목록 출력
+                if response_header == self.recipe_jjim:
+                    self.client_widget.recipe_jjim_signal.emit(response_data)
 
-            # 레시피 전체 데이터
-            if response_header == self.recipe_all:
-                self.client_widget.recipe_all_signal.emit(response_data)
+                # 레시피 랜덤으로 추천 출력
+                if response_header == self.recipe_random:
+                    self.client_widget.recipe_random_signal.emit(response_data)
 
-            # 레시피 아이디로 데이터 조회
-            if response_header == self.recipe_id:
-                self.client_widget.recipe_id_signal.emit(response_data)
+                # 랜덤 레시피 아이디 값으로 선호 음식 추가 다이얼로그 출력
+                if response_header == self.rd_recipe_id:
+                    self.client_widget.rd_recipe_id_signal.emit(response_data)
 
-            # 레시피 찜목록 버튼 클릭 여부 조회
-            if response_header == self.like_check:
-                object_data = self.decoder.binary_to_obj(response_data)
-                self.client_widget.like_check_signal.emit(object_data.true_or_false)
+                # 선호 음식 추가 다이얼로그에서 저장하기 버튼 클릭
+                if response_header == self.prefer_food_save:
+                    self.client_widget.prefer_food_save_signal.emit(response_data)
 
-            # 레시피 찜목록 추가 데이터 조회
-            if response_header == self.recipe_like:
-                print("찜하기 완료")
-
-            # 레시피 찜목록 삭제
-            if response_header == self.recipe_hate:
-                print("찜삭제 완료")
-
-            # 레시피 찜목록 출력
-            if response_header == self.recipe_jjim:
-                self.client_widget.recipe_jjim_signal.emit(response_data)
-
-            # 레시피 랜덤으로 추천 출력
-            if response_header == self.recipe_random:
-                self.client_widget.recipe_random_signal.emit(response_data)
-
-            # 랜덤 레시피 아이디 값으로 선호 음식 추가 다이얼로그 출력
-            if response_header == self.rd_recipe_id:
-                self.client_widget.rd_recipe_id_signal.emit(response_data)
-
-            # 선호 음식 추가 다이얼로그에서 저장하기 버튼 클릭
-            if response_header == self.prefer_food_save:
-                self.client_widget.prefer_food_save_signal.emit(response_data)
-
+            except Exception as e:
+                print("[Server run error]", e)
+                break

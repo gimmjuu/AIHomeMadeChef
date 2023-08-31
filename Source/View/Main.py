@@ -102,6 +102,10 @@ class Main(QWidget):
         self.back_btn.clicked.connect(self.back_join_page)
         self.id_check.clicked.connect(self.member_id_check)
 
+        # 선호 음식 버튼
+        for i, btn in enumerate(self.food_btn_list):
+            btn.released.connect(lambda x=i: self.add_food_name_prefer_list(x))
+
         # 메인화면 버튼
         self.picture_btn.clicked.connect(self.picture_page_show)
         self.search_btn.clicked.connect(self.classify_food_image)
@@ -287,12 +291,11 @@ class Main(QWidget):
     def set_all_recipe_list(self, t_list):
         """이름 검색 화면 전체 레시피 출력 함수"""
         all_recipe = self.decoder.binary_to_obj(t_list)
+
         for i, rcp_ in enumerate(all_recipe):
             recipe = Recipes(rcp_.recipe_name, rcp_.recipe_type, rcp_.recipe_img)
-            self.verticalLayout_4.insertWidget(len(self.verticalLayout_4) - 1, recipe)
+            self.verticalLayout_4.addWidget(recipe)
             recipe.mousePressEvent = lambda x, y=rcp_.recipe_id: self.recipe_page_clicked(y)
-            if (i+1) % 10 == 0:
-                QTest.qWait(70)
 
     def name_search_recipe_show(self):
         """이름 검색 화면 출력 함수"""
@@ -347,12 +350,12 @@ class Main(QWidget):
         """마이 페이지용 사용자 선호 음식 정보, 추천 음식 데이터 서버에 요청 함수"""
         user_id = self.client.user_id
         self.client.send_recommend_data_access(user_id)
-        self.home_page.setCurrentIndex(2)
 
     def recommendation_item_check(self, resp_list: list):
-        # [ User(id, taste="해물전골|파전"), Recipe()... ]
         """마이 페이지 관련 응답 데이터 처리 함수"""
-        self.set_prefer_list(~~~인자를 넣어주세여~~~)
+        user_taste = resp_list[0].user_taste.split("|")
+        self.set_prefer_list(user_taste)
+        self.home_page.setCurrentIndex(2)
 
         if len(resp_list) > 1:
             # 추천 음식 데이터가 있을 때
@@ -370,8 +373,6 @@ class Main(QWidget):
             if c == 3:
                 c = 0
                 r = 1
-
-        self.home_page.setCurrentIndex(2)
 
     def add_prefer_food(self):
         """선호 음식 추가 화면 초기화 함수"""
@@ -392,15 +393,13 @@ class Main(QWidget):
     def prefer_food_show(self, prefer_):
         """선호 음식 12개 랜덤으로 받아오는 이벤트 함수"""
         prefer_data = self.decoder.binary_to_obj(prefer_)
-        prefer_data:list
-        self.food_btn_list:list
+        prefer_data: list
+        self.food_btn_list: list
 
         for btn, rcp in zip(self.food_btn_list, prefer_data):
             btn.setChecked(False)
             btn.setObjectName(f"{rcp.recipe_id}")
             btn.setText(rcp.recipe_name)
-            idx = self.food_btn_list.index(btn)
-            btn.released.connect(lambda x=btn: self.add_food_name_prefer_list(x))
         self.home_page.setCurrentIndex(6)
 
     def add_food_name_prefer_list(self, btn: QPushButton):
@@ -441,8 +440,18 @@ class Main(QWidget):
         self.set_prefer_list(["없음, 없음, 없음"])
 
     def set_prefer_list(self, t_list: list):
-        # --------------- 여기서 라벨에 이름 깔아줘야함
-        self.home_page.setCurrentIndex(2)
+        """유저의 선호 음식 리스트 받아와서 라벨에 출력해주는 함수"""
+        prefer_lbl_list = [[self.prefer_lbl_1, self.prefer_lbl_2], [self.prefer2_lbl_1, self.prefer2_lbl_2],
+                           [self.prefer3_lbl_1, self.prefer3_lbl_2]]
+        if t_list[0] == '':
+            t_list[0] = '없음'
+
+        for i in range(3 - len(t_list)):
+            t_list.append('없음')
+
+        for nm, lb in zip(t_list, prefer_lbl_list):
+            lb[0].setText(nm)
+            lb[1].setText(nm)
 
     # ============================================ 레시피  ===========================================
     def recipe_page_clicked(self, recipe_id):
