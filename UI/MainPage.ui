@@ -26,7 +26,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="login_page">
     <widget class="QWidget" name="widget" native="true">
@@ -170,7 +170,7 @@ border-radius:10px;
 </string>
       </property>
       <property name="text">
-       <string>lss</string>
+       <string/>
       </property>
       <property name="placeholderText">
        <string>  아이디</string>
@@ -202,7 +202,7 @@ border-radius:10px;
 </string>
       </property>
       <property name="text">
-       <string>111</string>
+       <string/>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
@@ -1004,7 +1004,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1571,23 +1571,23 @@ border-style:solid;
           <x>20</x>
           <y>175</y>
           <width>551</width>
-          <height>190</height>
+          <height>200</height>
          </rect>
         </property>
         <widget class="QLabel" name="label_36">
          <property name="geometry">
           <rect>
-           <x>-5</x>
-           <y>40</y>
-           <width>170</width>
-           <height>140</height>
+           <x>2</x>
+           <y>41</y>
+           <width>172</width>
+           <height>155</height>
           </rect>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../Images/postit1.png</pixmap>
+          <pixmap>../Images/photo1.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1596,17 +1596,17 @@ border-style:solid;
         <widget class="QLabel" name="label_55">
          <property name="geometry">
           <rect>
-           <x>189</x>
-           <y>35</y>
-           <width>170</width>
-           <height>145</height>
+           <x>191</x>
+           <y>44</y>
+           <width>172</width>
+           <height>152</height>
           </rect>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../Images/postit3.png.jpg</pixmap>
+          <pixmap>../Images/photo2.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1615,17 +1615,17 @@ border-style:solid;
         <widget class="QLabel" name="label_56">
          <property name="geometry">
           <rect>
-           <x>380</x>
-           <y>34</y>
-           <width>170</width>
-           <height>146</height>
+           <x>376</x>
+           <y>40</y>
+           <width>172</width>
+           <height>155</height>
           </rect>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../Images/postit2.png</pixmap>
+          <pixmap>../Images/photo3.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1634,9 +1634,9 @@ border-style:solid;
         <widget class="QLabel" name="prefer_lbl_2">
          <property name="geometry">
           <rect>
-           <x>2</x>
-           <y>102</y>
-           <width>161</width>
+           <x>15</x>
+           <y>105</y>
+           <width>147</width>
            <height>31</height>
           </rect>
          </property>
@@ -1650,7 +1650,7 @@ border-style:solid;
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgba(0, 0, 0, 110);</string>
+color: rgba(255, 255, 255, 180);</string>
          </property>
          <property name="text">
           <string/>
@@ -1663,9 +1663,9 @@ color: rgba(0, 0, 0, 110);</string>
          <property name="geometry">
           <rect>
            <x>480</x>
-           <y>2</y>
+           <y>4</y>
            <width>70</width>
-           <height>32</height>
+           <height>30</height>
           </rect>
          </property>
          <property name="font">
@@ -1711,9 +1711,9 @@ border-radius: 10px;
         <widget class="QLabel" name="prefer_lbl_1">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>100</y>
-           <width>161</width>
+           <x>13</x>
+           <y>103</y>
+           <width>147</width>
            <height>31</height>
           </rect>
          </property>
@@ -1727,7 +1727,7 @@ border-radius: 10px;
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgb(255, 255, 255);</string>
+color: rgb(0, 0, 0, 230);</string>
          </property>
          <property name="text">
           <string/>
@@ -1739,9 +1739,9 @@ color: rgb(255, 255, 255);</string>
         <widget class="QLabel" name="prefer2_lbl_1">
          <property name="geometry">
           <rect>
-           <x>192</x>
-           <y>100</y>
-           <width>161</width>
+           <x>201</x>
+           <y>103</y>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1755,7 +1755,7 @@ color: rgb(255, 255, 255);</string>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgb(255,255,255);</string>
+color: rgb(0, 0, 0, 230);</string>
          </property>
          <property name="text">
           <string/>
@@ -1767,9 +1767,9 @@ color: rgb(255,255,255);</string>
         <widget class="QLabel" name="prefer2_lbl_2">
          <property name="geometry">
           <rect>
-           <x>194</x>
-           <y>102</y>
-           <width>161</width>
+           <x>203</x>
+           <y>105</y>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1783,7 +1783,7 @@ color: rgb(255,255,255);</string>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgba(0, 0, 0, 110);</string>
+color: rgba(255, 255, 255, 180);</string>
          </property>
          <property name="text">
           <string/>
@@ -1795,9 +1795,9 @@ color: rgba(0, 0, 0, 110);</string>
         <widget class="QLabel" name="prefer3_lbl_1">
          <property name="geometry">
           <rect>
-           <x>385</x>
-           <y>100</y>
-           <width>161</width>
+           <x>388</x>
+           <y>103</y>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1811,7 +1811,7 @@ color: rgba(0, 0, 0, 110);</string>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgb(255, 255, 255);</string>
+color: rgb(0, 0, 0, 230);</string>
          </property>
          <property name="text">
           <string/>
@@ -1823,9 +1823,9 @@ color: rgb(255, 255, 255);</string>
         <widget class="QLabel" name="prefer3_lbl_2">
          <property name="geometry">
           <rect>
-           <x>387</x>
-           <y>102</y>
-           <width>161</width>
+           <x>390</x>
+           <y>105</y>
+           <width>150</width>
            <height>31</height>
           </rect>
          </property>
@@ -1839,7 +1839,7 @@ color: rgb(255, 255, 255);</string>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgba(0, 0, 0, 110);</string>
+color: rgba(255, 255, 255, 180);</string>
          </property>
          <property name="text">
           <string/>
