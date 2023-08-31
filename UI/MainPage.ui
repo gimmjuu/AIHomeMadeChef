@@ -946,7 +946,7 @@ border-width:0px;
       <property name="font">
        <font>
         <family>티머니 둥근바람 ExtraBold</family>
-        <pointsize>20</pointsize>
+        <pointsize>21</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -1106,7 +1106,7 @@ border-radius:20px;
        <widget class="QLabel" name="label_15">
         <property name="geometry">
          <rect>
-          <x>45</x>
+          <x>50</x>
           <y>108</y>
           <width>421</width>
           <height>31</height>
@@ -1146,7 +1146,7 @@ border-radius:20px;
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
 color: rgb(255, 255, 255);
-border-radius: 10px;
+border-radius: 15px;
 </string>
         </property>
         <property name="text">
@@ -1386,7 +1386,7 @@ border-radius:20px;
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>35</y>
+          <y>31</y>
           <width>551</width>
           <height>135</height>
          </rect>
@@ -1402,8 +1402,8 @@ border-width:1px;</string>
           <rect>
            <x>205</x>
            <y>-13</y>
-           <width>131</width>
-           <height>111</height>
+           <width>132</width>
+           <height>115</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -1425,7 +1425,7 @@ border-width:0px;
          <property name="geometry">
           <rect>
            <x>149</x>
-           <y>86</y>
+           <y>89</y>
            <width>250</width>
            <height>20</height>
           </rect>
@@ -1452,7 +1452,7 @@ border-width:0px;</string>
          <property name="geometry">
           <rect>
            <x>149</x>
-           <y>107</y>
+           <y>110</y>
            <width>250</width>
            <height>20</height>
           </rect>
@@ -1476,73 +1476,11 @@ border-width:0px;</string>
          </property>
         </widget>
        </widget>
-       <widget class="QScrollArea" name="scrollArea_2">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>213</y>
-          <width>550</width>
-          <height>160</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>550</width>
-          <height>160</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>550</width>
-          <height>160</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 227, 225);
-border-style:solid;
-border-width:0px;
-border-radius:10px;
-</string>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents_2">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>550</width>
-           <height>160</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border-width:0px;
-border-style:solid;
-</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>529</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </widget>
        <widget class="QLabel" name="label_17">
         <property name="geometry">
          <rect>
           <x>21</x>
-          <y>10</y>
+          <y>7</y>
           <width>121</width>
           <height>21</height>
          </rect>
@@ -1560,33 +1498,11 @@ border-style:solid;
          <string>내 정보</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_21">
-        <property name="geometry">
-         <rect>
-          <x>19</x>
-          <y>182</y>
-          <width>81</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>티머니 둥근바람 ExtraBold</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(90, 90, 90);</string>
-        </property>
-        <property name="text">
-         <string>선호 음식</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_22">
         <property name="geometry">
          <rect>
           <x>19</x>
-          <y>372</y>
+          <y>377</y>
           <width>121</width>
           <height>21</height>
          </rect>
@@ -1604,38 +1520,11 @@ border-style:solid;
          <string>추천 음식</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="add_btn">
-        <property name="geometry">
-         <rect>
-          <x>500</x>
-          <y>177</y>
-          <width>70</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>티머니 둥근바람 ExtraBold</family>
-          <pointsize>11</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-width:0px;
-color: rgb(255, 255, 255);
-background-color: rgb(255, 148, 148);
-border-style:solid;
-border-radius: 10px;
-</string>
-        </property>
-        <property name="text">
-         <string>+ 추가</string>
-        </property>
-       </widget>
        <widget class="QWidget" name="widget_19" native="true">
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>400</y>
+          <y>405</y>
           <width>550</width>
           <height>260</height>
          </rect>
@@ -1675,6 +1564,206 @@ border-style:solid;
           <number>0</number>
          </property>
         </layout>
+       </widget>
+       <widget class="QWidget" name="widget_18" native="true">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>175</y>
+          <width>551</width>
+          <height>190</height>
+         </rect>
+        </property>
+        <widget class="QLabel" name="label_36">
+         <property name="geometry">
+          <rect>
+           <x>-5</x>
+           <y>40</y>
+           <width>170</width>
+           <height>140</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../Images/postit1.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_55">
+         <property name="geometry">
+          <rect>
+           <x>189</x>
+           <y>35</y>
+           <width>170</width>
+           <height>145</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../Images/postit3.png.jpg</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_56">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>34</y>
+           <width>170</width>
+           <height>146</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../Images/postit2.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_57">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>100</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(0, 0, 0, 180);</string>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_58">
+         <property name="geometry">
+          <rect>
+           <x>192</x>
+           <y>100</y>
+           <width>166</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(0, 0, 0, 180);</string>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_59">
+         <property name="geometry">
+          <rect>
+           <x>384</x>
+           <y>100</y>
+           <width>163</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(0, 0, 0, 180);</string>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="add_btn">
+         <property name="geometry">
+          <rect>
+           <x>480</x>
+           <y>2</y>
+           <width>70</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>티머니 둥근바람 ExtraBold</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border-width:0px;
+color: rgb(255, 255, 255);
+background-color: rgb(255, 148, 148);
+border-style:solid;
+border-radius: 10px;
+</string>
+         </property>
+         <property name="text">
+          <string>+ 추가</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_21">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>8</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>티머니 둥근바람 ExtraBold</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(90, 90, 90);</string>
+         </property>
+         <property name="text">
+          <string>선호 음식</string>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
@@ -1896,7 +1985,7 @@ border-color:white;
        <widget class="QLabel" name="label_24">
         <property name="geometry">
          <rect>
-          <x>120</x>
+          <x>122</x>
           <y>170</y>
           <width>360</width>
           <height>35</height>
@@ -2201,7 +2290,7 @@ color: rgb(90, 90, 90);</string>
          <rect>
           <x>20</x>
           <y>410</y>
-          <width>265</width>
+          <width>260</width>
           <height>251</height>
          </rect>
         </property>
@@ -2218,9 +2307,9 @@ color: rgb(90, 90, 90);</string>
        <widget class="QLabel" name="label_35">
         <property name="geometry">
          <rect>
-          <x>310</x>
+          <x>315</x>
           <y>410</y>
-          <width>265</width>
+          <width>260</width>
           <height>251</height>
          </rect>
         </property>
@@ -2236,7 +2325,7 @@ color: rgb(90, 90, 90);</string>
          <rect>
           <x>20</x>
           <y>611</y>
-          <width>265</width>
+          <width>260</width>
           <height>50</height>
          </rect>
         </property>
@@ -2248,7 +2337,8 @@ color: rgb(90, 90, 90);</string>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgba(52, 26, 0, 170);
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+border-color: rgba(255, 255, 255, 0);</string>
         </property>
         <property name="html">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -2262,9 +2352,9 @@ p, li { white-space: pre-wrap; }
        <widget class="QTextEdit" name="textEdit_2">
         <property name="geometry">
          <rect>
-          <x>310</x>
+          <x>315</x>
           <y>611</y>
-          <width>265</width>
+          <width>260</width>
           <height>50</height>
          </rect>
         </property>
@@ -2276,7 +2366,8 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgba(52, 26, 0, 170);
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+border-color: rgba(255, 255, 255, 0);</string>
         </property>
         <property name="html">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -2291,7 +2382,7 @@ p, li { white-space: pre-wrap; }
         <property name="geometry">
          <rect>
           <x>123</x>
-          <y>365</y>
+          <y>364</y>
           <width>360</width>
           <height>35</height>
          </rect>

@@ -8,4 +8,4 @@ class Prefer(QWidget):
     def __init__(self, recipe_name, parent=None):
         super().__init__(parent)
         loadUi('../../UI/Prefer_Item.ui', self)
-        self.label.setText(f"{recipe_name}")
+        self.label_2.setText(f"{recipe_name}")
