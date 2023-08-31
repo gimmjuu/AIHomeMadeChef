@@ -1004,7 +1004,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1631,11 +1631,11 @@ border-style:solid;
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_57">
+        <widget class="QLabel" name="prefer_lbl_2">
          <property name="geometry">
           <rect>
-           <x>0</x>
-           <y>100</y>
+           <x>2</x>
+           <y>102</y>
            <width>161</width>
            <height>31</height>
           </rect>
@@ -1643,73 +1643,17 @@ border-style:solid;
          <property name="font">
           <font>
            <family>THE낙서</family>
-           <pointsize>11</pointsize>
+           <pointsize>15</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgba(0, 0, 0, 180);</string>
+color: rgba(0, 0, 0, 110);</string>
          </property>
          <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_58">
-         <property name="geometry">
-          <rect>
-           <x>192</x>
-           <y>100</y>
-           <width>166</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <family>THE낙서</family>
-           <pointsize>11</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgba(0, 0, 0, 180);</string>
-         </property>
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_59">
-         <property name="geometry">
-          <rect>
-           <x>384</x>
-           <y>100</y>
-           <width>163</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <family>THE낙서</family>
-           <pointsize>11</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgba(0, 0, 0, 180);</string>
-         </property>
-         <property name="text">
-          <string>TextLabel</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -1764,6 +1708,157 @@ border-radius: 10px;
           <string>선호 음식</string>
          </property>
         </widget>
+        <widget class="QLabel" name="prefer_lbl_1">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>100</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="prefer2_lbl_1">
+         <property name="geometry">
+          <rect>
+           <x>192</x>
+           <y>100</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgb(255,255,255);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="prefer2_lbl_2">
+         <property name="geometry">
+          <rect>
+           <x>194</x>
+           <y>102</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(0, 0, 0, 110);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="prefer3_lbl_1">
+         <property name="geometry">
+          <rect>
+           <x>385</x>
+           <y>100</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="prefer3_lbl_2">
+         <property name="geometry">
+          <rect>
+           <x>387</x>
+           <y>102</y>
+           <width>161</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>THE낙서</family>
+           <pointsize>15</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 0);
+color: rgba(0, 0, 0, 110);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <zorder>label_55</zorder>
+        <zorder>label_56</zorder>
+        <zorder>prefer3_lbl_2</zorder>
+        <zorder>label_36</zorder>
+        <zorder>prefer_lbl_2</zorder>
+        <zorder>add_btn</zorder>
+        <zorder>label_21</zorder>
+        <zorder>prefer_lbl_1</zorder>
+        <zorder>prefer2_lbl_2</zorder>
+        <zorder>prefer3_lbl_1</zorder>
+        <zorder>prefer2_lbl_1</zorder>
        </widget>
       </widget>
      </widget>
