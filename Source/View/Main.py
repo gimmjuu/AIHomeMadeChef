@@ -84,6 +84,12 @@ class Main(QWidget):
         self.ad_count = 1
         self.home_page.currentChanged.connect(self.timer_check)
 
+        # 이름 검색 라인 에딧 엔터
+        self.lineEdit.returnPressed.connect(self.on_enter_pressed)
+
+    def on_enter_pressed(self):
+        self.search_btn_2.click()
+
     def lbl_event(self):
         """라벨 클릭 이벤트 함수"""
         self.label_11.mousePressEvent = self.close_event
