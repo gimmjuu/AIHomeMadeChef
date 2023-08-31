@@ -98,7 +98,7 @@ class Main(QWidget):
         self.login_btn.clicked.connect(self.login_check)
 
         # 회원가입 화면 버튼
-        self.back_btn.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(0))
+        self.back_btn.clicked.connect(self.back_join_page)
         self.id_check.clicked.connect(self.member_id_check)
 
         # 메인화면 버튼
@@ -116,6 +116,8 @@ class Main(QWidget):
         self.add_btn.clicked.connect(self.add_prefer_food)
         self.retry_btn.clicked.connect(self.request_prefer_food)
         self.save_btn.clicked.connect(self.prefer_food_save)
+        self.back_page_btn.clicked.connect(lambda: self.home_page.setCurrentIdex(6))
+        self.all_del_btn.clicked.connect(self.prefer_text_del)
 
     def signal_event(self):
         """시그널 이벤트 함수"""
@@ -170,6 +172,14 @@ class Main(QWidget):
         self.home_page.setCurrentIndex(4)
 
     # ================================= 회원가입 ================================
+    def back_join_page(self):
+        """회원가입 페이지에서 뒤로가기 버튼 클릭 이벤트"""
+        self.stackedWidget.setCurrentIndex(0)
+        self.join_id.clear()
+        self.join_pw.clear()
+        self.check_pw.clear()
+        self.join_name.clear()
+
     def member_id_check(self):
         """회원가입 아이디 중복 여부 확인 함수"""
         user_id = self.join_id.text()
@@ -325,6 +335,13 @@ class Main(QWidget):
         self.lbl_imgview.setPixmap(QPixmap(fr'{fname[0][0]}'))
 
     # ================================ 마이 페이지 =====================================
+    def prefer_text_del(self):
+        """선호 음식 추천 다이얼로그에서 전체삭제 버튼 클릭시 3개의 텍스트 내용 삭제 """
+        self.selected_items.clear()
+        self.label_38.clear()
+        self.label_46.clear()
+        self.label_51.clear()
+
     def my_page_request(self):
         """마이 페이지용 추천 음식 데이터 서버에 요청 함수"""
         user_id = self.client.user_id

@@ -13,8 +13,8 @@ from Source.Data.Data import *
 class DBConnector:
     __instance__ = None
     __HOST__ = "10.10.20.99"
-    # __DATABASE__ = "HomemadeChef"
-    __DATABASE__ = "HomeChefTest"
+    __DATABASE__ = "HomeFoodChef"
+    # __DATABASE__ = "HomeChefTest"
     __USER__ = "postgres"
     __PWD__ = 1234
     __PORT__ = 5432
