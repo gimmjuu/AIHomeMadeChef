@@ -3,8 +3,9 @@
 작성일 : 23/08/31
 내용 : SplashScreen을 화면에 출력하기 위한 QWidget, QThread Class입니다.
 """
+from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QWidget, QDesktopWidget
-from PyQt5.QtCore import Qt, QThread, pyqtSignal as QSignal
+from PyQt5.QtCore import Qt, QThread, pyqtSignal as QSignal, QTimer
 from PyQt5.QtGui import QMovie
 from PyQt5.uic import loadUi
 
@@ -44,10 +45,15 @@ class SplashThread(QThread):
 
     def run(self):
         while self.screen.isVisible():
+            QTest.qWait(70)
             self.screen.movie.jumpToNextFrame()
             self.screen.update()
 
         self.finished_signal.emit()
+
+    def test(self):
+        self.screen.movie.jumpToNextFrame()
+        self.screen.update()
 
     def close_screen(self):
         self.screen.close()

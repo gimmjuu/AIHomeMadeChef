@@ -318,14 +318,14 @@ class Main(QWidget):
         if self.widget_14.findChildren(Recipes):
             return
 
-        QTest.qWait(50)
+        QTest.qWait(30)
         self.loading_thread = SplashThread()
         self.loading_thread.start()
+
         self.client.send_recipe_all_access(Recipe(0))
 
     def set_all_recipe_list(self, t_list):
         """이름 검색 화면 전체 레시피 출력 함수"""
-        # ------------------------------------------- 로딩 화면 -------------------------------------------
         all_recipe = self.decoder.binary_to_obj(t_list)
 
         for i, rcp_ in enumerate(all_recipe):
@@ -334,8 +334,6 @@ class Main(QWidget):
             recipe.mousePressEvent = lambda x, y=rcp_.recipe_id: self.recipe_page_clicked(y)
 
         self.loading_thread.close_screen()
-        self.loading_thread.quit()
-        # --------------------------------------------------------------------------------------------
 
     def search_recipe_by_name(self):
         """레시피 이름 검색 버튼 클릭시 이벤트 함수"""
