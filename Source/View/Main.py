@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.uic import loadUi
 
 from Source.Common.JSONConverter import *
-from Source.View.Splash import SplashScreen, SplashThread
+from Source.View.Splash import SplashThread
 from Source.View.Cooking import Cooking
 from Source.View.Ingredient import Ingredient
 from Source.View.Like import Likes
@@ -58,6 +58,7 @@ class Main(QWidget):
         self.food_btn_list = self.food_btn_area.findChildren(QPushButton)
         self.encoder = ObjEncoder()
         self.decoder = ObjDecoder()
+        self.loading_thread = None
 
         # 에러 메시지 다이얼로그
         self.error_box = Error()
@@ -186,7 +187,6 @@ class Main(QWidget):
         """로그인 성공 여부 시그널 받는 함수"""
         if login_:
             self.random_recipe_show()
-
         else:
             self.id_line.clear()
             self.pw_line.clear()
@@ -278,8 +278,8 @@ class Main(QWidget):
 
     def random_recipe_show(self):
         """로그인 페이지에서 메인 페이지 이동하기 전 홈 화면 추천 레시피 출력 서버에 보내는 함수"""
-        self.lbl_user_name.setText(self.client.user_id)
-        self.lbl_user_id.setText(self.client.user_name)
+        self.lbl_user_id.setText(self.client.user_id)
+        self.lbl_user_name.setText(self.client.user_name)
 
         all_recipe_id = [n for n in range(1, 541)]
         target_id_list = random.sample(all_recipe_id, 3)
@@ -317,13 +317,13 @@ class Main(QWidget):
         if self.widget_14.findChildren(Recipes):
             return
 
+        self.loading_thread = SplashThread()
+        self.loading_thread.start()
         self.client.send_recipe_all_access(Recipe(0))
 
     def set_all_recipe_list(self, t_list):
         """이름 검색 화면 전체 레시피 출력 함수"""
         # ------------------------------------------- 로딩 화면 -------------------------------------------
-        # loading_thread = SplashThread(loading)
-        # loading_thread.start()
         all_recipe = self.decoder.binary_to_obj(t_list)
 
         for i, rcp_ in enumerate(all_recipe):
@@ -331,8 +331,8 @@ class Main(QWidget):
             self.verticalLayout_4.addWidget(recipe)
             recipe.mousePressEvent = lambda x, y=rcp_.recipe_id: self.recipe_page_clicked(y)
 
-        # loading_thread.start()
-        # loading_thread.quit()
+        self.loading_thread.close_screen()
+        self.loading_thread.quit()
         # --------------------------------------------------------------------------------------------
 
     def search_recipe_by_name(self):

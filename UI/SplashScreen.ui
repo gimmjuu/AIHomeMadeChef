@@ -20,8 +20,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background: rgba(0, 0, 0, 30);
-border: none;</string>
+   <string notr="true"/>
   </property>
   <widget class="QLabel" name="splash_label">
    <property name="geometry">
@@ -34,6 +33,9 @@ border: none;</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../Images/spinner.gif</pixmap>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

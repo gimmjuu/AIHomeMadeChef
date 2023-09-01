@@ -12,7 +12,7 @@ from Source.Server.Nomination import Nomination
 class Server:
     # HOST = '10.10.20.113'
     HOST = '127.0.0.1'
-    PORT = 8282
+    PORT = 3313
     BUFFER = 300000
     FORMAT = "utf-8"
     HEADER_LENGTH = 30
