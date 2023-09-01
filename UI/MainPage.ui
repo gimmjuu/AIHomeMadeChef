@@ -26,7 +26,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="login_page">
     <widget class="QWidget" name="widget" native="true">
@@ -661,6 +661,9 @@ border-width:0px;
         <height>50</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -710,6 +713,9 @@ border-width:0px;
         <width>40</width>
         <height>50</height>
        </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
       </property>
       <property name="text">
        <string/>
@@ -761,6 +767,9 @@ border-width:0px;
         <height>40</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -811,6 +820,9 @@ border-width:0px;
         <height>31</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -860,6 +872,9 @@ border-width:0px;
         <width>41</width>
         <height>39</height>
        </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
       </property>
       <property name="text">
        <string/>
@@ -1004,7 +1019,7 @@ background-color: rgba(255, 255, 255, 0);</string>
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="page_2">
       <widget class="QWidget" name="widget_3" native="true">
@@ -1065,6 +1080,9 @@ border-radius: 10px;</string>
           <family>티머니 둥근바람 ExtraBold</family>
           <pointsize>14</pointsize>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
@@ -1143,6 +1161,9 @@ border-radius:20px;
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
 color: rgb(255, 255, 255);
@@ -1204,6 +1225,9 @@ border-radius: 15px;
           <family>티머니 둥근바람 ExtraBold</family>
           <pointsize>14</pointsize>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
@@ -1354,6 +1378,9 @@ border-style:solid;
           <family>티머니 둥근바람 ExtraBold</family>
           <pointsize>14</pointsize>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
@@ -1542,9 +1569,8 @@ border-width:0px;</string>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">border-color: rgb(255, 148, 148);
-border-width:3px;
-border-style:solid;
+         <string notr="true">background-color: rgb(255, 227, 225);
+border-radius: 10px;
 </string>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -1637,7 +1663,7 @@ border-style:solid;
            <x>15</x>
            <y>105</y>
            <width>147</width>
-           <height>31</height>
+           <height>42</height>
           </rect>
          </property>
          <property name="font">
@@ -1673,6 +1699,9 @@ color: rgba(255, 255, 255, 180);</string>
            <family>티머니 둥근바람 ExtraBold</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true">border-width:0px;
@@ -1714,7 +1743,7 @@ border-radius: 10px;
            <x>13</x>
            <y>103</y>
            <width>147</width>
-           <height>31</height>
+           <height>42</height>
           </rect>
          </property>
          <property name="font">
@@ -1742,7 +1771,7 @@ color: rgb(0, 0, 0, 230);</string>
            <x>201</x>
            <y>103</y>
            <width>150</width>
-           <height>31</height>
+           <height>42</height>
           </rect>
          </property>
          <property name="font">
@@ -1770,7 +1799,7 @@ color: rgb(0, 0, 0, 230);</string>
            <x>203</x>
            <y>105</y>
            <width>150</width>
-           <height>31</height>
+           <height>42</height>
           </rect>
          </property>
          <property name="font">
@@ -1798,7 +1827,7 @@ color: rgba(255, 255, 255, 180);</string>
            <x>388</x>
            <y>103</y>
            <width>150</width>
-           <height>31</height>
+           <height>42</height>
           </rect>
          </property>
          <property name="font">
@@ -1826,7 +1855,7 @@ color: rgb(0, 0, 0, 230);</string>
            <x>390</x>
            <y>105</y>
            <width>150</width>
-           <height>31</height>
+           <height>42</height>
           </rect>
          </property>
          <property name="font">
@@ -1925,6 +1954,18 @@ color: rgb(255, 255, 255);</string>
           <width>530</width>
           <height>541</height>
          </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>530</width>
+          <height>541</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>530</width>
+          <height>541</height>
+         </size>
         </property>
         <property name="styleSheet">
          <string notr="true">border-width:0px;
@@ -2548,6 +2589,9 @@ boder-style:solid;</string>
           <height>42</height>
          </rect>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -2570,6 +2614,18 @@ boder-style:solid;</string>
           <width>551</width>
           <height>530</height>
          </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>551</width>
+          <height>530</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>551</width>
+          <height>530</height>
+         </size>
         </property>
         <property name="styleSheet">
          <string notr="true">border-color: rgb(255, 255, 255);
@@ -2656,6 +2712,9 @@ border-style: solid;</string>
           <pointsize>16</pointsize>
          </font>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
 color: rgb(255, 255, 255);
@@ -2731,6 +2790,9 @@ QPushButton:checked{
            <pointsize>11</pointsize>
           </font>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -2755,6 +2817,9 @@ QPushButton:checked{
            <family>티머니 둥근바람 ExtraBold</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -2781,6 +2846,9 @@ QPushButton:checked{
            <pointsize>11</pointsize>
           </font>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -2805,6 +2873,9 @@ QPushButton:checked{
            <family>티머니 둥근바람 ExtraBold</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -2831,6 +2902,9 @@ QPushButton:checked{
            <pointsize>11</pointsize>
           </font>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -2855,6 +2929,9 @@ QPushButton:checked{
            <family>티머니 둥근바람 ExtraBold</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -2881,6 +2958,9 @@ QPushButton:checked{
            <pointsize>11</pointsize>
           </font>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -2905,6 +2985,9 @@ QPushButton:checked{
            <family>티머니 둥근바람 ExtraBold</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -2931,6 +3014,9 @@ QPushButton:checked{
            <pointsize>11</pointsize>
           </font>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -2955,6 +3041,9 @@ QPushButton:checked{
            <family>티머니 둥근바람 ExtraBold</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -2981,6 +3070,9 @@ QPushButton:checked{
            <pointsize>11</pointsize>
           </font>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -3005,6 +3097,9 @@ QPushButton:checked{
            <family>티머니 둥근바람 ExtraBold</family>
            <pointsize>11</pointsize>
           </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="styleSheet">
           <string notr="true"/>
@@ -3054,6 +3149,9 @@ QPushButton:checked{
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
 color: rgb(255, 255, 255);
@@ -3079,6 +3177,9 @@ border-radius: 10px;
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
 color: rgb(255, 255, 255);
@@ -3101,7 +3202,7 @@ border-radius: 10px;
         <property name="font">
          <font>
           <family>티머니 둥근바람 ExtraBold</family>
-          <pointsize>12</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="styleSheet">
@@ -3221,7 +3322,7 @@ border-style: solid;</string>
         <property name="font">
          <font>
           <family>티머니 둥근바람 ExtraBold</family>
-          <pointsize>12</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="styleSheet">
@@ -3302,7 +3403,7 @@ border-style: solid;</string>
         <property name="font">
          <font>
           <family>티머니 둥근바람 ExtraBold</family>
-          <pointsize>12</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="styleSheet">
@@ -3346,6 +3447,9 @@ border-style: solid;</string>
           <family>티머니 둥근바람 ExtraBold</family>
           <pointsize>11</pointsize>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255, 148, 148);
