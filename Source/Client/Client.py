@@ -45,10 +45,10 @@ class ClientApp:
     def set_widget(self, widget_):
         self.client_widget = widget_
 
-    def classify_food_id_from_img(self, file_nm: str):
+    def classify_food_id_from_img(self, file_path: str):
         """이미지에서 음식 아이디 분류"""
         cf = Classification()
-        result = cf.classify_obj_from_img(file_nm)
+        result = cf.classify_obj_from_img(file_path)
         print("[Yolo Result]", result)
 
         if result:
