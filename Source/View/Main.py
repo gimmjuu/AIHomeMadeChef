@@ -155,7 +155,7 @@ class Main(QWidget):
 
     # ============================= 메인화면 광고배너 =================================
     def timer_event(self):
-        """광고배너 타이머 이벤트 함수"""
+        """광고 배너 타이머 이벤트 함수"""
         ad_list = [0, 1]
         self.ad.setCurrentIndex(ad_list[self.ad_count])
         self.ad_count += 1
@@ -479,7 +479,7 @@ class Main(QWidget):
         labels = [self.label_38, self.label_46, self.label_51]
 
         if btn.isChecked():
-            if self.selected_items and len(self.selected_items) == 3:
+            if (self.selected_items and len(self.selected_items) == 3) or target_ in self.selected_items:
                 btn.setChecked(False)
                 return
             self.selected_items.append(target_)

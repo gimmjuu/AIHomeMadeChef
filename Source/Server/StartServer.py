@@ -1,5 +1,3 @@
-import sys
-
 from Server import Server
 from Source.Common.DBConnector import DBConnector
 
