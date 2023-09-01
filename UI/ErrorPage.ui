@@ -58,9 +58,9 @@ border-color: rgb(218, 218, 218);</string>
     <property name="geometry">
      <rect>
       <x>5</x>
-      <y>53</y>
+      <y>40</y>
       <width>290</width>
-      <height>41</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -179,6 +179,12 @@ color: rgb(90, 90, 90);</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <zorder>label_5</zorder>
+   <zorder>label</zorder>
+   <zorder>label_3</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>label_2</zorder>
+   <zorder>label_4</zorder>
   </widget>
  </widget>
  <resources/>
