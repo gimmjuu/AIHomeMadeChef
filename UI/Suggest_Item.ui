@@ -28,7 +28,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(255, 255, 255);
 border-radius: 8px;
-border-color: rgb(255, 255, 255);</string>
+</string>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
@@ -39,6 +39,11 @@ border-color: rgb(255, 255, 255);</string>
      <height>110</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 8px;
+</string>
+   </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
@@ -47,6 +52,11 @@ border-color: rgb(255, 255, 255);</string>
       <width>160</width>
       <height>110</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 8px;
+</string>
     </property>
     <property name="text">
      <string/>
@@ -66,8 +76,8 @@ border-color: rgb(255, 255, 255);</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>161</width>
-      <height>111</height>
+      <width>160</width>
+      <height>110</height>
      </rect>
     </property>
     <property name="font">

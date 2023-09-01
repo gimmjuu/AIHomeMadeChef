@@ -10,6 +10,12 @@
     <height>80</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>510</width>
@@ -67,11 +73,8 @@ border-style:dashed;</string>
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap>../Images/food_test.png</pixmap>
-    </property>
     <property name="scaledContents">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">

@@ -419,8 +419,16 @@ class Main(QWidget):
             t_list.append('없음')
 
         for nm, lb in zip(t_list, prefer_lbl_list):
-            lb[0].setText(nm)
-            lb[1].setText(nm)
+            print(len(nm))
+            if len(nm) > 8:
+                lb[0].setText(f"{nm[:7]}\n{nm[7:]}")
+            else:
+                lb[0].setText(nm)
+            if len(nm) > 8:
+                lb[1].setText(f"{nm[:7]}\n{nm[7:]}")
+            else:
+                lb[1].setText(nm)
+
 
     def my_page_show(self, recipes):
         """마이 페이지 추천 음식 데이터 출력 함수"""
@@ -515,7 +523,7 @@ class Main(QWidget):
         self.label_38.clear()
         self.label_46.clear()
         self.label_51.clear()
-        self.home_page.setCurrentIndex(6)
+        self.home_page.setCurrentIndex(2)
 
     # ============================================ 레시피  ===========================================
     def recipe_page_clicked(self, recipe_id):
