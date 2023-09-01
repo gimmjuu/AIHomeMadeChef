@@ -44,10 +44,8 @@ class SplashThread(QThread):
 
     def run(self):
         while self.screen.isVisible():
-            print(self.screen.movie.currentFrameNumber())
             self.screen.movie.jumpToNextFrame()
-            self.screen.splash_label.update()
-            # self.screen.update()
+            self.screen.update()
 
         self.finished_signal.emit()
 
