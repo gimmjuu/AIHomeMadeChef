@@ -2,6 +2,7 @@ import os
 import random
 from threading import Thread
 
+from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QWidget, QLayout, QLabel, QFileDialog, QPushButton, QStackedWidget
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtGui import QPixmap, QMovie
@@ -317,6 +318,7 @@ class Main(QWidget):
         if self.widget_14.findChildren(Recipes):
             return
 
+        QTest.qWait(50)
         self.loading_thread = SplashThread()
         self.loading_thread.start()
         self.client.send_recipe_all_access(Recipe(0))
