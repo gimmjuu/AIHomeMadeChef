@@ -14,7 +14,6 @@ class DBConnector:
     __instance__ = None
     __HOST__ = "10.10.20.99"
     __DATABASE__ = "HomeFoodChef"
-    # __DATABASE__ = "HomeChefTest"
     __USER__ = "postgres"
     __PWD__ = 1234
     __PORT__ = 5432
@@ -458,8 +457,6 @@ if __name__ == '__main__':
     # -----------------------------------------
 
     # --- TB_RECIPE 누락 데이터 수기 추가 : 학습 진행 데이터에 한해 추가
-    # db.insert_recipe_data("오징어볶음", "볶음", "", "", "")
-    # db.insert_recipe_data("해물볶음", "볶음", "", "", "")
     # db.insert_recipe_data("김치볶음", "볶음", "", "", "")
     # db.insert_recipe_data("깻잎나물볶음", "볶음", "", "", "")
     # db.insert_recipe_data("느타리버섯볶음", "볶음", "", "", "")
