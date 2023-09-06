@@ -17,7 +17,6 @@ class Classification:
 
     def __init__(self):
         self.file_path = r"Temp/"
-        # --- temp model
         print(os.getcwd())  # D:\AIHomeMadeChef\Source\View
         path_ = os.getcwd()
         self.model = YOLO(fr"{path_[:-4]}Model\trained_model.pt", task="detect")
