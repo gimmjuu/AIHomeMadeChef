@@ -1,3 +1,6 @@
+"""
+Detail : 만개의 레시피에서 레시피 썸네일 이미지 경로를 크롤링합니다.
+"""
 import time
 
 import pandas as pd

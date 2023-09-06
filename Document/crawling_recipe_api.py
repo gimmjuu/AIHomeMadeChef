@@ -1,7 +1,7 @@
 """
 작성일 : 23/08/25 - 작성자 : 이승신
 수정일 : 23/08/27 - 수정자 : 주혜인
-내용 :  OpenAPI를 이용해 레시피 데이터를 수집한 후 CSV 형식으로 저장합니다.
+내용 :  OpenAPI를 이용해 레시피 데이터를 수집한 후 DataFrame to CSV 형식으로 저장합니다.
 """
 import pandas as pd
 import requests
